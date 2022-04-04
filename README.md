@@ -26,6 +26,10 @@
 # User Stories:
 
 ## First Use:
+
+![IMG-0687](https://user-images.githubusercontent.com/62267982/161458505-fa626b1d-b27b-487e-b604-d1378881b8ec.jpg)
+![IMG-0688](https://user-images.githubusercontent.com/62267982/161458497-f8546cfa-ace6-478c-9ad1-02cb82795498.jpg)
+
 - User enters app at Landing/Home Fragment (Sees Message: No Location Set!)
 - Clicks hamburger icon in menu bar to expand nav drawer
 - Clicks locations and goes to Locations Fragment
@@ -54,6 +58,9 @@
 - Select "Delete"
 
 ## Edit Preferences:
+
+![IMG-0689](https://user-images.githubusercontent.com/62267982/161458474-cafb3f4d-9827-4289-a085-738b0e7e9802.jpg)
+
 - Click hamburger icon from anywhere in app
 - Select Preferences and goes to Preferences Fragment
 - Click °C radio button to toggle unit
@@ -73,43 +80,40 @@
 
 # TASKS:
 
-## - Plan UI/Basic Functionality Diagram [X - 4/2/22]
+- Plan UI/Basic Functionality Diagram [X - 4/2/22]
 
-## - Write User Stories [X - 4/3/22]
+- Write User Stories [X - 4/3/22]
 
-## - Write Preliminary Plan (TASKS) [X - 4/3/22]
+- Write Preliminary Plan (TASKS) [X - 4/3/22]
 
-## - Add to Git [X = 4/3/22]
+- Add to Git [X = 4/3/22]
 
-## - Draw Preliminary Class Map []
+- Draw Preliminary Class Map []
 
-## - Setup Gradle/Lint/Permissions []
+- Setup Gradle/Lint/Permissions []
 
-## - Create Module []
+- Create Module []
 
-## - Create Xml Files []
+- Create Xml Files []
 
-## - Implement Basic Layout/Menu []
+- Implement Basic Layout/Menu []
 
-## - Implement Nav Functionality/Tests []
+- Implement Nav Functionality/Tests []
 
-## - Write Networking Code/Unit Tests []
+- Write Networking Code/Unit Tests []
 
-## - Create Database to Hold Cached Results []
+- Create Database to Hold Cached Results []
 
-## - Create Repository Layer []
+- Create Repository Layer []
 
-## - Wire Repository to the Appropriate ViewModels []
+- Wire Repository to the Appropriate ViewModels []
 
-## - Link Data to UI []
+- Link Data to UI []
 
-## - Fine Tune UI []
+- Fine Tune UI []
 
-## - Fine Tune Business Logic []
+- Fine Tune Business Logic []
 
-## - TEST TEST TEST: Capture Edge Cases []
+- TEST TEST TEST: Capture Edge Cases []
 
-## - Prep for Play Store []
-
-
-
+- Prep for Play Store []
