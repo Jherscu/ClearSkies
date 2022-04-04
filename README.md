@@ -1,7 +1,7 @@
-## Clear Skies
-# Simply Weather
+# Clear Skies
+## Simply Weather
 
-## Best practices weather app utilizing:
+# Best practices weather app utilizing:
 
 - Navigation Drawer
 - Databinding
@@ -23,9 +23,9 @@
 - LiveData
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
 
-## User Stories:
+# User Stories:
 
-# First Use:
+## First Use:
 - User enters app at Landing/Home Fragment (Sees Message: No Location Set!)
 - Clicks hamburger icon in menu bar to expand nav drawer
 - Clicks locations and goes to Locations Fragment
@@ -38,7 +38,7 @@
     - User accepts dialog and is returned to updated Locations Fragment
 - User clicks the city to select it and is returned to Home Fragment displaying its preferred weather
 
-# Add New City and Set it as Home Location then Delete Old City:
+## Add New City and Set it as Home Location then Delete Old City:
 - Click hamburger icon from anywhere in app
 - Select Locations and goes to Locations Fragment
 - Clicks FAB in Locations Fragment to open Add City Fragment
@@ -53,7 +53,7 @@
 - Click options icon on old city
 - Select "Delete"
 
-# Edit Preferences:
+## Edit Preferences:
 - Click hamburger icon from anywhere in app
 - Select Preferences and goes to Preferences Fragment
 - Click °C radio button to toggle unit
@@ -61,7 +61,7 @@
 - Click 24Hr mode switch to change from 12Hr to 24Hr mode
 - Click Dark mode switch to change from light to dark mode
 
-# Navigate Weather for a City:
+## Navigate Weather for a City:
 - In (Daily) Home Fragment swipe the Horizontal Circular RecyclerView to view days between yesterday and one week from today
 - Click hamburger icon
 - Select Hourly to see the same screen with Hourly representation for the same (Home) city instead of the daily view
@@ -71,45 +71,45 @@
 - Click another city to select it and is returned to Home Fragment displaying its preferred (Daily) weather
 - Repeat process to view hourly and switch cities again
 
-## TASKS:
+# TASKS:
 
-# - Plan UI/Basic Functionality Diagram [X - 4/2/22]
+## - Plan UI/Basic Functionality Diagram [X - 4/2/22]
 
-# - Write User Stories [X - 4/3/22]
+## - Write User Stories [X - 4/3/22]
 
-# - Write Preliminary Plan (TASKS) [X - 4/3/22]
+## - Write Preliminary Plan (TASKS) [X - 4/3/22]
 
-# - Add to Git []
+## - Add to Git [X = 4/3/22]
 
-# - Draw Preliminary Class Map []
+## - Draw Preliminary Class Map []
 
-# - Setup Gradle/Lint/Permissions []
+## - Setup Gradle/Lint/Permissions []
 
-# - Create Module []
+## - Create Module []
 
-# - Create Xml Files []
+## - Create Xml Files []
 
-# - Implement Basic Layout/Menu []
+## - Implement Basic Layout/Menu []
 
-# - Implement Nav Functionality/Tests []
+## - Implement Nav Functionality/Tests []
 
-# - Write Networking Code/Unit Tests []
+## - Write Networking Code/Unit Tests []
 
-# - Create Database to Hold Cached Results []
+## - Create Database to Hold Cached Results []
 
-# - Create Repository Layer []
+## - Create Repository Layer []
 
-# - Wire Repository to the Appropriate ViewModels []
+## - Wire Repository to the Appropriate ViewModels []
 
-# - Link Data to UI []
+## - Link Data to UI []
 
-# - Fine Tune UI []
+## - Fine Tune UI []
 
-# - Fine Tune Business Logic []
+## - Fine Tune Business Logic []
 
-# - TEST TEST TEST: Capture Edge Cases []
+## - TEST TEST TEST: Capture Edge Cases []
 
-# - Prep for Play Store []
+## - Prep for Play Store []
 
 
 
