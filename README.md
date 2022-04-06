@@ -14,6 +14,7 @@
   - Radar's RESTful API for Geocoding (Converting City Name to Lat/Long)
 - Coroutines
 - Domain layer
+- Repository layer
 - Hilt
 - Local storage using Room and Preferences Datastore
 - Fragments and Jetpack Navigation Component
@@ -104,9 +105,9 @@
 
 - Create Database to Hold Cached Results []
 
-- Create Repository Layer []
+- Create Repository and Domain Layers []
 
-- Wire Repository to the Appropriate ViewModels []
+- Wire Use Cases to the Appropriate ViewModels []
 
 - Link Data to UI []
 
