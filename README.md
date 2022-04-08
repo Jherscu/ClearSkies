@@ -23,6 +23,8 @@
 - ViewModel
 - LiveData
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
+- LeakCanary
+- R8 for release build
 
 # User Stories:
 
@@ -79,7 +81,9 @@
 - Click another city to select it and is returned to Home Fragment displaying its preferred (Daily) weather
 - Repeat process to view hourly and switch cities again
 
-# TASKS:
+# SDLC TASKS:
+
+## Planning/Analysis/Design Stage:
 
 - Plan UI/Basic Functionality Diagram [X - 4/2/22]
 
@@ -89,13 +93,17 @@
 
 - Add to Git [X = 4/3/22]
 
-- Draw Preliminary Class Map []
+- Setup Gradle/Lint/Permissions [X = 4/8/22]
 
-- Setup Gradle/Lint/Permissions []
+- Draw Preliminary Class/Architecture Map []
 
-- Create Module []
+- Create Package/File Structure []
 
-- Create Xml Files []
+## Development/Testing Stage:
+
+- Write Modules []
+
+- Write Xml Files []
 
 - Implement Basic Layout/Menu []
 
@@ -103,18 +111,24 @@
 
 - Write Networking Code/Unit Tests []
 
-- Create Database to Hold Cached Results []
+- Write Database to Hold Cached Results []
 
-- Create Repository and Domain Layers []
+- Write Repository and Domain Layers []
 
 - Wire Use Cases to the Appropriate ViewModels []
 
 - Link Data to UI []
 
-- Fine Tune UI []
+## QA Testing/Refining Stage:
 
-- Fine Tune Business Logic []
+- Profile/Fine Tune UI []
+
+- Profile/Fine Tune Business Logic []
 
 - TEST TEST TEST: Capture Edge Cases []
 
+## Deployment/Maintenance Stage:
+
 - Prep for Play Store []
+
+- Post to Play Store []

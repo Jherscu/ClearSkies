@@ -1,43 +1,129 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
-    compileSdk 31
+    compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
         applicationId "com.jHerscu.clearskies"
-        minSdk 26
-        targetSdk 31
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        dataBinding true
     }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            // Always show the result of every unit test when running via command line,
+            // even if it passes
+            includeAndroidResources = true
+            /* Decide whether un-mocked methods from android.jar should
+             * throw exceptions or return default values
+             * (Combats exceptions thrown for log statements, etc. in test methods) */
+            returnDefaultValues = true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // Core
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.test.ext:junit-ktx:$junit_androidx_ext_version"
+
+    // Testing
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "androidx.arch.core:core-testing:$arch_test_version" // LiveData
+    androidTestImplementation "androidx.test.ext:junit:$junit_androidx_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib_version"
+
+    // Nav Testing
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    // LiveData/StateFlow
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // Navigation Component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Logging
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Memory Leak Detection
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Retrofit w/ Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+
+    // WorkManager w/ Kotlin + Coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    // Preferences DataStore
+    implementation "androidx.datastore:datastore-preferences:$store_version"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    // Material Cardview
+    implementation "androidx.cardview:cardview:$card_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
 }
