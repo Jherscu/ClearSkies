@@ -102,13 +102,13 @@
 
 - Draw Preliminary Class/Architecture Map [X - 4/14/22]
 
-- Create Package/File Structure []
+- Create Package/File Structure [X - 4/15/22]
+
+- Create Xml Files []
 
 ## Development/Testing Stage:
 
 - Write Modules []
-
-- Write Xml Files []
 
 - Implement Basic Layout/Menu []
 
