@@ -104,7 +104,7 @@
 
 - Create Package/File Structure [X - 4/15/22]
 
-- Create Xml Files []
+- Create Xml Files [X - 4/15/22]
 
 ## Development/Testing Stage:
 
