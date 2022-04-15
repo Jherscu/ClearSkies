@@ -25,6 +25,11 @@
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
 - LeakCanary
 - R8 for release build
+- OkHTTP
+
+# Architecture/Class Map
+
+
 
 # User Stories:
 
@@ -91,11 +96,11 @@
 
 - Write Preliminary Plan (TASKS) [X - 4/3/22]
 
-- Add to Git [X = 4/3/22]
+- Add to Git [X - 4/3/22]
 
-- Setup Gradle/Lint/Permissions [X = 4/8/22]
+- Setup Gradle/Lint/Permissions [X - 4/8/22]
 
-- Draw Preliminary Class/Architecture Map []
+- Draw Preliminary Class/Architecture Map [X - 4/14/22]
 
 - Create Package/File Structure []
 
