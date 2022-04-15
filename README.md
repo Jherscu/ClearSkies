@@ -27,7 +27,7 @@
 - R8 for release build
 - OkHTTP
 
-# Architecture/Class Map
+# (PRELIMINARY)Architecture/Class Map
 
 ![ClearSkies Diagram (1)](https://user-images.githubusercontent.com/62267982/163502343-754f4315-36d2-462c-a02a-9d2c4fa319ee.svg)
 
