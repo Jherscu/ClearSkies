@@ -29,7 +29,7 @@
 
 # Architecture/Class Map
 
-
+![ClearSkies Diagram](https://user-images.githubusercontent.com/62267982/163502250-dad93bd4-547c-4c53-9d89-edfa9ba6fbe6.svg)
 
 # User Stories:
 
