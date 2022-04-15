@@ -12,6 +12,7 @@
   - moshi
   - Open Weather Map's RESTful API (Weather Reports)
   - Radar's RESTful API for Geocoding (Converting City Name to Lat/Long)
+  - OkHTTP interceptor
 - Coroutines
 - Domain layer
 - Repository layer
@@ -25,7 +26,6 @@
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
 - LeakCanary
 - R8 for release build
-- OkHTTP
 
 # (PRELIMINARY)Architecture/Class Map
 

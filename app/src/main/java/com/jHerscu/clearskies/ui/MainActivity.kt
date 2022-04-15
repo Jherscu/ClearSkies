@@ -1,7 +1,8 @@
-package com.jHerscu.clearskies
+package com.jHerscu.clearskies.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jHerscu.clearskies.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

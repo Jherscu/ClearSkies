@@ -106,6 +106,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
     // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     // WorkManager w/ Kotlin + Coroutines
