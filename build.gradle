@@ -18,7 +18,7 @@ buildscript {
         espresso_contrib_version = '3.3.0'
         nav_version = '2.4.2'
         lifecycle_version = '2.4.1'
-        gradle_version = '7.1.2'
+        gradle_version = '7.1.3'
         fragment_version = '1.4.1'
         timber_version = '4.7.1'
         leak_canary_version = '2.8.1'
@@ -32,6 +32,7 @@ buildscript {
         card_version = '1.0.0'
         room_version = '2.4.2'
         secrets_version = '2.0.1'
+        coil_version = '2.0.0-rc03'
     }
     repositories {
         google()
