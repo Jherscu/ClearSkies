@@ -18,7 +18,7 @@ object PreferencesDataStoreModule {
     @Singleton
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<androidx.datastore.preferences.core.Preferences> {
         return PreferenceDataStoreFactory.create(
-            produceFile = {context.preferencesDataStoreFile(PREFERENCES)}
+            produceFile = { context.preferencesDataStoreFile(PREFERENCES) }
         )
     }
 }

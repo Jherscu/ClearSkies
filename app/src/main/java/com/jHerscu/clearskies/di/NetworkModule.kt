@@ -44,7 +44,7 @@ object NetworkModule {
     @Singleton
     fun provideHttpClient(@Named("geocode_key") key: String): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            addInterceptor (
+            addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     builder.addHeader("Authorization", key)

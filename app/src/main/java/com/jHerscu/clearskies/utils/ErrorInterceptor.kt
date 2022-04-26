@@ -3,6 +3,7 @@ package com.jHerscu.clearskies.utils
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import timber.log.Timber
 
 class ErrorInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -10,40 +11,41 @@ class ErrorInterceptor : Interceptor {
         val response = chain.proceed(request)
         when (response.code) {
             400 -> {
-                // Bad request (missing or invalid params) - GeoCode
+                Timber.e("Bad request (missing or invalid params) - GeoCode\n${response.code}: ${response.message}")
             }
             401 -> {
-                // Unauthorized (invalid API key)
+                Timber.e("Unauthorized (invalid API key)\n${response.code}: ${response.message}")
             }
             402 -> {
-                // Payment required (organization disabled or usage exceeded)
+                Timber.e("Payment required (organization disabled or usage exceeded)\n${response.code}: ${response.message}")
             }
             403 -> {
-                // Forbidden (insufficient permissions)
+                Timber.e("Forbidden (insufficient permissions)\n${response.code}: ${response.message}")
             }
             404 -> {
-                // Bad request (missing or invalid params) - Weather
+                Timber.e("Bad request (missing or invalid params) - Weather\n${response.code}: ${response.message}")
             }
             409 -> {
-                // Conflict
+                Timber.e("Conflict\n${response.code}: ${response.message}")
             }
             429 -> {
-                // Too many requests (rate limit exceeded, no state change, or selective throttling)
+                Timber.e("Too many requests (rate limit exceeded, no state change, or selective throttling)\n${response.code}: ${response.message}")
             }
             500 -> {
-                // Internal server error
+                Timber.e("Internal server error\n${response.code}: ${response.message}")
             }
             503 -> {
-                // Service temporarily unavailable
+                Timber.e("Service temporarily unavailable\n${response.code}: ${response.message}")
             }
             in 100..299 -> {
-                // Thumbs up!
+                Timber.i("Thumbs up!\n${response.code}: ${response.message}")
             }
             in 300..399 -> {
-                // Um.. Email the developer?..
+                Timber.e("Redirects and such.\n${response.code}: ${response.message}")
             }
             else -> {
-                // Woopsies!
+                Timber.e("Woopsies!\n${response.code}: ${response.message}")
+                TODO("Figure out how to handle various codes")
             }
         }
         return response
