@@ -23,7 +23,7 @@ class ErrorInterceptor : Interceptor {
                 Timber.e("Forbidden (insufficient permissions)\n${response.code}: ${response.message}")
             }
             404 -> {
-                Timber.e("Bad request (missing or invalid params) - Weather\n${response.code}: ${response.message}")
+                Timber.e("Bad request (missing or invalid params) - WeatherForecast\n${response.code}: ${response.message}")
             }
             409 -> {
                 Timber.e("Conflict\n${response.code}: ${response.message}")

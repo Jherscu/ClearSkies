@@ -29,25 +29,13 @@ private const val GEOCODE_URL = "https://api.radar.io/v1/search/autocomplete"
 object NetworkModule {
 
     @Provides
-    @Named("weather_key")
-    fun provideWeatherApiKey(): String {
-        return BuildConfig.OPEN_WEATHER_KEY
-    }
-
-    @Provides
-    @Named("geocode_key")
-    fun provideGeocodeApiKey(): String {
-        return BuildConfig.RADAR_GEOCODE_KEY
-    }
-
-    @Provides
     @Singleton
-    fun provideHttpClient(@Named("geocode_key") key: String): OkHttpClient {
+    fun provideHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
-                    builder.addHeader("Authorization", key)
+                    builder.addHeader("Authorization", BuildConfig.RADAR_GEOCODE_KEY)
                     return@Interceptor chain.proceed(builder.build())
                 }
             )
