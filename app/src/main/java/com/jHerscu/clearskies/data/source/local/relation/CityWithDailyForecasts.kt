@@ -3,15 +3,14 @@ package com.jHerscu.clearskies.data.source.local.relation
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.jHerscu.clearskies.data.source.local.entity.GeocodedCity
-import com.jHerscu.clearskies.data.source.local.entity.WeatherForecast
+import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 
-data class CityWithWeatherForecasts(
+data class CityWithDailyForecasts(
     @Embedded val city: GeocodedCity,
     @Relation(
         parentColumn = "qualified_name",
         entityColumn = "qualified_name"
     )
-    val weatherForecasts: List<WeatherForecast>
-)
+    val localDailyForecasts: List<LocalDailyForecast>
 
-val TODO: Any = TODO("Create daily and hourly subsets of weatherforecast")
+)

@@ -3,10 +3,11 @@ package com.jHerscu.clearskies.data.source.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.jHerscu.clearskies.data.source.local.entity.GeocodedCity
-import com.jHerscu.clearskies.data.source.local.entity.WeatherForecast
+import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
+import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 
 @Database(
-    entities = [GeocodedCity::class, WeatherForecast::class],
+    entities = [GeocodedCity::class, LocalDailyForecast::class, LocalHourlyForecast::class],
     version = 1,
     exportSchema = false
 )

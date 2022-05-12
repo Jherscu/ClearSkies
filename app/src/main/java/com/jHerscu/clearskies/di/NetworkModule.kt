@@ -1,6 +1,8 @@
 package com.jHerscu.clearskies.di
 
 import com.jHerscu.clearskies.BuildConfig
+import com.jHerscu.clearskies.data.source.remote.WeatherApiService
+import com.jHerscu.clearskies.utils.ErrorInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -16,31 +18,57 @@ import javax.inject.Singleton
 
 private const val BASE_WEATHER_URL = "https://api.openweathermap.org/"
 
-private const val CURRENT_WEATHER_URL = "data/2.5/onecall"
-
-private const val HISTORIC_WEATHER_URL = "/timemachine"
-
-private const val IMAGE_WEATHER_URL = "img/wn/"
-
 private const val GEOCODE_URL = "https://api.radar.io/v1/search/autocomplete"
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Provides
     @Singleton
-    fun provideHttpClient(): OkHttpClient {
+    @Provides
+    fun provideGeocodeHeaderInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val builder = chain.request().newBuilder()
+            builder.addHeader("Authorization", BuildConfig.RADAR_GEOCODE_KEY)
+            return@Interceptor chain.proceed(builder.build())
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideErrorInterceptor(): ErrorInterceptor {
+        return ErrorInterceptor()
+    }
+
+
+    /**
+     * Creates base version of HttpClient to share between both retrofit instances
+     */
+    @Singleton
+    @Provides
+    @Named("base_client")
+    fun provideBaseHttpClient(errorInterceptor: ErrorInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            addInterceptor(
-                Interceptor { chain ->
-                    val builder = chain.request().newBuilder()
-                    builder.addHeader("Authorization", BuildConfig.RADAR_GEOCODE_KEY)
-                    return@Interceptor chain.proceed(builder.build())
-                }
-            )
+            addInterceptor(errorInterceptor)
         }.build()
     }
+
+    /**
+     * Creates modified "shallow" version of HttpClient to add header to geocode calls
+     */
+    @Singleton
+    @Provides
+    @Named("header_client")
+    fun provideHttpClientWithGeocodeHeader(
+        baseHttpClient: OkHttpClient,
+        headerInterceptor: Interceptor
+    ): OkHttpClient {
+        return baseHttpClient
+            .newBuilder()
+            .addInterceptor(headerInterceptor)
+            .build()
+    }
+
 
     @Singleton
     @Provides
@@ -53,22 +81,35 @@ object NetworkModule {
     @Singleton
     @Provides
     @Named("weather_retrofit")
-    fun provideWeatherRetrofit(moshi: Moshi): Retrofit {
+    fun provideWeatherRetrofit(
+        moshi: Moshi,
+        @Named("base_client") baseClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_WEATHER_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(baseClient)
             .build()
     }
 
     @Singleton
     @Provides
     @Named("geocode_retrofit")
-    fun provideGeocodeRetrofit(moshi: Moshi, httpClient: OkHttpClient): Retrofit {
+    fun provideGeocodeRetrofit(
+        moshi: Moshi,
+        @Named("header_client") headerClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(GEOCODE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .client(httpClient)
+            .client(headerClient)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideWeatherApiService(@Named("weather_retrofit") weatherRetrofit: Retrofit): WeatherApiService {
+        return weatherRetrofit.create(WeatherApiService::class.java)
     }
 
 }

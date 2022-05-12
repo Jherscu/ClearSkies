@@ -5,14 +5,22 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "geocoded_city")
-data class GeocodedCity(
+@Entity
+data class LocalDailyForecast(
     @NonNull
-    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     @NonNull
-    val latitude: String,
+    @PrimaryKey(autoGenerate = false)
+    val dateInMill: Long,
     @NonNull
-    val longitude: String
+    val humidity: Int,
+    @NonNull
+    val minTemp: Float,
+    @NonNull
+    val maxTemp: Float,
+    @NonNull
+    val weatherDescription: String,
+    @NonNull
+    val iconCode: String
 )

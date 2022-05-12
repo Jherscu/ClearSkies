@@ -102,7 +102,8 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Retrofit w/ Moshi
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    // Avoids reflection, better performance
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
