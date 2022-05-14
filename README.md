@@ -12,6 +12,7 @@
   - Open Weather Map's RESTful API (Weather Reports)
   - Radar's RESTful API for Geocoding (Converting City Name to Lat/Long)
   - OkHTTP interceptors
+  - Coil
 - Coroutines w/ Flows
 - Clean Architecture with MVVM
 - Hilt
