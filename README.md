@@ -5,18 +5,16 @@
 
 - Navigation Drawer
 - Databinding
-- Paging library?
 - RecyclerView
 - Networking w/:
   - retrofit
   - moshi
   - Open Weather Map's RESTful API (Weather Reports)
   - Radar's RESTful API for Geocoding (Converting City Name to Lat/Long)
-  - OkHTTP interceptor
+  - OkHTTP interceptors
   - Coil Image Loader
-- Coroutines
-- Domain layer
-- Repository layer
+- Coroutines w/ Flows
+- Clean MVVM Architecture
 - Hilt
 - Local storage using Room and Preferences Datastore
 - Fragments and Jetpack Navigation Component
