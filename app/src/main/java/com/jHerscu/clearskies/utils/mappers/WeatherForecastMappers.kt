@@ -18,19 +18,11 @@ class WeatherForecastMappers {
     private fun yesterdaysWeatherResponseToDailyWeatherResponse(yesterdaysWeather: YesterdaysWeatherResponse): DailyWeatherResponse {
         yesterdaysWeather.let {
 
-            val previousTemps: List<Float> = it.hourly.map { hourlyWeather ->
-                hourlyWeather.temp
-            }
-
             return DailyWeatherResponse(
                 dateInMill = it.current.dateInMill,
                 temp = DailyTempResponse(
-                    minTemp = previousTemps.reduce { first, next -> // Finds minimum temp from hours in previous day
-                        if (first <= next) first else next
-                    },
-                    maxTemp = previousTemps.reduce { first, next -> // Finds maximum temp from hours in previous day
-                        if (first >= next) first else next
-                    }
+                    minTemp = it.hourly.minOfOrNull { hourly -> hourly.temp }!!,
+                    maxTemp = it.hourly.maxOfOrNull { hourly -> hourly.temp }!!
                 ),
                 humidity = it.current.humidity,
                 weather = it.current.weather
