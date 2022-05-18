@@ -16,6 +16,5 @@ class MainActivity : AppCompatActivity() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-
     }
 }
