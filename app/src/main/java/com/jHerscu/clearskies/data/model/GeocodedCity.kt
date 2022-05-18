@@ -1,7 +1,7 @@
 package com.jHerscu.clearskies.data.model
 
-data class City(
+data class GeocodedCity(
     val qualifiedName: String,
-    val latitude: String,
-    val longitude: String
+    val latitude: Float,
+    val longitude: Float
 )
