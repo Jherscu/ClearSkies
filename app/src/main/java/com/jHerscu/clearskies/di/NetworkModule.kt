@@ -1,6 +1,9 @@
 package com.jHerscu.clearskies.di
 
+import android.content.Context
+import coil.ImageLoader
 import com.jHerscu.clearskies.BuildConfig
+import com.jHerscu.clearskies.data.source.remote.GeocodeApiService
 import com.jHerscu.clearskies.data.source.remote.WeatherApiService
 import com.jHerscu.clearskies.utils.ErrorInterceptor
 import com.squareup.moshi.Moshi
@@ -8,6 +11,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -69,6 +73,11 @@ object NetworkModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideCoil(@ApplicationContext context: Context): ImageLoader {
+        return ImageLoader.invoke(context)
+    }
 
     @Singleton
     @Provides
@@ -110,6 +119,12 @@ object NetworkModule {
     @Provides
     fun provideWeatherApiService(@Named("weather_retrofit") weatherRetrofit: Retrofit): WeatherApiService {
         return weatherRetrofit.create(WeatherApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGeocodeApiService(@Named("geocode_retrofit") geocodeRetrofit: Retrofit): GeocodeApiService {
+        return geocodeRetrofit.create((GeocodeApiService::class.java))
     }
 
 }

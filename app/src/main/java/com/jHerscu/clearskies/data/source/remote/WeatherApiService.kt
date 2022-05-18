@@ -1,9 +1,9 @@
 package com.jHerscu.clearskies.data.source.remote
 
 import com.jHerscu.clearskies.BuildConfig
-import com.jHerscu.clearskies.data.model.DailyAndHourlyWeatherResponse
-import com.jHerscu.clearskies.data.model.IconResponse
-import com.jHerscu.clearskies.data.model.YesterdaysWeatherResponse
+import com.jHerscu.clearskies.data.model.response.DailyAndHourlyWeatherResponse
+import com.jHerscu.clearskies.data.model.response.IconResponse
+import com.jHerscu.clearskies.data.model.response.YesterdaysWeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -54,7 +54,7 @@ interface WeatherApiService {
     ): Response<YesterdaysWeatherResponse>
 
     /**
-     * Grab icon from image code. TODO("Add image table to Db")
+     * Grab icon from image code.
      */
     @GET(IMAGE_WEATHER_URL)
     suspend fun getIconFromWeatherCode(
