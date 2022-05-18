@@ -3,15 +3,17 @@ package com.jHerscu.clearskies.data.source.local.entity
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
+@Entity(
+    tableName = "daily_forecast",
+    primaryKeys = ["qualified_name", "date_in_mill"]
+)
 data class LocalDailyForecast(
     @NonNull
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     @NonNull
-    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "date_in_mill")
     val dateInMill: Long,
     @NonNull
     val humidity: Int,
@@ -20,7 +22,9 @@ data class LocalDailyForecast(
     @NonNull
     val maxTemp: Float,
     @NonNull
+    @ColumnInfo(name = "weather_description")
     val weatherDescription: String,
     @NonNull
+    @ColumnInfo(name = "icon_code")
     val iconCode: String
 )

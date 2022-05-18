@@ -6,13 +6,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "geocoded_city")
-data class GeocodedCity(
+data class LocalGeocodedCity(
     @NonNull
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     @NonNull
-    val latitude: String,
+    val latitude: Float,
     @NonNull
-    val longitude: String
+    val longitude: Float
 )
