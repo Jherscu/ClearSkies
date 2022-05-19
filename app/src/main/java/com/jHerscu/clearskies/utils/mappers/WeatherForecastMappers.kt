@@ -16,16 +16,15 @@ class WeatherForecastMappers {
      * a standard [DailyWeatherResponse]
      */
     private fun yesterdaysWeatherResponseToDailyWeatherResponse(yesterdaysWeather: YesterdaysWeatherResponse): DailyWeatherResponse {
-        yesterdaysWeather.let {
-
+        with (yesterdaysWeather) {
             return DailyWeatherResponse(
-                dateInMill = it.current.dateInMill,
+                dateInMill = current.dateInMill,
                 temp = DailyTempResponse(
-                    minTemp = it.hourly.minOfOrNull { hourly -> hourly.temp }!!,
-                    maxTemp = it.hourly.maxOfOrNull { hourly -> hourly.temp }!!
+                    minTemp = hourly.minOfOrNull { hourly -> hourly.temp }!!,
+                    maxTemp = hourly.maxOfOrNull { hourly -> hourly.temp }!!
                 ),
-                humidity = it.current.humidity,
-                weather = it.current.weather
+                humidity = current.humidity,
+                weather = current.weather
             )
         }
     }
@@ -50,29 +49,29 @@ class WeatherForecastMappers {
         }
 
         val localHourlyList = hourlyList.map { hourlyResponse ->
-            hourlyResponse.let {
+            with (hourlyResponse) {
                 LocalHourlyForecast(
                     qualifiedName = qualifiedName,
-                    hourInMill = it.hourInMill,
-                    humidity = it.humidity,
-                    temp = it.temp,
-                    feelsLikeTemp = it.feelsLikeTemp,
-                    weatherDescription = it.weather.description,
-                    iconCode = it.weather.icon
+                    hourInMill = hourInMill,
+                    humidity = humidity,
+                    temp = temp,
+                    feelsLikeTemp = feelsLikeTemp,
+                    weatherDescription = weather.description,
+                    iconCode = weather.icon
                 )
             }
         }
 
         val localDailyList = dailyList.map { dailyResponse ->
-            dailyResponse.let {
+            with (dailyResponse) {
                 LocalDailyForecast(
                     qualifiedName = qualifiedName,
-                    dateInMill = it.dateInMill,
-                    humidity = it.humidity,
-                    minTemp = it.temp.minTemp,
-                    maxTemp = it.temp.maxTemp,
-                    weatherDescription = it.weather.description,
-                    iconCode = it.weather.icon
+                    dateInMill = dateInMill,
+                    humidity = humidity,
+                    minTemp = temp.minTemp,
+                    maxTemp = temp.maxTemp,
+                    weatherDescription = weather.description,
+                    iconCode = weather.icon
                 )
             }
 
@@ -87,14 +86,14 @@ class WeatherForecastMappers {
      */
     fun localDailyForecastToData(localData: List<LocalDailyForecast>): List<DailyForecast> {
         return localData.map { localDailyForecast ->
-            localDailyForecast.let {
+            with (localDailyForecast) {
                 DailyForecast(
-                    dateInMill = it.dateInMill,
-                    humidity = it.humidity,
-                    minTemp = it.minTemp,
-                    maxTemp = it.maxTemp,
-                    weatherDescription = it.weatherDescription,
-                    iconCode = it.iconCode
+                    dateInMill = dateInMill,
+                    humidity = humidity,
+                    minTemp = minTemp,
+                    maxTemp = maxTemp,
+                    weatherDescription = weatherDescription,
+                    iconCode = iconCode
                 )
             }
         }
@@ -105,14 +104,14 @@ class WeatherForecastMappers {
      */
     fun localHourlyForecastToData(localData: List<LocalHourlyForecast>): List<HourlyForecast> {
         return localData.map { localHourlyForecast ->
-            localHourlyForecast.let {
+            with (localHourlyForecast) {
                 HourlyForecast(
-                    hourInMill = it.hourInMill,
-                    humidity = it.humidity,
-                    temp = it.temp,
-                    feelsLikeTemp = it.feelsLikeTemp,
-                    weatherDescription = it.weatherDescription,
-                    iconCode = it.iconCode
+                    hourInMill = hourInMill,
+                    humidity = humidity,
+                    temp = temp,
+                    feelsLikeTemp = feelsLikeTemp,
+                    weatherDescription = weatherDescription,
+                    iconCode = iconCode
                 )
             }
         }
