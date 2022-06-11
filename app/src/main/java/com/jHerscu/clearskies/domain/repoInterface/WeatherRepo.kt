@@ -1,30 +1,28 @@
 package com.jHerscu.clearskies.domain.repoInterface
 
-import com.jHerscu.clearskies.data.model.response.DailyAndHourlyWeatherResponse
-import com.jHerscu.clearskies.data.model.response.YesterdaysWeatherResponse
+import com.jHerscu.clearskies.data.model.response.UnparsedResponsesHolder
+import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
-import com.jHerscu.clearskies.data.source.local.relation.CityWithDailyForecasts
-import com.jHerscu.clearskies.data.source.local.relation.CityWithHourlyForecasts
+import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
+import com.jHerscu.clearskies.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepo {
 
-    suspend fun fetchDailyAndHourlyWeather(city: LocalGeocodedCity): Flow<DailyAndHourlyWeatherResponse>
-
-    suspend fun fetchYesterdaysWeather(
+    suspend fun fetchWeatherData(
         city: LocalGeocodedCity,
         date: Long
-    ): Flow<YesterdaysWeatherResponse>
+    ): Resource<UnparsedResponsesHolder?>
 
     suspend fun cacheWeatherData(
-        dailyData: CityWithDailyForecasts,
-        hourlyData: CityWithHourlyForecasts
+        dailyData: List<LocalDailyForecast>,
+        hourlyData: List<LocalHourlyForecast>
     )
 
     suspend fun deleteWeatherForCity(city: LocalGeocodedCity)
 
-    suspend fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<CityWithDailyForecasts>
+    fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>>
 
-    suspend fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<CityWithHourlyForecasts>
+    fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>>
 
 }

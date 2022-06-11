@@ -6,15 +6,15 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "hourly_forecast",
-    primaryKeys = ["qualified_name", "hour_in_mill"]
+    primaryKeys = ["qualified_name", "time_in_mill"]
 )
 data class LocalHourlyForecast(
     @NonNull
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     @NonNull
-    @ColumnInfo(name = "hour_in_mill")
-    val hourInMill: Long,
+    @ColumnInfo(name = "time_in_mill")
+    val timeInMill: Long,
     @NonNull
     val humidity: Int,
     @NonNull

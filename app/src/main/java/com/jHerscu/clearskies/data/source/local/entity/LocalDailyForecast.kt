@@ -6,15 +6,15 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "daily_forecast",
-    primaryKeys = ["qualified_name", "date_in_mill"]
+    primaryKeys = ["qualified_name", "time_in_mill"]
 )
 data class LocalDailyForecast(
     @NonNull
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     @NonNull
-    @ColumnInfo(name = "date_in_mill")
-    val dateInMill: Long,
+    @ColumnInfo(name = "time_in_mill")
+    val timeInMill: Long,
     @NonNull
     val humidity: Int,
     @NonNull
