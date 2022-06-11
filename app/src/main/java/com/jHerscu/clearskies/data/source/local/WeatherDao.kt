@@ -8,8 +8,6 @@ import com.jHerscu.clearskies.data.source.local.relation.DailyForecastAndIcon
 import com.jHerscu.clearskies.data.source.local.relation.HourlyForecastAndIcon
 import kotlinx.coroutines.flow.Flow
 
-const val ICON_QUERY: String = "SELECT * FROM local_icon WHERE icon_code = :iconCode"
-
 @Dao
 interface WeatherDao {
 
@@ -28,35 +26,44 @@ interface WeatherDao {
     @Delete
     suspend fun deleteHourlyForecast(forecast: LocalHourlyForecast)
 
-    @Delete
-    suspend fun deleteLocalIcon(icon: LocalIcon)
+    /**
+     * Checks if up to date weather forecasts exist for a given city. Must be received as Int and converted as Int.toBool()
+     */
+    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_mill = (:currentDate + 604800)) THEN 1 ELSE 0 END")
+    fun validateDataUpToDateByCity(qualifiedName: String, currentDate: Int): Flow<Int>
+
+    /**
+     * Checks if weather forecasts exist for a given city. Must be received as Int and converted as Int.toBool()
+     */
+    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM hourly_forecast WHERE qualified_name = :qualifiedName) THEN 1 ELSE 0 END")
+    fun validateDataExistsByCity(qualifiedName: String): Flow<Int>
 
     /**
      * Updates list of hourly forecasts for each city whenever the data in the table changes.
      */
     @Transaction
-    @Query("SELECT * FROM hourly_forecast WHERE qualified_name = :cityName ORDER BY hour_in_mill ASC")
-    fun getCityWithHourlyForecastsByCity(cityName: String): Flow<List<LocalHourlyForecast>>
+    @Query("SELECT * FROM hourly_forecast WHERE qualified_name = :cityName ORDER BY time_in_mill ASC")
+    fun getAllHourlyForecastsByCity(cityName: String): Flow<List<LocalHourlyForecast>>
 
     /**
      * Updates list of daily forecasts for each city whenever the data in the table changes.
      */
     @Transaction
-    @Query("SELECT * FROM daily_forecast WHERE qualified_name = :cityName ORDER BY date_in_mill ASC")
-    fun getCityWithDailyForecastsByCity(cityName: String): Flow<List<LocalDailyForecast>>
+    @Query("SELECT * FROM daily_forecast WHERE qualified_name = :cityName ORDER BY time_in_mill ASC")
+    fun getAllDailyForecastsByCity(cityName: String): Flow<List<LocalDailyForecast>>
 
     /**
      * Updates icon for daily forecast whenever the data in the table changes.
      */
     @Transaction
-    @Query(ICON_QUERY)
-    fun getDailyForecastAndIcon(iconCode: String): Flow<DailyForecastAndIcon>
+    @Query("SELECT * FROM daily_forecast WHERE icon_code = :iconCode")
+    suspend fun getDailyForecastAndIcon(iconCode: String): DailyForecastAndIcon
 
     /**
      * Updates icon for hourly forecast whenever the data in the table changes.
      */
     @Transaction
-    @Query(ICON_QUERY)
-    fun getHourlyForecastAndIcon(iconCode: String): Flow<HourlyForecastAndIcon>
+    @Query("SELECT * FROM hourly_forecast WHERE icon_code = :iconCode")
+    suspend fun getHourlyForecastAndIcon(iconCode: String): HourlyForecastAndIcon
 
 }
