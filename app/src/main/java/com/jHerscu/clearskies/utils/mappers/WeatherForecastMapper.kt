@@ -6,17 +6,21 @@ import com.jHerscu.clearskies.data.model.response.DailyAndHourlyWeatherResponse
 import com.jHerscu.clearskies.data.model.response.DailyTempResponse
 import com.jHerscu.clearskies.data.model.response.DailyWeatherResponse
 import com.jHerscu.clearskies.data.model.response.YesterdaysWeatherResponse
+import com.jHerscu.clearskies.data.source.local.WeatherDao
 import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
+import javax.inject.Inject
 
-class WeatherForecastMappers {
+class WeatherForecastMapper @Inject constructor(
+    private val weatherDao: WeatherDao
+) {
 
     /**
      * Takes weather information from [YesterdaysWeatherResponse], and converts it into
      * a standard [DailyWeatherResponse]
      */
     private fun yesterdaysWeatherResponseToDailyWeatherResponse(yesterdaysWeather: YesterdaysWeatherResponse): DailyWeatherResponse {
-        with (yesterdaysWeather) {
+        with(yesterdaysWeather) {
             return DailyWeatherResponse(
                 dateInMill = current.dateInMill,
                 temp = DailyTempResponse(
@@ -49,10 +53,10 @@ class WeatherForecastMappers {
         }
 
         val localHourlyList = hourlyList.map { hourlyResponse ->
-            with (hourlyResponse) {
+            with(hourlyResponse) {
                 LocalHourlyForecast(
                     qualifiedName = qualifiedName,
-                    hourInMill = hourInMill,
+                    timeInMill = hourInMill,
                     humidity = humidity,
                     temp = temp,
                     feelsLikeTemp = feelsLikeTemp,
@@ -63,10 +67,10 @@ class WeatherForecastMappers {
         }
 
         val localDailyList = dailyList.map { dailyResponse ->
-            with (dailyResponse) {
+            with(dailyResponse) {
                 LocalDailyForecast(
                     qualifiedName = qualifiedName,
-                    dateInMill = dateInMill,
+                    timeInMill = dateInMill,
                     humidity = humidity,
                     minTemp = temp.minTemp,
                     maxTemp = temp.maxTemp,
@@ -84,16 +88,16 @@ class WeatherForecastMappers {
     /**
      * Retrieves Daily Forecasts from the room db to display in the UI.
      */
-    fun localDailyForecastToData(localData: List<LocalDailyForecast>): List<DailyForecast> {
+    suspend fun localDailyForecastToData(localData: List<LocalDailyForecast>): List<DailyForecast> {
         return localData.map { localDailyForecast ->
-            with (localDailyForecast) {
+            with(localDailyForecast) {
                 DailyForecast(
-                    dateInMill = dateInMill,
+                    dateInMill = timeInMill,
                     humidity = humidity,
                     minTemp = minTemp,
                     maxTemp = maxTemp,
                     weatherDescription = weatherDescription,
-                    iconCode = iconCode
+                    icon = weatherDao.getDailyForecastAndIcon(iconCode).icon.iconBitmap
                 )
             }
         }
@@ -102,16 +106,16 @@ class WeatherForecastMappers {
     /**
      * Retrieves Hourly Forecasts from the room db to display in the UI.
      */
-    fun localHourlyForecastToData(localData: List<LocalHourlyForecast>): List<HourlyForecast> {
+    suspend fun localHourlyForecastToData(localData: List<LocalHourlyForecast>): List<HourlyForecast> {
         return localData.map { localHourlyForecast ->
-            with (localHourlyForecast) {
+            with(localHourlyForecast) {
                 HourlyForecast(
-                    hourInMill = hourInMill,
+                    hourInMill = timeInMill,
                     humidity = humidity,
                     temp = temp,
                     feelsLikeTemp = feelsLikeTemp,
                     weatherDescription = weatherDescription,
-                    iconCode = iconCode
+                    icon = weatherDao.getHourlyForecastAndIcon(iconCode).icon.iconBitmap
                 )
             }
         }
