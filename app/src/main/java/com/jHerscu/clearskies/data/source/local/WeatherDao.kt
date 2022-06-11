@@ -29,7 +29,7 @@ interface WeatherDao {
     /**
      * Checks if up to date weather forecasts exist for a given city. Must be received as Int and converted as Int.toBool()
      */
-    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_mill = (:currentDate + 604800)) THEN 1 ELSE 0 END")
+    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_millis = (:currentDate + 604800)) THEN 1 ELSE 0 END")
     fun validateDataUpToDateByCity(qualifiedName: String, currentDate: Int): Flow<Int>
 
     /**
@@ -42,14 +42,14 @@ interface WeatherDao {
      * Updates list of hourly forecasts for each city whenever the data in the table changes.
      */
     @Transaction
-    @Query("SELECT * FROM hourly_forecast WHERE qualified_name = :cityName ORDER BY time_in_mill ASC")
+    @Query("SELECT * FROM hourly_forecast WHERE qualified_name = :cityName ORDER BY time_in_millis ASC")
     fun getAllHourlyForecastsByCity(cityName: String): Flow<List<LocalHourlyForecast>>
 
     /**
      * Updates list of daily forecasts for each city whenever the data in the table changes.
      */
     @Transaction
-    @Query("SELECT * FROM daily_forecast WHERE qualified_name = :cityName ORDER BY time_in_mill ASC")
+    @Query("SELECT * FROM daily_forecast WHERE qualified_name = :cityName ORDER BY time_in_millis ASC")
     fun getAllDailyForecastsByCity(cityName: String): Flow<List<LocalDailyForecast>>
 
     /**

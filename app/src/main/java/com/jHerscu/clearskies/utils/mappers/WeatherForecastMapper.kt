@@ -22,7 +22,7 @@ class WeatherForecastMapper @Inject constructor(
     private fun yesterdaysWeatherResponseToDailyWeatherResponse(yesterdaysWeather: YesterdaysWeatherResponse): DailyWeatherResponse {
         with(yesterdaysWeather) {
             return DailyWeatherResponse(
-                dateInMill = current.dateInMill,
+                dateInMillis = current.dateInMillis,
                 temp = DailyTempResponse(
                     minTemp = hourly.minOfOrNull { hourly -> hourly.temp }!!,
                     maxTemp = hourly.maxOfOrNull { hourly -> hourly.temp }!!
@@ -56,7 +56,7 @@ class WeatherForecastMapper @Inject constructor(
             with(hourlyResponse) {
                 LocalHourlyForecast(
                     qualifiedName = qualifiedName,
-                    timeInMill = hourInMill,
+                    timeInMillis = hourInMillis,
                     humidity = humidity,
                     temp = temp,
                     feelsLikeTemp = feelsLikeTemp,
@@ -70,7 +70,7 @@ class WeatherForecastMapper @Inject constructor(
             with(dailyResponse) {
                 LocalDailyForecast(
                     qualifiedName = qualifiedName,
-                    timeInMill = dateInMill,
+                    timeInMillis = dateInMillis,
                     humidity = humidity,
                     minTemp = temp.minTemp,
                     maxTemp = temp.maxTemp,
@@ -92,7 +92,7 @@ class WeatherForecastMapper @Inject constructor(
         return localData.map { localDailyForecast ->
             with(localDailyForecast) {
                 DailyForecast(
-                    dateInMill = timeInMill,
+                    dateInMillis = timeInMillis,
                     humidity = humidity,
                     minTemp = minTemp,
                     maxTemp = maxTemp,
@@ -110,7 +110,7 @@ class WeatherForecastMapper @Inject constructor(
         return localData.map { localHourlyForecast ->
             with(localHourlyForecast) {
                 HourlyForecast(
-                    hourInMill = timeInMill,
+                    hourInMillis = timeInMillis,
                     humidity = humidity,
                     temp = temp,
                     feelsLikeTemp = feelsLikeTemp,
