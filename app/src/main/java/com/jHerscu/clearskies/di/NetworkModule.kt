@@ -17,6 +17,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -54,6 +55,8 @@ object NetworkModule {
     fun provideBaseHttpClient(errorInterceptor: ErrorInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(errorInterceptor)
+            readTimeout(15, TimeUnit.SECONDS)
+            connectTimeout(15, TimeUnit.SECONDS)
         }.build()
     }
 
@@ -64,7 +67,7 @@ object NetworkModule {
     @Provides
     @Named("header_client")
     fun provideHttpClientWithGeocodeHeader(
-        baseHttpClient: OkHttpClient,
+        @Named("base_client") baseHttpClient: OkHttpClient,
         headerInterceptor: Interceptor
     ): OkHttpClient {
         return baseHttpClient
