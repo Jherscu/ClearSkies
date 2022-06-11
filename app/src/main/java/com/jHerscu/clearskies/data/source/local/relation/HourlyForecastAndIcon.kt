@@ -6,10 +6,10 @@ import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalIcon
 
 data class HourlyForecastAndIcon(
-    @Embedded val icon: LocalIcon,
+    @Embedded val forecast: LocalHourlyForecast,
     @Relation(
         parentColumn = "icon_code",
         entityColumn = "icon_code"
     )
-    val forecast: LocalHourlyForecast
+    val icon: LocalIcon
 )
