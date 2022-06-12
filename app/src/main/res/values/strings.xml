@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ClearSkies</string>
+    <string name="unknown_error">Unknown error. There should have been a message…</string>
+    <string name="bad_connection">Can\'t connect to the server! Please recheck your internet connection.</string>
+    <string name="bad_response">Error. Invalid response.</string>
+    <string name="map_error">Invalid response from server! Please contact developer.</string>
+    <string name="cache_error">Trouble saving data to your device! Please contact developer.</string>
+    <string name="fetch_error">Trouble connecting to network. Check connection.</string>
+    <string name="weather_is_old">Error. Weather wouldn\'t update.</string>
+    <string name="weather_not_cached">Error. There is no saved weather for this city! Something went wrong.</string>
 </resources>

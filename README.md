@@ -12,9 +12,9 @@
   - Open Weather Map's RESTful API (Weather Reports)
   - Radar's RESTful API for Geocoding (Converting City Name to Lat/Long)
   - OkHTTP interceptors
-  - Coil
+  - Coil Image Loader
 - Coroutines w/ Flows
-- Clean Architecture with MVVM
+- Clean MVVM Architecture
 - Hilt
 - Local storage using Room and Preferences Datastore
 - Fragments and Jetpack Navigation Component
@@ -109,13 +109,13 @@
 
 - Write Modules []
 
-- Implement Basic Layout/Menu []
-
-- Implement Nav Functionality/Tests []
-
 - Write Networking Code/Unit Tests []
 
 - Write Database to Hold Cached Results []
+
+- Implement Basic Layout/Menu []
+
+- Implement Nav Functionality/Tests []
 
 - Write Repository and Domain Layers []
 

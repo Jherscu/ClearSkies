@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -53,6 +54,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    namespace 'com.jHerscu.clearskies'
 }
 
 dependencies {
@@ -64,13 +66,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.test.ext:junit-ktx:$junit_androidx_ext_version"
 
-    // Testing
+    // Core Testing
     testImplementation "junit:junit:$junit_version"
     testImplementation "androidx.arch.core:core-testing:$arch_test_version" // LiveData
     androidTestImplementation "androidx.test.ext:junit:$junit_androidx_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
-    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib_version"
 
     // Nav Testing
@@ -103,7 +104,9 @@ dependencies {
     // Retrofit w/ Moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+
+    // Coil w/o singleton
+    implementation "io.coil-kt:coil-base:$coil_version"
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
@@ -115,15 +118,12 @@ dependencies {
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:$store_version"
 
-    // Paging
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
     // Material Cardview
     implementation "androidx.cardview:cardview:$card_version"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
