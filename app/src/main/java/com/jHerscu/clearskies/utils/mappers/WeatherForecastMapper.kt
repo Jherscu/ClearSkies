@@ -24,8 +24,8 @@ class WeatherForecastMapper @Inject constructor(
             return DailyWeatherResponse(
                 dateInMillis = current.dateInMillis,
                 temp = DailyTempResponse(
-                    minTemp = hourly.minOfOrNull { hourly -> hourly.temp }!!,
-                    maxTemp = hourly.maxOfOrNull { hourly -> hourly.temp }!!
+                    minTemp = hourly.minOf { hourly -> hourly.temp },
+                    maxTemp = hourly.maxOf { hourly -> hourly.temp }
                 ),
                 humidity = current.humidity,
                 weather = current.weather
