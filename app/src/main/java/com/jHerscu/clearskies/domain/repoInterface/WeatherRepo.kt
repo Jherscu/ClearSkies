@@ -19,10 +19,14 @@ interface WeatherRepo {
         hourlyData: List<LocalHourlyForecast>
     )
 
-    suspend fun deleteWeatherForCity(city: LocalGeocodedCity)
+    suspend fun deleteWeatherForCity(qualifiedName: String)
 
-    fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>>
+    fun getAllDailyWeatherData(qualifiedName: String): Flow<List<LocalDailyForecast>>
 
-    fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>>
+    fun getAllHourlyWeatherData(qualifiedName: String): Flow<List<LocalHourlyForecast>>
+
+    fun validateWeatherExists(qualifiedName: String): Flow<Int>
+
+    fun validateWeatherUpToDate(qualifiedName: String, currentDate: Int): Flow<Int>
 
 }
