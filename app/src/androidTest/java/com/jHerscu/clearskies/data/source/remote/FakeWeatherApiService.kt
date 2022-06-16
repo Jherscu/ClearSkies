@@ -1,12 +1,9 @@
-package com.jHerscu.clearskies
+package com.jHerscu.clearskies.data.source.remote
 
 import co.infinum.retromock.meta.MockResponse
 import com.jHerscu.clearskies.data.model.response.DailyAndHourlyWeatherResponse
 import com.jHerscu.clearskies.data.model.response.IconResponse
 import com.jHerscu.clearskies.data.model.response.YesterdaysWeatherResponse
-import com.jHerscu.clearskies.data.source.remote.CURRENT_WEATHER_URL
-import com.jHerscu.clearskies.data.source.remote.HISTORIC_WEATHER_URL
-import com.jHerscu.clearskies.data.source.remote.IMAGE_WEATHER_URL
 import retrofit2.Response
 import retrofit2.http.GET
 

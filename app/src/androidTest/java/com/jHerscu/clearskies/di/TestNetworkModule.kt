@@ -1,0 +1,156 @@
+package com.jHerscu.clearskies.di
+
+import android.content.Context
+import co.infinum.retromock.Retromock
+import coil.ImageLoader
+import com.jHerscu.clearskies.BuildConfig
+import com.jHerscu.clearskies.data.source.remote.FakeGeocodeApiService
+import com.jHerscu.clearskies.data.source.remote.FakeWeatherApiService
+import com.jHerscu.clearskies.utils.ErrorInterceptor
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
+
+private const val BASE_WEATHER_URL = "https://api.openweathermap.org/"
+
+private const val GEOCODE_URL = "https://api.radar.io/v1/search/autocomplete"
+
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideGeocodeHeaderInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val builder = chain.request().newBuilder()
+            builder.addHeader("Authorization", BuildConfig.RADAR_GEOCODE_KEY)
+            return@Interceptor chain.proceed(builder.build())
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideErrorInterceptor(): ErrorInterceptor {
+        return ErrorInterceptor()
+    }
+
+
+    /**
+     * Creates base version of HttpClient to share between both retrofit instances
+     */
+    @Singleton
+    @Provides
+    @Named("base_client")
+    fun provideBaseHttpClient(errorInterceptor: ErrorInterceptor): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            addInterceptor(errorInterceptor)
+            readTimeout(15, TimeUnit.SECONDS)
+            connectTimeout(15, TimeUnit.SECONDS)
+        }.build()
+    }
+
+    /**
+     * Creates modified "shallow" version of HttpClient to add header to geocode calls
+     */
+    @Singleton
+    @Provides
+    @Named("header_client")
+    fun provideHttpClientWithGeocodeHeader(
+        @Named("base_client") baseHttpClient: OkHttpClient,
+        headerInterceptor: Interceptor
+    ): OkHttpClient {
+        return baseHttpClient
+            .newBuilder()
+            .addInterceptor(headerInterceptor)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoil(@ApplicationContext context: Context): ImageLoader {
+        return ImageLoader.invoke(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @Named("weather_retrofit")
+    fun provideWeatherRetrofit(
+        moshi: Moshi,
+        @Named("base_client") baseClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_WEATHER_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(baseClient)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @Named("geocode_retrofit")
+    fun provideGeocodeRetrofit(
+        moshi: Moshi,
+        @Named("header_client") headerClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(GEOCODE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(headerClient)
+            .build()
+    }
+
+    // Not singleton to allow renewing state for each test
+    @Provides
+    @Named("weather_retromock")
+    fun provideWeatherRetromock(
+        @Named("weather_retrofit") weatherRetrofit: Retrofit
+    ): Retromock {
+        return Retromock.Builder()
+            .retrofit(weatherRetrofit)
+            .build()
+    }
+
+    // Not singleton to allow renewing state for each test
+    @Provides
+    @Named("geocode_retromock")
+    fun provideGeocodeRetromock(
+        @Named("geocode_retrofit") geocodeRetrofit: Retrofit
+    ): Retromock {
+        return Retromock.Builder()
+            .retrofit(geocodeRetrofit)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideWeatherApiService(@Named("weather_retromock") weatherRetromock: Retromock): FakeWeatherApiService {
+        return weatherRetromock.create(FakeWeatherApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGeocodeApiService(@Named("geocode_retromock") geocodeRetromock: Retromock): FakeGeocodeApiService {
+        return geocodeRetromock.create(FakeGeocodeApiService::class.java)
+    }
+
+}
