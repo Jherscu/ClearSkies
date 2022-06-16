@@ -18,7 +18,7 @@ class FakeWeatherForecastMapper() : Mapper.Weather {
     private lateinit var mockBitmap: Bitmap
 
     /**
-     * Call before using class.
+     * Call before using class to setup mocked bitmap.
      */
     fun setUp() {
         MockitoAnnotations.initMocks(this)

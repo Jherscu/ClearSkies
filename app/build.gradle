@@ -53,6 +53,7 @@ android {
 
     kotlinOptions {
         jvmTarget = '11'
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
     }
     namespace 'com.jHerscu.clearskies'
 }

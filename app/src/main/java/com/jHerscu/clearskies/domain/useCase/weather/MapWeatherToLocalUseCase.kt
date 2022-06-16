@@ -7,14 +7,14 @@ import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.di.DefaultDispatcher
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.TextWrapper
-import com.jHerscu.clearskies.utils.mappers.WeatherForecastMapper
+import com.jHerscu.clearskies.utils.mappers.Mapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 class MapWeatherToLocalUseCase @Inject constructor(
-    private val weatherMapper: WeatherForecastMapper,
+    private val mapper: Mapper.Weather,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
     suspend operator fun invoke(
@@ -24,7 +24,7 @@ class MapWeatherToLocalUseCase @Inject constructor(
     ): Resource<Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>?> {
         return withContext(defaultDispatcher) {
             try {
-                val mapped = weatherMapper.remoteToLocal(
+                val mapped = mapper.remoteToLocal(
                     currentWeather = dailyAndHourlyWeatherResponse,
                     yesterdaysWeather = yesterdaysWeatherResponse,
                     qualifiedName = qualifiedName
