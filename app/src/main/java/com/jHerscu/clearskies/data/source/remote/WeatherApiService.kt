@@ -9,11 +9,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryName
 
-private const val CURRENT_WEATHER_URL = "data/2.5/onecall"
+internal const val CURRENT_WEATHER_URL = "data/2.5/onecall"
 
-private const val HISTORIC_WEATHER_URL = "/timemachine"
+internal const val HISTORIC_WEATHER_URL = "/timemachine"
 
-private const val IMAGE_WEATHER_URL = "img/wn/"
+internal const val IMAGE_WEATHER_URL = "img/wn/"
 
 interface WeatherApiService {
 
