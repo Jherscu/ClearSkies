@@ -121,14 +121,14 @@ class WeatherRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteWeatherForCity(city: LocalGeocodedCity) {
+    override suspend fun deleteWeatherForCity(qualifiedName: String) {
         weatherDao.run {
-            getAllHourlyWeatherData(city).collect { list ->
+            getAllHourlyWeatherData(qualifiedName).collect { list ->
                 for (forecast in list) {
                     deleteHourlyForecast(forecast)
                 }
             }
-            getAllDailyWeatherData(city).collect { list ->
+            getAllDailyWeatherData(qualifiedName).collect { list ->
                 for (forecast in list) {
                     deleteDailyForecast(forecast)
                 }
@@ -136,12 +136,25 @@ class WeatherRepoImpl @Inject constructor(
         }
     }
 
-    override fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>> {
-        return weatherDao.getAllDailyForecastsByCity(city.qualifiedName).distinctUntilChanged()
+    override fun getAllDailyWeatherData(qualifiedName: String): Flow<List<LocalDailyForecast>> {
+        return weatherDao.getAllDailyForecastsByCity(qualifiedName).distinctUntilChanged()
     }
 
-    override fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>> {
-        return weatherDao.getAllHourlyForecastsByCity(city.qualifiedName).distinctUntilChanged()
+    override fun getAllHourlyWeatherData(qualifiedName: String): Flow<List<LocalHourlyForecast>> {
+        return weatherDao.getAllHourlyForecastsByCity(qualifiedName).distinctUntilChanged()
+    }
+
+    override fun validateWeatherExists(qualifiedName: String): Flow<Int> {
+        return weatherDao.validateDataExistsByCity(
+            qualifiedName = qualifiedName
+        )
+    }
+
+    override fun validateWeatherUpToDate(qualifiedName: String, currentDate: Int): Flow<Int> {
+        return weatherDao.validateDataUpToDateByCity(
+            qualifiedName = qualifiedName,
+            currentDate = currentDate
+        )
     }
 
 }

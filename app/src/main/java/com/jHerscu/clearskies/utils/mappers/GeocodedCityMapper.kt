@@ -4,9 +4,9 @@ import com.jHerscu.clearskies.data.model.GeocodedCity
 import com.jHerscu.clearskies.data.model.response.CityResponse
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 
-class GeocodedCityMapper {
+class GeocodedCityMapper : Mapper.Geocode {
 
-    fun remoteToLocal(remoteData: CityResponse): LocalGeocodedCity {
+    override fun remoteToLocal(remoteData: CityResponse): LocalGeocodedCity {
         with(remoteData) {
             return LocalGeocodedCity(
                 latitude = lat,
@@ -16,7 +16,7 @@ class GeocodedCityMapper {
         }
     }
 
-    fun localToData(localData: LocalGeocodedCity): GeocodedCity {
+    override fun localToData(localData: LocalGeocodedCity): GeocodedCity {
         with(localData) {
             return GeocodedCity(
                 latitude = latitude,

@@ -1,8 +1,8 @@
 package com.jHerscu.clearskies.domain.useCase.weather
 
-import com.jHerscu.clearskies.data.repo.WeatherRepoImpl
 import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
+import com.jHerscu.clearskies.domain.repoInterface.WeatherRepo
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.SimpleResource
 import com.jHerscu.clearskies.utils.TextWrapper
@@ -10,7 +10,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CacheWeatherUseCase @Inject constructor(
-    private val weatherRepo: WeatherRepoImpl
+    private val weatherRepo: WeatherRepo
 ) {
     suspend operator fun invoke(
         dailyData: List<LocalDailyForecast>,

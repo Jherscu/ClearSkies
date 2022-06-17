@@ -1,19 +1,28 @@
 package com.jHerscu.clearskies.utils.mappers
 
+import android.graphics.Bitmap
 import com.jHerscu.clearskies.data.model.DailyForecast
 import com.jHerscu.clearskies.data.model.HourlyForecast
 import com.jHerscu.clearskies.data.model.response.DailyAndHourlyWeatherResponse
 import com.jHerscu.clearskies.data.model.response.DailyTempResponse
 import com.jHerscu.clearskies.data.model.response.DailyWeatherResponse
 import com.jHerscu.clearskies.data.model.response.YesterdaysWeatherResponse
-import com.jHerscu.clearskies.data.source.local.WeatherDao
 import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
-import javax.inject.Inject
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
-class WeatherForecastMapper @Inject constructor(
-    private val weatherDao: WeatherDao
-) : Mapper.Weather {
+class FakeWeatherForecastMapper() : Mapper.Weather {
+
+    @Mock
+    private lateinit var mockBitmap: Bitmap
+
+    /**
+     * Call before using class to setup mocked bitmap.
+     */
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+    }
 
     /**
      * Takes weather information from [YesterdaysWeatherResponse], and converts it into
@@ -97,7 +106,7 @@ class WeatherForecastMapper @Inject constructor(
                     minTemp = minTemp,
                     maxTemp = maxTemp,
                     weatherDescription = weatherDescription,
-                    icon = weatherDao.getDailyForecastAndIcon(iconCode).icon.iconBitmap
+                    icon = mockBitmap
                 )
             }
         }
@@ -115,7 +124,7 @@ class WeatherForecastMapper @Inject constructor(
                     temp = temp,
                     feelsLikeTemp = feelsLikeTemp,
                     weatherDescription = weatherDescription,
-                    icon = weatherDao.getHourlyForecastAndIcon(iconCode).icon.iconBitmap
+                    icon = mockBitmap
                 )
             }
         }

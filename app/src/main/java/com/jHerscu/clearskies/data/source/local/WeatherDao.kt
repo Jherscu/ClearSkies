@@ -8,6 +8,8 @@ import com.jHerscu.clearskies.data.source.local.relation.DailyForecastAndIcon
 import com.jHerscu.clearskies.data.source.local.relation.HourlyForecastAndIcon
 import kotlinx.coroutines.flow.Flow
 
+internal const val ONE_WEEK_IN_MILLIS = 604800000
+
 @Dao
 interface WeatherDao {
 
@@ -29,8 +31,11 @@ interface WeatherDao {
     /**
      * Checks if up to date weather forecasts exist for a given city. Must be received as Int and converted as Int.toBool()
      */
-    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_millis = (:currentDate + 604800)) THEN 1 ELSE 0 END")
-    fun validateDataUpToDateByCity(qualifiedName: String, currentDate: Int): Flow<Int>
+    @Query("SELECT CASE WHEN EXISTS (SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_millis = (:currentDate + $ONE_WEEK_IN_MILLIS)) THEN 1 ELSE 0 END")
+    fun validateDataUpToDateByCity(
+        qualifiedName: String,
+        currentDate: Int
+    ): Flow<Int> // Adding 604800 to current date fast forwards to exactly 1 week later to check if data for that date is stored
 
     /**
      * Checks if weather forecasts exist for a given city. Must be received as Int and converted as Int.toBool()

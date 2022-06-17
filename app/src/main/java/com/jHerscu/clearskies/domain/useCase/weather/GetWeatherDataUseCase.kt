@@ -2,11 +2,11 @@ package com.jHerscu.clearskies.domain.useCase.weather
 
 import com.jHerscu.clearskies.R
 import com.jHerscu.clearskies.data.model.Forecast
-import com.jHerscu.clearskies.data.source.local.WeatherDao
 import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
+import com.jHerscu.clearskies.domain.repoInterface.WeatherRepo
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.TextWrapper
-import com.jHerscu.clearskies.utils.mappers.WeatherForecastMapper
+import com.jHerscu.clearskies.utils.mappers.Mapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 class GetWeatherDataUseCase @Inject constructor(
-    private val weatherDao: WeatherDao,
-    private val mapper: WeatherForecastMapper
+    private val weatherRepo: WeatherRepo,
+    private val mapper: Mapper.Weather
 ) {
     suspend operator fun invoke(
         daily: Boolean,
@@ -27,14 +27,14 @@ class GetWeatherDataUseCase @Inject constructor(
         return if (weatherInCache) {
             when (daily) {
                 true -> {
-                    weatherDao.getAllDailyForecastsByCity(qualifiedName)
+                    weatherRepo.getAllDailyWeatherData(qualifiedName)
                         .distinctUntilChanged()
                         .transform<List<LocalDailyForecast>, List<Forecast>> { list ->
                             mapper.localDailyForecastToData(list)
                         }
                 }
                 false -> {
-                    weatherDao.getAllHourlyForecastsByCity(qualifiedName)
+                    weatherRepo.getAllHourlyWeatherData(qualifiedName)
                         .distinctUntilChanged()
                         .transform { list ->
                             mapper.localHourlyForecastToData(list)
