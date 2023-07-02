@@ -10,7 +10,6 @@ class WeatherIconRepoImpl @Inject constructor(
 ) : WeatherIconRepo {
 
     override suspend fun cacheIcon(icon: LocalIcon) {
-        dao.insertLocalIcon(icon)
+        dao.upsertLocalIcon(icon)
     }
-
 }

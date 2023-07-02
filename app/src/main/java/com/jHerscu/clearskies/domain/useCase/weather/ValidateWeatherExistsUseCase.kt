@@ -9,8 +9,8 @@ class ValidateWeatherExistsUseCase @Inject constructor(
 ) {
     operator fun invoke(
         qualifiedName: String
-    ): Flow<Int> {
-        return weatherDao.validateDataExistsByCity(
+    ): Flow<Boolean> {
+        return weatherDao.cityDataExists(
             qualifiedName = qualifiedName
         )
     }

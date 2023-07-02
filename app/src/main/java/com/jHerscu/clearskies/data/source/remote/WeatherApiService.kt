@@ -9,13 +9,13 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryName
 
-private const val CURRENT_WEATHER_URL = "data/2.5/onecall"
+private const val CURRENT_WEATHER_URL = "data/3.0/onecall"
 
 private const val HISTORIC_WEATHER_URL = "/timemachine"
 
 private const val IMAGE_WEATHER_URL = "img/wn/"
 
-interface WeatherApiService {
+interface WeatherApiService { // TODO(jherscu): test!
 
     /**
      * Retrieve upcoming Daily forecasts, current Daily forecast, current Hourly forecast,
@@ -40,7 +40,7 @@ interface WeatherApiService {
      * highest and lowest values must be sorted from hourly temps to find the daily high and low.
      */
     @GET("$CURRENT_WEATHER_URL$HISTORIC_WEATHER_URL")
-    suspend fun getYesterdaysWeather( // add exclude param?
+    suspend fun getYesterdaysWeather( // TODO(jherscu): add exclude param?
         @Query(value = "lat")
         lat: Float,
         @Query(value = "lon")
@@ -61,5 +61,4 @@ interface WeatherApiService {
         @QueryName
         iconCode: String // Pass input through formatter "$iconCode@2x.png"
     ): Response<IconResponse>
-
 }

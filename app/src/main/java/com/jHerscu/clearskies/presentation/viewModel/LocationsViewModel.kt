@@ -8,5 +8,4 @@ import javax.inject.Inject
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
     private val citiesUseCases: CitiesUseCases
-) : ViewModel() {
-}
+) : ViewModel()

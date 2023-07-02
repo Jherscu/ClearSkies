@@ -12,7 +12,10 @@ import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.di.MainDispatcher
 import com.jHerscu.clearskies.domain.useCase.location.GetCityByNameUseCase
 import com.jHerscu.clearskies.domain.useCase.weather.WeatherUseCases
-import com.jHerscu.clearskies.utils.*
+import com.jHerscu.clearskies.utils.Resource
+import com.jHerscu.clearskies.utils.SimpleResource
+import com.jHerscu.clearskies.utils.TextWrapper
+import com.jHerscu.clearskies.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
@@ -39,7 +42,7 @@ class DailyViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private val errorChannel = Channel<TextWrapper>()
+    private val errorChannel = Channel<TextWrapper>() // TODO(jherscu): SHARED FLOW OR BOILERPLATE STATE IN VmState
     val errorFlow = errorChannel.receiveAsFlow()
 
     private val _weatherData =
@@ -47,13 +50,13 @@ class DailyViewModel @Inject constructor(
     val weatherData: LiveData<List<Forecast>> get() = _weatherData
 
     private val _weatherIsRecent = MutableLiveData(false)
-    val weatherIsRecent: LiveData<Boolean> get() = _weatherIsRecent
+    val weatherIsRecent: LiveData<Boolean> get() = _weatherIsRecent // TODO(jherscu): STATEFLOW
 
     private val _weatherInCache = MutableLiveData(false)
     val weatherInCache: LiveData<Boolean> get() = _weatherInCache
 
     init {
-        viewModelScope.launch(mainDispatcher) {
+        viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
 
             val loadDataJob = coroutineScope {
 
@@ -61,37 +64,34 @@ class DailyViewModel @Inject constructor(
                     weatherUseCases.validateWeatherUpToDateUseCase(
                         qualifiedName = city,
                         currentDate = 1
-                    ).collect { binary ->
-                        _weatherIsRecent.value = binary.toBool()
+                    ).collect { cityUpToDate ->
+                        _weatherIsRecent.value = cityUpToDate
                     }
                 }
 
                 launch {
                     weatherUseCases.validateWeatherExistsUseCase(
                         qualifiedName = city
-                    ).collect { binary ->
-                        _weatherInCache.value = binary.toBool()
+                    ).collect { weatherExists ->
+                        _weatherInCache.value = weatherExists
                     }
                 }
-
             }
 
             loadDataJob.join()
             loadWeather()
-
         }
     }
 
-    // TODO() Call from fragment init
+    // TODO(jherscu): Call from fragment init
     fun setCity(qualifiedName: String) {
         city = qualifiedName
     }
 
     fun loadWeather() {
-        viewModelScope.launch(mainDispatcher) {
+        viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
 
             cachePipeline@ while (weatherInCache.value == false || weatherIsRecent.value == false) {
-
                 // Fetch weather from client
                 val responseResource: Resource<UnparsedResponsesHolder?> = try {
                     weatherUseCases.fetchAllWeatherUseCase(
@@ -107,8 +107,8 @@ class DailyViewModel @Inject constructor(
 
                 // Map successful response or report fetching error and break loop
                 val mappingResource: Resource<
-                        Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>?
-                        > = when (responseResource) {
+                    Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>? // TODO(jherscu): typeAlias?
+                    > = when (responseResource) {
                     is Resource.Success -> {
                         with(responseResource.data!!) {
                             weatherUseCases.mapWeatherToLocalUseCase(
@@ -118,12 +118,12 @@ class DailyViewModel @Inject constructor(
                             )
                         }
                     }
-                    is Resource.Error -> { // TODO() Collectors can check if is TextWrapper.DynamicString or .StringResource
+                    is Resource.Error -> { // TODO(jherscu): Collectors can check if is TextWrapper.DynamicString or .StringResource
                         _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.fetch_error)))
                         errorChannel.send(
                             responseResource.text ?: TextWrapper
                                 .StringResource(R.string.unknown_error)
-                        ) // TODO() log result from fragment
+                        ) // TODO(jherscu): log result from fragment
                         break@cachePipeline
                     }
                 }
@@ -140,7 +140,7 @@ class DailyViewModel @Inject constructor(
                         errorChannel.send(
                             responseResource.text ?: TextWrapper
                                 .StringResource(R.string.unknown_error)
-                        ) // TODO() log result from fragment
+                        ) // TODO(jherscu): log result from fragment
                         break@cachePipeline
                     }
                 }
@@ -157,7 +157,7 @@ class DailyViewModel @Inject constructor(
                         errorChannel.send(
                             responseResource.text ?: TextWrapper
                                 .StringResource(R.string.unknown_error)
-                        ) // TODO() log result from fragment
+                        ) // TODO(jherscu): log result from fragment
                         break@cachePipeline
                     }
                 }
@@ -176,7 +176,7 @@ class DailyViewModel @Inject constructor(
                         forecastListRes.text?.let { // If data is old a snackbar will alert the user
                             _eventFlow.emit(UiEvent.ShowSnackbar(it))
                         }
-                        // TODO() Set Data to holder variable
+                        // TODO(jherscu): Set Data to holder variable
                     }
                     is Resource.Error -> {
                         _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.cache_error)))
@@ -184,7 +184,6 @@ class DailyViewModel @Inject constructor(
                     }
                 }
             }
-
         }
     }
 }

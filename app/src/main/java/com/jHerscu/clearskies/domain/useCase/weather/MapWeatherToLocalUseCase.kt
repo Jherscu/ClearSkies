@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
 class MapWeatherToLocalUseCase @Inject constructor(
     private val weatherMapper: WeatherForecastMapper,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher

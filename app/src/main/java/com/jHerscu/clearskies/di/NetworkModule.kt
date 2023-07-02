@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 private const val BASE_WEATHER_URL = "https://api.openweathermap.org/"
 
-private const val GEOCODE_URL = "https://api.radar.io/v1/search/autocomplete"
+private const val BASE_GEOCODE_URL = "https://api.radar.io/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,7 +44,6 @@ object NetworkModule {
     fun provideErrorInterceptor(): ErrorInterceptor {
         return ErrorInterceptor()
     }
-
 
     /**
      * Creates base version of HttpClient to share between both retrofit instances
@@ -79,7 +78,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideCoil(@ApplicationContext context: Context): ImageLoader {
-        return ImageLoader.invoke(context)
+        return ImageLoader(context)
     }
 
     @Singleton
@@ -112,7 +111,7 @@ object NetworkModule {
         @Named("header_client") headerClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(GEOCODE_URL)
+            .baseUrl(BASE_GEOCODE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(headerClient)
             .build()
@@ -129,5 +128,4 @@ object NetworkModule {
     fun provideGeocodeApiService(@Named("geocode_retrofit") geocodeRetrofit: Retrofit): GeocodeApiService {
         return geocodeRetrofit.create((GeocodeApiService::class.java))
     }
-
 }

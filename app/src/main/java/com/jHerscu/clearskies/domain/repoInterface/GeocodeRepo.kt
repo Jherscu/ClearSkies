@@ -13,8 +13,7 @@ interface GeocodeRepo {
 
     suspend fun cacheGeocodedCity(city: LocalGeocodedCity)
 
-    suspend fun deleteCity(city: LocalGeocodedCity) // Also delete any weather data associated with that city (Logic in use case)
+    suspend fun deleteCity(city: LocalGeocodedCity) // TODO(jherscu): Also delete any weather data associated with that city (Logic in use case)
 
     suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>>
-
 }

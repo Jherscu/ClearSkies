@@ -8,11 +8,9 @@ import kotlinx.coroutines.flow.flowOf
 class PreferencesRepoImpl : PreferencesRepo {
 
     override suspend fun writeToStore(preference: Preferences.Key<Boolean>, option: Boolean) {
-
     }
 
     override suspend fun readFromStore(key: Preferences.Key<Boolean>): Flow<Boolean> {
-        return flowOf(true) // TODO()
+        return flowOf(true) // TODO(jherscu): Do something here
     }
-
 }

@@ -10,8 +10,8 @@ class ValidateWeatherUpToDateUseCase @Inject constructor(
     operator fun invoke(
         qualifiedName: String,
         currentDate: Int
-    ): Flow<Int> {
-        return weatherDao.validateDataUpToDateByCity(
+    ): Flow<Boolean> {
+        return weatherDao.upToDateCityInfoExists(
             qualifiedName = qualifiedName,
             currentDate = currentDate
         )

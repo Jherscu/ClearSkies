@@ -39,7 +39,7 @@ class WeatherForecastMapper @Inject constructor(
      *
      * @param qualifiedName Name of the city and state code to attach to the entries
      */
-    fun remoteToLocal(
+    fun remoteToLocal( // TODO(jherscu): naming, oy vey... Needs update
         currentWeather: DailyAndHourlyWeatherResponse,
         yesterdaysWeather: YesterdaysWeatherResponse,
         qualifiedName: String
@@ -78,11 +78,9 @@ class WeatherForecastMapper @Inject constructor(
                     iconCode = weather.icon
                 )
             }
-
         }
 
-        return Pair(localDailyList, localHourlyList)
-
+        return Pair(localDailyList, localHourlyList) // TODO(jherscu): data class
     }
 
     /**
@@ -120,5 +118,4 @@ class WeatherForecastMapper @Inject constructor(
             }
         }
     }
-
 }

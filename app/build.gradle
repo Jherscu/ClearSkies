@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id "org.jlleitschuh.gradle.ktlint"
 }
 
 android {
@@ -31,6 +32,7 @@ android {
 
     buildFeatures {
         dataBinding true
+        compose true
     }
 
     testOptions {
@@ -51,9 +53,22 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
+    kotlin {
+        jvmToolchain(11) // prevents using Java v17 in compiler
+    }
+
     kotlinOptions {
         jvmTarget = '11'
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = rootProject.kotlin_compiler_ext_version
+    }
+
+    lint {
+        abortOnError = false
+    }
+
     namespace 'com.jHerscu.clearskies'
 }
 
@@ -63,28 +78,19 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
-    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.test.ext:junit-ktx:$junit_androidx_ext_version"
 
     // Core Testing
     testImplementation "junit:junit:$junit_version"
-    testImplementation "androidx.arch.core:core-testing:$arch_test_version" // LiveData
+    testImplementation "org.hamcrest:hamcrest:$hamcrest_version"
+    testImplementation "io.mockk:mockk-android:$mockk_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_androidx_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
 
-    // Nav Testing
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-
-    // LiveData/StateFlow
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-
-    // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-
-    // ViewModel
+    // ViewModel lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // Navigation Component
@@ -99,6 +105,7 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Retrofit w/ Moshi
@@ -107,9 +114,9 @@ dependencies {
 
     // Coil w/o singleton
     implementation "io.coil-kt:coil-base:$coil_version"
+    implementation "io.coil-kt:coil-compose:$coil_version"
 
     // Kotlin Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     // WorkManager w/ Kotlin + Coroutines
@@ -118,13 +125,29 @@ dependencies {
     // Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:$store_version"
 
-    // Material Cardview
-    implementation "androidx.cardview:cardview:$card_version"
-
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
+
+    // Compose BOM
+    implementation "androidx.compose:compose-bom:$compose_bom_version"
+    implementation "androidx.compose.animation:animation"
+    implementation "androidx.compose.foundation:foundation"
+    implementation "androidx.compose.material:material"
+    implementation "androidx.compose.material3:material3:$compose_material3_version"
+    implementation "androidx.compose.runtime:runtime"
+    implementation "androidx.compose.runtime:runtime-saveable" // TODO(jherscu): research
+    implementation "androidx.compose.ui:ui"
+
+    // Compose Misc.
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    implementation "androidx.activity:activity-compose:$compose_activity_version"
+    implementation "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout_version"
+
+    // Compose Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$compose_accompanist_version"
+    implementation "com.google.accompanist:accompanist-placeholder:$compose_accompanist_version"
 }

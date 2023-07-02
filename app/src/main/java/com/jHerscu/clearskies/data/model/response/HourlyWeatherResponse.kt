@@ -1,11 +1,15 @@
 package com.jHerscu.clearskies.data.model.response
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class HourlyWeatherResponse(
-    @field:Json(name = "dt") val hourInMillis: Long,
+    @Json(name = "dt")
+    val hourInMillis: Long, // TODO(jherscu): convert all responses to millis, received in seconds!
     val temp: Float,
-    @field:Json(name = "feels_like") val feelsLikeTemp: Float,
+    @Json(name = "feels_like")
+    val feelsLikeTemp: Float,
     val humidity: Int,
     val weather: DescriptionResponse
 )

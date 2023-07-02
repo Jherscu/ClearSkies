@@ -55,7 +55,7 @@ class GeocodeRepoImpl @Inject constructor(
     }
 
     override suspend fun cacheGeocodedCity(city: LocalGeocodedCity) {
-        cityDao.insertCity(city)
+        cityDao.upsertCity(city)
     }
 
     override suspend fun deleteCity(city: LocalGeocodedCity) {
@@ -72,5 +72,4 @@ class GeocodeRepoImpl @Inject constructor(
     override suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>> {
         return cityDao.getAllCities().distinctUntilChanged()
     }
-
 }

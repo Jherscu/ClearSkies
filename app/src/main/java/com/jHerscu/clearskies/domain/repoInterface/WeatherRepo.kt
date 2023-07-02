@@ -24,5 +24,4 @@ interface WeatherRepo {
     fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>>
 
     fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>>
-
 }

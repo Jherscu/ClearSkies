@@ -18,7 +18,7 @@ class FetchAllWeatherUseCase @Inject constructor(
         localCity: LocalGeocodedCity
     ): Resource<UnparsedResponsesHolder?> {
         return withContext(Dispatchers.IO) {
-            val yesterday = Instant // TODO("Confirm Displays correct time")
+            val yesterday = Instant // TODO(jherscu): Confirm Displays correct time
                 .now()
                 .minus(Period.ofDays(1))
                 .toEpochMilli()

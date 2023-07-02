@@ -81,7 +81,7 @@ class WeatherRepoImpl @Inject constructor(
                         Resource.Success(
                             UnparsedResponsesHolder(
                                 dailyAndHourlyWeatherResponse = dailyAndHourlyWeatherResponse.await()
-                                    .body()!!,
+                                    .body()!!, // TODO(jherscu): rm bang bang!
                                 yesterdaysWeatherResponse = yesterdaysWeatherResponse.await()
                                     .body()!!
                             )
@@ -90,17 +90,17 @@ class WeatherRepoImpl @Inject constructor(
                         Resource.Error(
                             text = TextWrapper.DynamicString(
                                 "YesterdaysResponse: ${
-                                    yesterdaysWeatherResponse.await().message()
+                                yesterdaysWeatherResponse.await().message()
                                 }\n" +
-                                        "DailyAndHourlyResponse: ${
-                                            dailyAndHourlyWeatherResponse.await().message()
-                                        }"
+                                    "DailyAndHourlyResponse: ${
+                                    dailyAndHourlyWeatherResponse.await().message()
+                                    }"
                             )
                         )
                     }
                 }
             }
-        } catch (e: IOException) {
+        } catch (e: IOException) { // TODO(jherscu): write catchNetworkError util fun to reuse
             Resource.Error(text = TextWrapper.StringResource(R.string.bad_connection))
         } catch (e: HttpException) {
             Resource.Error(text = TextWrapper.StringResource(R.string.bad_response))
@@ -113,10 +113,10 @@ class WeatherRepoImpl @Inject constructor(
     ) {
         with(weatherDao) {
             for (forecast in dailyData) {
-                insertDailyForecast(forecast)
+                upsertDailyForecast(forecast)
             }
             for (forecast in hourlyData) {
-                insertHourlyForecast(forecast)
+                upsertHourlyForecast(forecast)
             }
         }
     }
@@ -143,5 +143,4 @@ class WeatherRepoImpl @Inject constructor(
     override fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>> {
         return weatherDao.getAllHourlyForecastsByCity(city.qualifiedName).distinctUntilChanged()
     }
-
 }

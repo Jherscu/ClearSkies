@@ -12,7 +12,7 @@ import com.jHerscu.clearskies.utils.BitmapTypeConverter
 @Database(
     entities = [LocalGeocodedCity::class, LocalDailyForecast::class, LocalHourlyForecast::class, LocalIcon::class],
     version = 1,
-    exportSchema = false // migrate eventually
+    exportSchema = false // TODO(jherscu): migrate and write database tests
 )
 @TypeConverters(BitmapTypeConverter::class)
 abstract class AppDb : RoomDatabase() {

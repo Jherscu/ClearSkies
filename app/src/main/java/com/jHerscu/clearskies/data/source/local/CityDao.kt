@@ -1,6 +1,10 @@
 package com.jHerscu.clearskies.data.source.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,9 +18,8 @@ interface CityDao {
     suspend fun getCityByName(name: String): LocalGeocodedCity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCity(city: LocalGeocodedCity)
+    suspend fun upsertCity(city: LocalGeocodedCity)
 
     @Delete
     suspend fun deleteCity(city: LocalGeocodedCity)
-
 }

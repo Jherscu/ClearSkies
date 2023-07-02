@@ -1,8 +1,19 @@
 package com.jHerscu.clearskies.di
 
 import com.jHerscu.clearskies.data.source.local.WeatherDao
-import com.jHerscu.clearskies.domain.useCase.location.*
-import com.jHerscu.clearskies.domain.useCase.weather.*
+import com.jHerscu.clearskies.domain.useCase.location.CacheNewCityUseCase
+import com.jHerscu.clearskies.domain.useCase.location.CitiesUseCases
+import com.jHerscu.clearskies.domain.useCase.location.DeleteCityWithWeatherUseCase
+import com.jHerscu.clearskies.domain.useCase.location.GetAllCitiesUseCase
+import com.jHerscu.clearskies.domain.useCase.location.GetCityByNameUseCase
+import com.jHerscu.clearskies.domain.useCase.location.GetCityOptionsUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.CacheWeatherUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.FetchAllWeatherUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.GetWeatherDataUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.MapWeatherToLocalUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.ValidateWeatherExistsUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.ValidateWeatherUpToDateUseCase
+import com.jHerscu.clearskies.domain.useCase.weather.WeatherUseCases
 import com.jHerscu.clearskies.domain.useCase.weather.icon.CacheIconUseCase
 import com.jHerscu.clearskies.domain.useCase.weather.icon.GetIconUseCase
 import com.jHerscu.clearskies.utils.mappers.GeocodedCityMapper
@@ -21,7 +32,7 @@ object AppModule {
     @Provides
     fun provideWeatherMapper(
         weatherDao: WeatherDao
-    ): WeatherForecastMapper {
+    ): WeatherForecastMapper { // TODO(jherscu): rm provides
         return WeatherForecastMapper(
             weatherDao = weatherDao
         )
@@ -29,7 +40,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCityMapper(): GeocodedCityMapper {
+    fun provideCityMapper(): GeocodedCityMapper { // TODO(jherscu): rm provides
         return GeocodedCityMapper()
     }
 
@@ -74,5 +85,4 @@ object AppModule {
             getCityByNameUseCaseUseCase = getCityByNameUseCase
         )
     }
-
 }

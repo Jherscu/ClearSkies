@@ -9,9 +9,9 @@ class GeocodedCityMapper {
     fun remoteToLocal(remoteData: CityResponse): LocalGeocodedCity {
         with(remoteData) {
             return LocalGeocodedCity(
-                latitude = lat,
-                longitude = lon,
-                qualifiedName = "${city}, ${stateCode}"
+                latitude = latitude,
+                longitude = longitude,
+                qualifiedName = "$city, $stateCode"
             )
         }
     }
@@ -25,5 +25,4 @@ class GeocodedCityMapper {
             )
         }
     }
-
 }
