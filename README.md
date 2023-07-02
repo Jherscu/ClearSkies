@@ -115,6 +115,8 @@
 
 - Update dependencies and alphabetize dep. list [X - 7/2/23]
 
+- Protect Main Branch after this commit 😆 [X - 7/2/23]
+
 ## Development/Testing Stage:
 
 - Implement Basic Layout/Menu []
