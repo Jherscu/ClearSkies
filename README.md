@@ -4,8 +4,8 @@
 # Best practices weather app utilizing:
 
 - Navigation Drawer
-- Databinding
-- RecyclerView
+- Databinding [tbd if needed]
+- Jetpack Compose
 - Networking w/:
   - retrofit
   - moshi
@@ -19,12 +19,10 @@
 - Local storage using Room and Preferences Datastore
 - Fragments and Jetpack Navigation Component
 - SafeArgs
-- JUnit, Espresso, Hamcrest
+- JUnit, Espresso, Hamcrest [tbd whether to add instrumentation tests or just unit tests]
 - ViewModel
-- LiveData
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
 - LeakCanary
-- R8 for release build
 
 # (PRELIMINARY)Architecture/Class Map
 
@@ -105,17 +103,29 @@
 
 - Create Xml Files [X - 4/15/22]
 
+## (Update: 2023) Reorganize to fit new workforce experience
+
+- Setup KtLint to improve formatting [X - 7/2/23]
+
+- Fix SQL syntax error with chained flow operators [X - 7/2/23] (logic to be revisited in testing)
+
+- Add personal TODO to anywhere I've written code that needs a second look [X - 7/2/23]
+
+- Prep for Compose [X - 7/2/23]
+
+- Update dependencies and alphabetize dep. list [X - 7/2/23]
+
 ## Development/Testing Stage:
+
+- Implement Basic Layout/Menu []
+
+- Implement Nav Functionality []
 
 - Write Modules []
 
 - Write Networking Code/Unit Tests []
 
 - Write Database to Hold Cached Results []
-
-- Implement Basic Layout/Menu []
-
-- Implement Nav Functionality/Tests []
 
 - Write Repository and Domain Layers []
 
@@ -129,7 +139,7 @@
 
 - Profile/Fine Tune Business Logic []
 
-- TEST TEST TEST: Capture Edge Cases []
+- TEST TEST TEST: Capture Edge Cases and refine logic as needed []
 
 ## Deployment/Maintenance Stage:
 
