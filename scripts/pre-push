@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Executing ktlintFormat..."
+
+./gradlew ktlintFormat --daemon
+
+exitCode=$?
+
+[[ $exitCode -ne 0 ]] && echo "Task failed. Run ./gradlew ktlintFormat --stacktrace manually and troubleshoot" && exit 1
+echo "Code formatted successfully!" && exit 0
