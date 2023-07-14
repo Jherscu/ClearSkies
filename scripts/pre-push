@@ -1,7 +1,9 @@
 #!/bin/bash
 
 function gitDiff() {
-  echo git --no-pager diff --name-only
+  local result
+  result=$(git --no-pager diff --name-only)
+  echo "$result"
 }
 
 # Check if any files remain uncommitted/un-stashed
