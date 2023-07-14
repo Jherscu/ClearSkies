@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# Check if any files remain uncommitted/un-stashed
-allFilesCommitted=$([[ -z "$(git --no-pager diff --name-status)" ]])
+function gitDiff() {
+  echo git --no-pager diff --name-only
+}
 
-if [[ $allFilesCommitted -ne 0 ]]; then
+# Check if any files remain uncommitted/un-stashed
+originalUncommittedFiles="$(gitDiff)"
+
+if [[ -n "$originalUncommittedFiles" ]]; then
   echo "Push failed because of uncommitted changes. Please commit or stash changes before pushing code."
   exit 1
 fi
@@ -20,7 +24,7 @@ if [[ $exitCode -ne 0 ]]; then
 fi
 
 # Check if ktlintFormat changed any files during formatting
-uncommittedFiles="$(git --no-pager diff --name-status)"
+uncommittedFiles="$(gitDiff)"
 
 if [[ -z "$uncommittedFiles" ]]; then
     echo "No kotlin files needed formatting!"
