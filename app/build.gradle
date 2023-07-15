@@ -15,6 +15,20 @@ java {
     }
 }
 
+String getRadarKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RADAR_GEOCODE_KEY']
+}
+
+String getOpenWeatherKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['OPEN_WEATHER_KEY']
+}
+
 android {
     compileSdk rootProject.compileSdkVersion
 
@@ -25,8 +39,9 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField ("String", "OPEN_WEATHER_KEY", getOpenWeatherKey())
+        buildConfigField ("String", "RADAR_GEOCODE_KEY", getRadarKey())
     }
 
     buildTypes {
