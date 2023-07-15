@@ -15,20 +15,6 @@ java {
     }
 }
 
-String getRadarKey() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RADAR_GEOCODE_KEY']
-}
-
-String getOpenWeatherKey() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['OPEN_WEATHER_KEY']
-}
-
 android {
     compileSdk rootProject.compileSdkVersion
 
@@ -192,4 +178,18 @@ dependencies {
     // Compose Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:$compose_accompanist_version"
     implementation "com.google.accompanist:accompanist-placeholder:$compose_accompanist_version"
+}
+
+String getRadarKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RADAR_GEOCODE_KEY']
+}
+
+String getOpenWeatherKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['OPEN_WEATHER_KEY']
 }
