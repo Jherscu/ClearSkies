@@ -58,6 +58,10 @@ android {
         jvmTarget = '17'
     }
 
+    tasks.withType(JavaCompile) {
+        options.release = 17
+    }
+
     detekt {
         toolVersion = detekt_version
         config.setFrom(file("config/detekt/detekt.yml"))
