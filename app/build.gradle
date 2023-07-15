@@ -9,6 +9,12 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("$detekt_version")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 android {
     compileSdk rootProject.compileSdkVersion
 
@@ -56,6 +62,10 @@ android {
 
     kotlinOptions {
         jvmTarget = '17'
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
     tasks.withType(JavaCompile) {
