@@ -26,12 +26,12 @@ jobs:
 
       - name: Access OPEN_WEATHER_KEY
         env:
-          OPEN_WEATHER_KEY: $
+          OPEN_WEATHER_KEY: ${{ secrets.OPEN_WEATHER_KEY }}
         run: echo OPEN_WEATHER_KEY=\"$OPEN_WEATHER_KEY\" > ./local.properties
 
       - name: Access RADAR_GEOCODE_KEY
         env:
-          RADAR_GEOCODE_KEY: $
+          RADAR_GEOCODE_KEY: ${{ secrets.RADAR_GEOCODE_KEY }}
         run: echo RADAR_GEOCODE_KEY=\"$RADAR_GEOCODE_KEY\" > ./local.properties
       
       - name: Build app
