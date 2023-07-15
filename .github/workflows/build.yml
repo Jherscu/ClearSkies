@@ -10,6 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      # This is an action that checks out your repository onto the runner, allowing you to run
+      # scripts or other actions against your code (such as build and test tools)
       - name: Checkout
         uses: actions/checkout@v3
       
