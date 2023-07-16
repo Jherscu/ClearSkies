@@ -1,3 +1,5 @@
+name: Assemble
+
 on:
   pull_request:
     branches: [ "main", "develop" ]

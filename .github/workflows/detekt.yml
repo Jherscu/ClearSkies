@@ -1,3 +1,5 @@
+name: Detekt
+
 on:
   pull_request:
     branches: [ "main", "develop" ]
