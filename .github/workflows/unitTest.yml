@@ -8,7 +8,7 @@ on:
 
 jobs:
   EnvSetup:
-    uses: .github/workflows/envSetup.yml
+    uses: ./.github/workflows/envSetup.yml
   Run:
     name: Run Tests
     runs-on: ubuntu-latest
