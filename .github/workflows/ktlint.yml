@@ -1,5 +1,3 @@
-name: Ktlint
-
 on:
   pull_request:
     branches: [ "main", "develop" ]
@@ -7,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  Check:
-    name: Check
+  Check Ktlint:
+    name: Check Ktlint
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK
