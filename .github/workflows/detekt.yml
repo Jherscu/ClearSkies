@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Scan Detekt:
+  Scan_Detekt:
     name: Scan Detekt
     runs-on: ubuntu-latest
     steps:
