@@ -1,4 +1,4 @@
-name: Detekt
+name: Ktlint
 
 on:
   pull_request:
@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  Scan:
-    name: Scan
+  Check:
+    name: Check
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK
@@ -25,5 +25,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Run Detekt
-        run: ./gradlew detekt
+      - name: Run Ktlint
+        run: ./gradlew ktlintCheck

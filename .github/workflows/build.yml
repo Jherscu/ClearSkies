@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  app:
+  App:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JDK
@@ -25,4 +25,4 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Build app
-        run: ./gradlew build
+        run: ./gradlew assemble
