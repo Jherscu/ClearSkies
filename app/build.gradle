@@ -26,8 +26,15 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField ("String", "OPEN_WEATHER_KEY", getOpenWeatherKey())
-        buildConfigField ("String", "RADAR_GEOCODE_KEY", getRadarKey())
+
+        // Secrets workflow for CI/CD
+        def properties = new Properties()
+        def localProperties = new File(rootProject.rootDir, "local.properties")
+        if (localProperties.exists() && localProperties.isFile()) {
+            localProperties.withInputStream { properties.load(it) }
+        }
+        buildConfigField ("String", "OPEN_WEATHER_KEY", properties["OPEN_WEATHER_KEY"])
+        buildConfigField ("String", "RADAR_GEOCODE_KEY", properties["RADAR_GEOCODE_KEY"])
     }
 
     buildTypes {
@@ -178,18 +185,4 @@ dependencies {
     // Compose Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:$compose_accompanist_version"
     implementation "com.google.accompanist:accompanist-placeholder:$compose_accompanist_version"
-}
-
-String getRadarKey() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RADAR_GEOCODE_KEY']
-}
-
-String getOpenWeatherKey() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['OPEN_WEATHER_KEY']
 }
