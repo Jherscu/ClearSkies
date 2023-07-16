@@ -9,7 +9,7 @@ on:
 jobs:
   Scan:
     EnvSetup:
-      uses: ./.github/workflows/envSetup.yml
+      uses: .github/workflows/envSetup.yml
     name: Scan
     runs-on: ubuntu-latest
     steps:
