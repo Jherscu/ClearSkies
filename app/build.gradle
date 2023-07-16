@@ -9,6 +9,10 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("$detekt_version")
 }
 
+secrets {
+    defaultPropertiesFileName = 'local.defaults.properties'
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -26,15 +30,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        // Secrets workflow for CI/CD
-        def properties = new Properties()
-        def localProperties = new File(rootProject.rootDir, "local.properties")
-        if (localProperties.exists() && localProperties.isFile()) {
-            localProperties.withInputStream { properties.load(it) }
-        }
-        buildConfigField ("String", "OPEN_WEATHER_KEY", properties["OPEN_WEATHER_KEY"])
-        buildConfigField ("String", "RADAR_GEOCODE_KEY", properties["RADAR_GEOCODE_KEY"])
     }
 
     buildTypes {
