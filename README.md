@@ -117,6 +117,16 @@
 
 - Protect Main Branch after this commit 😆 [X - 7/2/23]
 
+- Add Static code analysis [x - 7/16/23]
+
+- Add Ktlint Pre-push git hook [x - 7/16/23]
+
+- Add CI/CD using Github Actions [x - 7/16/23]
+
+- Modify PR's to use Squash Merge w/ PR title as commit (to find PR by name and look through commits if needed) [x - 7/16/23]
+
+- Create Kanban board in Github Projects [x - 7/17/23]
+
 ## Development/Testing Stage:
 
 - Implement Basic Layout/Menu []

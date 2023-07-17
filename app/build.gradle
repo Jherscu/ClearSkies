@@ -5,7 +5,18 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id "org.jlleitschuh.gradle.ktlint"
+    id 'org.jlleitschuh.gradle.ktlint'
+    id("io.gitlab.arturbosch.detekt").version("$detekt_version")
+}
+
+secrets {
+    defaultPropertiesFileName = 'local.defaults.properties'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 android {
@@ -18,7 +29,6 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,16 +59,36 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlin {
-        jvmToolchain(11) // prevents using Java v17 in compiler
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '17'
+    }
+
+    kotlin {
+        jvmToolchain(17)
+    }
+
+    tasks.withType(JavaCompile) {
+        options.release = 17
+    }
+
+    detekt {
+        toolVersion = detekt_version
+        config.setFrom(file("config/detekt/detekt.yml"))
+        buildUponDefaultConfig = true
+        basePath = projectDir
+    }
+
+    tasks.named("detekt").configure {
+        reports {
+            html.required.set(true)
+            html.outputLocation.set(file("build/reports/detekt.html"))
+            md.required.set(true)
+            md.outputLocation.set(file("build/reports/detekt.md"))
+        }
     }
 
     composeOptions {

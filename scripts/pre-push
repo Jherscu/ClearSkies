@@ -1,0 +1,40 @@
+#!/bin/bash
+
+function gitDiff() {
+  local result
+  result=$(git --no-pager diff --name-only)
+  echo "$result"
+}
+
+# Check if any files remain uncommitted/un-stashed
+originalUncommittedFiles="$(gitDiff)"
+
+if [[ -n "$originalUncommittedFiles" ]]; then
+  echo "Push failed because of uncommitted changes. Please commit or stash changes before pushing code."
+  exit 1
+fi
+
+echo "Executing ktlintFormat..."
+
+./gradlew ktlintFormat --daemon
+
+exitCode=$?
+
+if [[ $exitCode -ne 0 ]]; then
+  echo "Task failed. Run ./gradlew ktlintFormat --stacktrace manually and troubleshoot."
+  exit 1
+fi
+
+# Check if ktlintFormat changed any files during formatting
+uncommittedFiles="$(gitDiff)"
+
+if [[ -z "$uncommittedFiles" ]]; then
+    echo "No kotlin files needed formatting!"
+else
+  # If files were changed, commit them automatically before push
+  echo "Committing newly formatted files..."
+  git commit -am "auto-ktlint"
+fi
+
+echo "Pushing formatted code!"
+exit 0
