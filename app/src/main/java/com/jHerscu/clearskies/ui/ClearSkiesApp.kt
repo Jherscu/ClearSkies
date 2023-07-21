@@ -13,6 +13,5 @@ fun ClearSkiesApp(
         navController = navController,
         startDestination = "" // TODO(jherscu): define enum with destinations
     ) {
-
     }
 }
