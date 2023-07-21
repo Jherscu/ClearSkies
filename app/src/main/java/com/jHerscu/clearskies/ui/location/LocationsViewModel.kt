@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.presentation.viewModel
+package com.jHerscu.clearskies.ui.location
 
 import androidx.lifecycle.ViewModel
 import com.jHerscu.clearskies.domain.useCase.location.CitiesUseCases

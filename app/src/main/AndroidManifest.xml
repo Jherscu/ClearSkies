@@ -6,7 +6,7 @@
     <!-- TODO(jherscu): Webview google metrics opt out and add webview auth to grab user credentials on first open? -->
 
     <application
-        android:name=".ClearSkiesApp"
+        android:name=".ClearSkiesApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClearSkies">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

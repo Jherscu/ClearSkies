@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.presentation.viewModel
+package com.jHerscu.clearskies.ui.prefs
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.presentation.ui.theme
+package com.jHerscu.clearskies.ui.theme
 
 import android.app.Activity
 import android.os.Build
