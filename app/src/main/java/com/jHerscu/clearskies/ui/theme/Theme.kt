@@ -80,7 +80,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun AppTheme(
+fun AppTheme( // TODO(jherscu): Investigate why TopAppBar is showing different colors on different devices/Api levels
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
