@@ -21,7 +21,6 @@ fun ClearSkiesApp(
         startDestination = ClearSkiesScreen.HOME.name // TODO(jherscu): define enum with destinations
     ) {
         composable(ClearSkiesScreen.HOME.name) {
-
         }
     }
 }
