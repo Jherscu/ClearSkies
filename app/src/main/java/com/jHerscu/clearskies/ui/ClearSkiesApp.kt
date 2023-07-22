@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jHerscu.clearskies.R
 
-enum class ClearSkiesScreen(@StringRes val title: Int) {
+enum class Screens(@StringRes val title: Int) {
     HOME(R.string.home_screen)
 }
 
@@ -18,9 +18,9 @@ fun ClearSkiesApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ClearSkiesScreen.HOME.name // TODO(jherscu): define enum with destinations
+        startDestination = Screens.HOME.name
     ) {
-        composable(ClearSkiesScreen.HOME.name) {
+        composable(Screens.HOME.name) {
         }
     }
 }
