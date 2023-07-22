@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.presentation.viewModel
+package com.jHerscu.clearskies.ui.daily
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

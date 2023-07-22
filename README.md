@@ -4,7 +4,6 @@
 # Best practices weather app utilizing:
 
 - Navigation Drawer
-- Databinding [tbd if needed]
 - Jetpack Compose
 - Networking w/:
   - retrofit
@@ -17,8 +16,6 @@
 - Clean MVVM Architecture
 - Hilt
 - Local storage using Room and Preferences Datastore
-- Fragments and Jetpack Navigation Component
-- SafeArgs
 - JUnit, Espresso, Hamcrest [tbd whether to add instrumentation tests or just unit tests]
 - ViewModel
 - WorkManager (Keep weather cache for each stored city up to date, try to fetch at least once daily?)
