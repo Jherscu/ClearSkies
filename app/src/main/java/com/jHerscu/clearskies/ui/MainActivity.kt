@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        splashScreen.setKeepOnScreenCondition{ splashViewModel.isVisible.value }
+        splashScreen.setKeepOnScreenCondition { splashViewModel.isVisible.value }
 
         setContent {
             AppTheme {
