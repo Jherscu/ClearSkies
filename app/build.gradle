@@ -104,6 +104,7 @@ dependencies {
 
     // Core
     implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.core:core-splashscreen:$splash_screen_version"
     implementation "androidx.test.ext:junit-ktx:$junit_androidx_ext_version"
 
     // Core Testing
