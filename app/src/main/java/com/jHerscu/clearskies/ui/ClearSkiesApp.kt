@@ -19,9 +19,11 @@ enum class Screens(@StringRes val title: Int) {
 
 @Composable
 fun ClearSkiesApp(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screens.HOME.name
     ) {
