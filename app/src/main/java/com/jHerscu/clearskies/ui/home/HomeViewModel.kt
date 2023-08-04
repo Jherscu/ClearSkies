@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.ui.daily
+package com.jHerscu.clearskies.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,7 +31,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class DailyViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val getCityByNameUseCase: GetCityByNameUseCase,
     private val weatherUseCases: WeatherUseCases,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher
