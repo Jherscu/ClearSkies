@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -83,35 +85,12 @@ fun ClearSkiesApp(
 ) {
     Surface {
         val backStackState = navController.currentBackStackEntryAsState()
-        ModalNavigationDrawer( // TODO(jherscu): Disable drawer while onboarding experience is on/ add onboarding logic
+        AppNavDrawer(
             drawerState = drawerState,
-            drawerContent = {
-                ModalDrawerSheet(
-                    drawerContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    drawerTonalElevation = STANDARD_TONAL_ELEVATION_DP.dp
-                ) {
-                    val selectedColor = MaterialTheme.colorScheme.secondaryContainer
-                    Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
-                    drawerItemsList.items.forEach { item ->
-                        NavigationDrawerItem(
-                            icon = { Icon(item.icon, contentDescription = null) },
-                            label = { Text(stringResource(id = item.screen.title)) },
-                            selected = item.screen.name == backStackState.value?.destination?.route,
-                            onClick = {
-                                scope.launch { drawerState.close() }
-                                navController.navigate(item.screen.name)
-                            },
-                            colors = NavigationDrawerItemDefaults.colors(
-                                unselectedContainerColor = Color.Transparent,
-                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                                selectedIconColor = selectedColor,
-                                selectedTextColor = selectedColor
-                            ),
-                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                        )
-                    }
-                }
-            }
+            drawerItemsList = drawerItemsList,
+            backStackState = backStackState,
+            scope = scope,
+            navController = navController
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.primaryContainer,
@@ -145,6 +124,49 @@ fun ClearSkiesApp(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun AppNavDrawer(
+    drawerState: DrawerState,
+    drawerItemsList: DrawerItemsList,
+    backStackState: State<NavBackStackEntry?>,
+    scope: CoroutineScope,
+    navController: NavHostController,
+    content: @Composable () -> Unit
+) {
+    ModalNavigationDrawer( // TODO(jherscu): Disable drawer while onboarding experience is on/ add onboarding logic
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                drawerTonalElevation = STANDARD_TONAL_ELEVATION_DP.dp
+            ) {
+                val selectedColor = MaterialTheme.colorScheme.secondaryContainer
+                Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
+                drawerItemsList.items.forEach { item ->
+                    NavigationDrawerItem(
+                        icon = { Icon(item.icon, contentDescription = null) },
+                        label = { Text(stringResource(id = item.screen.title)) },
+                        selected = item.screen.name == backStackState.value?.destination?.route,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(item.screen.name)
+                        },
+                        colors = NavigationDrawerItemDefaults.colors(
+                            unselectedContainerColor = Color.Transparent,
+                            selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                            selectedIconColor = selectedColor,
+                            selectedTextColor = selectedColor
+                        ),
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+                }
+            }
+        }
+    ) {
+        content()
     }
 }
 
