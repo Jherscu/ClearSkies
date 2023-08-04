@@ -1,8 +1,8 @@
-package com.jHerscu.clearskies.ui.hourly
+package com.jHerscu.clearskies.ui.search
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HourlyViewModel @Inject constructor() : ViewModel()
+class AddCityViewModel @Inject constructor() : ViewModel()

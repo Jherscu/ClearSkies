@@ -11,6 +11,10 @@
     <string name="weather_is_old">Error. Weather wouldn\'t update.</string>
     <string name="weather_not_cached">Error. There is no saved weather for this city! Something went wrong.</string>
 
-    <!-- Screen Titles -->
+    <!-- Route Titles -->
     <string name="home_screen">Home</string>
+    <string name="locations_screen">Locations</string>
+    <string name="add_city_screen">Add City</string>
+    <string name="preferences_screen">Preferences</string>
+    <string name="onboarding_screen">App Setup</string>
 </resources>

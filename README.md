@@ -114,23 +114,27 @@
 
 - Protect Main Branch after this commit 😆 [X - 7/2/23]
 
-- Add Static code analysis [x - 7/16/23]
+- Add Static code analysis [X - 7/16/23]
 
-- Add Ktlint Pre-push git hook [x - 7/16/23]
+- Add Ktlint Pre-push git hook [X - 7/16/23]
 
-- Add CI/CD using Github Actions [x - 7/16/23]
+- Add CI/CD using Github Actions [X - 7/16/23]
 
-- Modify PR's to use Squash Merge w/ PR title as commit (to find PR by name and look through commits if needed) [x - 7/16/23]
+- Modify PR's to use Squash Merge w/ PR title as commit (to find PR by name and look through commits if needed) [X - 7/16/23]
 
-- Create Kanban board in Github Projects [x - 7/17/23]
+- Create Kanban board in Github Projects [X - 7/17/23]
 
 ## Development/Testing Stage:
 
-- Implement Basic Layout/Menu []
+- Create custom app icon [X - 7/25/23]
 
-- Implement Nav Functionality []
+- Create splash screen [X - 7/25/23]
 
-- Write Modules []
+- Implement Nav Functionality/Menu [X - 7/30/23]
+
+- Implement Basic Layouts []
+
+- Write custom LazyLayout for displaying weather badges []
 
 - Write Networking Code/Unit Tests []
 
@@ -143,6 +147,8 @@
 - Link Data to UI []
 
 ## QA Testing/Refining Stage:
+
+- Perform UX study with small group []
 
 - Profile/Fine Tune UI []
 
