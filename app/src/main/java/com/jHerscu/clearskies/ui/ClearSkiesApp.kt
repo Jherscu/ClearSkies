@@ -85,12 +85,35 @@ fun ClearSkiesApp(
 ) {
     Surface {
         val backStackState = navController.currentBackStackEntryAsState()
-        AppNavDrawer(
+        ModalNavigationDrawer( // TODO(jherscu): Disable drawer while onboarding experience is on/ add onboarding logic
             drawerState = drawerState,
-            drawerItemsList = drawerItemsList,
-            backStackState = backStackState,
-            scope = scope,
-            navController = navController
+            drawerContent = {
+                ModalDrawerSheet(
+                    drawerContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    drawerTonalElevation = STANDARD_TONAL_ELEVATION_DP.dp
+                ) {
+                    val selectedColor = MaterialTheme.colorScheme.secondaryContainer
+                    Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
+                    drawerItemsList.items.forEach { item ->
+                        NavigationDrawerItem(
+                            icon = { Icon(item.icon, contentDescription = null) },
+                            label = { Text(stringResource(id = item.screen.title)) },
+                            selected = item.screen.name == backStackState.value?.destination?.route,
+                            onClick = {
+                                scope.launch { drawerState.close() }
+                                navController.navigate(item.screen.name)
+                            },
+                            colors = NavigationDrawerItemDefaults.colors(
+                                unselectedContainerColor = Color.Transparent,
+                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                                selectedIconColor = selectedColor,
+                                selectedTextColor = selectedColor
+                            ),
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        )
+                    }
+                }
+            }
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.primaryContainer,
