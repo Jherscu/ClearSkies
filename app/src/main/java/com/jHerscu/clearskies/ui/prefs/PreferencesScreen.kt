@@ -226,6 +226,7 @@ fun PreferencesScreen(
                 }
             }
         }
+        // TODO(jherscu): Add space for bottom bar tablet/nav
     }
 }
 
