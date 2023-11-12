@@ -1,5 +1,6 @@
 package com.jHerscu.clearskies.ui
 
+import android.app.Activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,8 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
@@ -29,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
@@ -38,7 +42,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jHerscu.clearskies.R
-import com.jHerscu.clearskies.ui.theme.STANDARD_TONAL_ELEVATION_DP
+import com.jHerscu.clearskies.ui.prefs.PreferencesScreen
+import com.jHerscu.clearskies.ui.theme.BASE_TONAL_ELEVATION_DP
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -58,8 +63,9 @@ data class DrawerItem(
 )
 
 @Immutable
-data class DrawerItemsList(val items: List<DrawerItem>)
+data class DrawerItemsList(val items: List<DrawerItem>) // TODO(jherscu): Convert to immutable list
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ClearSkiesApp(
     modifier: Modifier = Modifier,
@@ -84,6 +90,7 @@ fun ClearSkiesApp(
     )
 ) {
     Surface {
+        val windowSizeClass = calculateWindowSizeClass(activity = LocalContext.current as Activity)
         val backStackState = navController.currentBackStackEntryAsState()
         AppNavDrawer(
             drawerState = drawerState,
@@ -94,7 +101,7 @@ fun ClearSkiesApp(
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.primaryContainer,
-                tonalElevation = STANDARD_TONAL_ELEVATION_DP.dp
+                tonalElevation = BASE_TONAL_ELEVATION_DP.dp
             ) {
                 NavHost(
                     modifier = modifier,
@@ -112,7 +119,11 @@ fun ClearSkiesApp(
                         TestScreen(title = "ADD CITY") // TODO(jherscu): create to track ime insets
                     }
                     composable(Route.PREFERENCES.name) {
-                        TestScreen(title = "PREFERENCES")
+                        PreferencesScreen(
+                            drawerState = drawerState,
+                            scope = scope,
+                            windowSizeClass = windowSizeClass
+                        )
                     }
                     composable(Route.ONBOARDING.name) {
                         // TODO(jherscu): decide how to load api keys for both services
@@ -141,7 +152,7 @@ private fun AppNavDrawer(
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                drawerTonalElevation = STANDARD_TONAL_ELEVATION_DP.dp
+                drawerTonalElevation = BASE_TONAL_ELEVATION_DP.dp
             ) {
                 val selectedColor = MaterialTheme.colorScheme.secondaryContainer
                 Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
