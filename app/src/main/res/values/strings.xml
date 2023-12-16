@@ -42,7 +42,8 @@
     <string name="default_sort">Default</string>
     <string name="most_clicked_sort">Most Clicked</string>
     <string name="alphabetical_sort">Alphabetical</string>
-    <string name="rev_alphabetical_sort">Reverse Alphabetical</string>
+    <!-- Reverse Alphabetical -->
+    <string name="rev_alphabetical_sort">Rev. Alphabetical</string>
     <string name="custom_sort">Custom</string>
     <string name="group_by_column">Group By Column</string>
 

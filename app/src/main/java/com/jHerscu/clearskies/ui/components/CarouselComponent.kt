@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.jHerscu.clearskies.ui.theme.CORNER_RADIUS_DP
@@ -40,6 +41,7 @@ fun CarouselComponent(
     showMarkers: Boolean = true,
     pageContent: @Composable (PagerScope.(Int) -> Unit)
 ) {
+    val endPadding = LocalConfiguration.current.screenWidthDp.dp * .5f
     Column(
         modifier = modifier
             .border(
@@ -58,8 +60,10 @@ fun CarouselComponent(
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(
-                horizontal = Padding.STANDARD.dp * 2,
-                vertical = Padding.SMALL.dp
+                start = Padding.LARGE.dp,
+                end = endPadding,
+                top = Padding.SMALL.dp,
+                bottom = Padding.SMALL.dp,
             ),
             pageSpacing = Padding.STANDARD.dp
         ) {
