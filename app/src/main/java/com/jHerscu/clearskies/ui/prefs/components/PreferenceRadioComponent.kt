@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
-import com.jHerscu.clearskies.ui.theme.Padding
+import com.jHerscu.clearskies.ui.theme.Dimen
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -38,7 +38,7 @@ fun PreferenceRadioComponent(
     ) {
         Column(
             modifier = Modifier
-                .padding(vertical = Padding.MEDIUM.dp, horizontal = Padding.SMALL.dp),
+                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.Start
         ) {
@@ -67,13 +67,13 @@ private fun RadioButtonWithTitle(
 ) {
     Row(
         modifier = Modifier
-            .padding(vertical = Padding.MEDIUM.dp),
+            .padding(vertical = Dimen.MEDIUM.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         RadioButton(
             modifier = Modifier
-                .padding(end = Padding.SMALL.dp),
+                .padding(end = Dimen.SMALL.dp),
             selected = selected,
             onClick = { onClick() }
         )

@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
-import com.jHerscu.clearskies.ui.theme.Padding
+import com.jHerscu.clearskies.ui.theme.Dimen
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -38,7 +38,7 @@ fun PreferenceSwitchComponent(
     ) {
         FlowRow(
             modifier = Modifier
-                .padding(vertical = Padding.MEDIUM.dp, horizontal = Padding.SMALL.dp),
+                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
             verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.Start
         ) {
@@ -46,7 +46,7 @@ fun PreferenceSwitchComponent(
                 if (isInColumn) {
                     Modifier.weight(1F)
                 } else {
-                    Modifier.width(Padding.STANDARD.dp)
+                    Modifier.width(Dimen.STANDARD.dp)
                 }
             )
             Text(

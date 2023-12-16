@@ -15,29 +15,29 @@ const val ON_CARD_TONAL_ELEVATION_DP = 4
 const val CORNER_RADIUS_DP = 16
 
 // Based on Material 3 Spacing Recommendations
-private const val PADDING_EXTRA_LARGE = 24
-private const val PADDING_LARGE = 20
-private const val PADDING_STANDARD = 16
-private const val PADDING_MEDIUM = 12
-private const val PADDING_SMALL = 8
-private const val PADDING_EXTRA_SMALL = 4
+private const val DIMEN_EXTRA_LARGE = 24
+private const val DIMEN_LARGE = 20
+private const val DIMEN_STANDARD = 16
+private const val DIMEN_MEDIUM = 12
+private const val DIMEN_SMALL = 8
+private const val DIMEN_EXTRA_SMALL = 4
 
-enum class Padding(val dp: Dp) {
+enum class Dimen(val dp: Dp) {
     /** 4 **/
-    EXTRA_SMALL(PADDING_EXTRA_SMALL.dp),
+    EXTRA_SMALL(DIMEN_EXTRA_SMALL.dp),
 
     /** 8 **/
-    SMALL(PADDING_SMALL.dp),
+    SMALL(DIMEN_SMALL.dp),
 
     /** 12 **/
-    MEDIUM(PADDING_MEDIUM.dp),
+    MEDIUM(DIMEN_MEDIUM.dp),
 
     /** 16 **/
-    STANDARD(PADDING_STANDARD.dp),
+    STANDARD(DIMEN_STANDARD.dp),
 
     /** 20 **/
-    LARGE(PADDING_LARGE.dp),
+    LARGE(DIMEN_LARGE.dp),
 
     /** 24 **/
-    EXTRA_LARGE(PADDING_EXTRA_LARGE.dp)
+    EXTRA_LARGE(DIMEN_EXTRA_LARGE.dp)
 }

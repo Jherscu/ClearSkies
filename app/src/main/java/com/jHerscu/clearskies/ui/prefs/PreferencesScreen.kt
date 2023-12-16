@@ -53,7 +53,7 @@ import com.jHerscu.clearskies.ui.prefs.components.PreferenceCarouselItem
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceRadioComponent
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceSwitchComponent
 import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
-import com.jHerscu.clearskies.ui.theme.Padding
+import com.jHerscu.clearskies.ui.theme.Dimen
 import com.jHerscu.clearskies.utils.padding
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope
@@ -97,8 +97,8 @@ fun PreferencesScreen(
         Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         Row(
             modifier = Modifier.padding(
-                vertical = Padding.MEDIUM.dp,
-                horizontal = Padding.STANDARD.dp
+                vertical = Dimen.MEDIUM.dp,
+                horizontal = Dimen.STANDARD.dp
             )
         ) {
             FloatingMenuButton(
@@ -117,8 +117,8 @@ fun PreferencesScreen(
         CarouselComponent(
             modifier = Modifier
                 .padding(
-                    horizontal = Padding.STANDARD.dp,
-                    top = Padding.MEDIUM.dp
+                    horizontal = Dimen.STANDARD.dp,
+                    top = Dimen.MEDIUM.dp
                 ),
             count = carouselItems.size,
             title = {
@@ -126,8 +126,8 @@ fun PreferencesScreen(
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(
-                            start = Padding.MEDIUM.dp,
-                            top = Padding.MEDIUM.dp
+                            start = Dimen.MEDIUM.dp,
+                            top = Dimen.MEDIUM.dp
                         ),
                     text = stringResource(id = R.string.sort_prefs)
                 )
@@ -140,7 +140,7 @@ fun PreferencesScreen(
             }
         }
         PrimaryElevatedCard(
-            columnModifier = Modifier.padding(Padding.MEDIUM.dp)
+            columnModifier = Modifier.padding(Dimen.MEDIUM.dp)
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
@@ -161,7 +161,7 @@ fun PreferencesScreen(
                         modifier = Modifier
                             .then(
                                 if (prefGroup != prefGroups.last()) {
-                                    Modifier.padding(bottom = Padding.STANDARD.dp)
+                                    Modifier.padding(bottom = Dimen.STANDARD.dp)
                                 } else {
                                     Modifier
                                 }
@@ -185,7 +185,7 @@ fun PreferencesScreen(
                                     optionIsSelected = viewState.value.userPrefs.dynamicThemingOn,
                                     setOption = { viewModel.passIntent(Intent.DynamicThemingModeClick(it)) }
                                 )
-                                Spacer(modifier = Modifier.size(Padding.MEDIUM.dp))
+                                Spacer(modifier = Modifier.size(Dimen.MEDIUM.dp))
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.lock_theme),
@@ -212,7 +212,7 @@ fun PreferencesScreen(
                                     optionIsSelected = { it == viewState.value.userPrefs.tempUnit.name },
                                     setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) }
                                 )
-                                Spacer(modifier = Modifier.size(Padding.MEDIUM.dp))
+                                Spacer(modifier = Modifier.size(Dimen.MEDIUM.dp))
                                 PreferenceSwitchComponent(
                                     isInColumn = isColumn,
                                     modifier = weightModifier,
@@ -249,12 +249,12 @@ private fun GroupedPreferencesCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(vertical = Padding.MEDIUM.dp, horizontal = Padding.SMALL.dp)
+                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp)
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.titleMedium) { // Set default style
                 title()
             }
-            Spacer(modifier = Modifier.height(Padding.MEDIUM.dp))
+            Spacer(modifier = Modifier.height(Dimen.MEDIUM.dp))
             if (isColumn) {
                 movableContent()
             } else {

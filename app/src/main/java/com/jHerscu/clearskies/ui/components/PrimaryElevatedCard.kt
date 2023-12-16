@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jHerscu.clearskies.ui.theme.CARD_TONAL_ELEVATION_DP
-import com.jHerscu.clearskies.ui.theme.Padding
+import com.jHerscu.clearskies.ui.theme.Dimen
 import com.jHerscu.clearskies.utils.padding
 
 @Composable
@@ -22,8 +22,8 @@ fun PrimaryElevatedCard(
         modifier = modifier
             .fillMaxHeight()
             .padding(
-                horizontal = Padding.STANDARD.dp,
-                top = Padding.SMALL.dp
+                horizontal = Dimen.STANDARD.dp,
+                top = Dimen.SMALL.dp
             ),
         colors = CardDefaults.elevatedCardColors(
             containerColor = MaterialTheme.colorScheme.surface

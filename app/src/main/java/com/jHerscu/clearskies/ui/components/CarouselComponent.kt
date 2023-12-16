@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.jHerscu.clearskies.ui.theme.CORNER_RADIUS_DP
-import com.jHerscu.clearskies.ui.theme.Padding
+import com.jHerscu.clearskies.ui.theme.Dimen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -55,24 +55,24 @@ fun CarouselComponent(
             ProvideTextStyle(value = MaterialTheme.typography.titleMedium) {
                 it.invoke(this)
             }
-            Spacer(modifier = Modifier.height(Padding.SMALL.dp))
+            Spacer(modifier = Modifier.height(Dimen.SMALL.dp))
         }
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(
-                start = Padding.LARGE.dp,
+                start = Dimen.LARGE.dp,
                 end = endPadding,
-                top = Padding.SMALL.dp,
-                bottom = Padding.SMALL.dp,
+                top = Dimen.SMALL.dp,
+                bottom = Dimen.SMALL.dp,
             ),
-            pageSpacing = Padding.STANDARD.dp
+            pageSpacing = Dimen.STANDARD.dp
         ) {
             pageContent(it)
         }
         if (showMarkers) {
             CarouselItemMarkers(
                 modifier = Modifier
-                    .padding(Padding.SMALL.dp)
+                    .padding(Dimen.SMALL.dp)
                     .fillMaxWidth(),
                 count = count,
                 pagerState = pagerState
@@ -98,8 +98,8 @@ fun CarouselItemMarkers(
             }
             Box(
                 modifier = Modifier
-                    .padding(horizontal = Padding.EXTRA_SMALL.dp)
-                    .size(Padding.SMALL.dp)
+                    .padding(horizontal = Dimen.EXTRA_SMALL.dp)
+                    .size(Dimen.SMALL.dp)
                     .drawBehind { this.drawCircle(color) }
             )
         }
