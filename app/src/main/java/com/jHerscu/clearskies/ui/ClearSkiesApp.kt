@@ -25,7 +25,6 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -44,6 +43,8 @@ import androidx.navigation.compose.rememberNavController
 import com.jHerscu.clearskies.R
 import com.jHerscu.clearskies.ui.prefs.PreferencesScreen
 import com.jHerscu.clearskies.ui.theme.BASE_TONAL_ELEVATION_DP
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -62,8 +63,6 @@ data class DrawerItem(
     val screen: Route
 )
 
-@Immutable
-data class DrawerItemsList(val items: List<DrawerItem>) // TODO(jherscu): Convert to immutable list
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -72,20 +71,18 @@ fun ClearSkiesApp(
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
-    drawerItemsList: DrawerItemsList = DrawerItemsList(
-        listOf(
-            DrawerItem(
-                Icons.Default.Home,
-                Route.HOME
-            ),
-            DrawerItem(
-                Icons.Default.LocationOn,
-                Route.LOCATIONS
-            ),
-            DrawerItem(
-                Icons.Default.Edit,
-                Route.PREFERENCES
-            )
+    drawerItemsList: ImmutableList<DrawerItem> = persistentListOf(
+        DrawerItem(
+            Icons.Default.Home,
+            Route.HOME
+        ),
+        DrawerItem(
+            Icons.Default.LocationOn,
+            Route.LOCATIONS
+        ),
+        DrawerItem(
+            Icons.Default.Edit,
+            Route.PREFERENCES
         )
     )
 ) {
@@ -141,7 +138,7 @@ fun ClearSkiesApp(
 @Composable
 private fun AppNavDrawer(
     drawerState: DrawerState,
-    drawerItemsList: DrawerItemsList,
+    drawerItemsList: ImmutableList<DrawerItem>,
     backStackState: State<NavBackStackEntry?>,
     scope: CoroutineScope,
     navController: NavHostController,
@@ -156,7 +153,7 @@ private fun AppNavDrawer(
             ) {
                 val selectedColor = MaterialTheme.colorScheme.secondaryContainer
                 Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
-                drawerItemsList.items.forEach { item ->
+                drawerItemsList.forEach { item ->
                     NavigationDrawerItem(
                         icon = { Icon(item.icon, contentDescription = null) },
                         label = { Text(stringResource(id = item.screen.title)) },
