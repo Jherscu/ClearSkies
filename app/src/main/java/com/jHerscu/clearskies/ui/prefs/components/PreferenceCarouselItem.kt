@@ -26,7 +26,7 @@ fun PreferenceCarouselItem(
                 text = sortMethod,
                 style = MaterialTheme.typography.labelLarge,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

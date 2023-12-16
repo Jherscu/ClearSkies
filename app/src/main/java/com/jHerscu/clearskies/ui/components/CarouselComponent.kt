@@ -63,7 +63,7 @@ fun CarouselComponent(
                 start = Dimen.LARGE.dp,
                 end = endPadding,
                 top = Dimen.SMALL.dp,
-                bottom = Dimen.SMALL.dp,
+                bottom = Dimen.SMALL.dp
             ),
             pageSpacing = Dimen.STANDARD.dp
         ) {

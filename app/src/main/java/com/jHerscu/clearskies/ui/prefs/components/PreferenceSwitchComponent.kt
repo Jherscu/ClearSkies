@@ -14,8 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import com.jHerscu.clearskies.ui.theme.Dimen
+import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

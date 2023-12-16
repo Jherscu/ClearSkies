@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import com.jHerscu.clearskies.ui.theme.Dimen
+import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

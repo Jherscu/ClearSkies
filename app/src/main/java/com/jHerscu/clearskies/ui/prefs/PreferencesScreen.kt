@@ -52,8 +52,8 @@ import com.jHerscu.clearskies.ui.prefs.PreferencesViewModel.Intent
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceCarouselItem
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceRadioComponent
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceSwitchComponent
-import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import com.jHerscu.clearskies.ui.theme.Dimen
+import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import com.jHerscu.clearskies.utils.padding
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope

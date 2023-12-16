@@ -63,7 +63,6 @@ data class DrawerItem(
     val screen: Route
 )
 
-
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun ClearSkiesApp(
