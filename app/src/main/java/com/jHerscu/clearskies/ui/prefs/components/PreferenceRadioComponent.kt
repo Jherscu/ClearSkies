@@ -85,8 +85,7 @@ private fun RadioButtonWithTitle(
     }
 }
 
-interface RadioComponentData {
-    @get:StringRes
-    val labelRes: Int
+data class RadioComponentData(
+    @StringRes val labelRes: Int,
     val name: String
-}
+)

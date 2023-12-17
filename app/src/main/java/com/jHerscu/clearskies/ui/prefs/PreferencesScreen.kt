@@ -52,10 +52,11 @@ import com.jHerscu.clearskies.ui.prefs.PreferencesViewModel.Intent
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceCarouselItem
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceRadioComponent
 import com.jHerscu.clearskies.ui.prefs.components.PreferenceSwitchComponent
+import com.jHerscu.clearskies.ui.prefs.components.RadioComponentData
 import com.jHerscu.clearskies.ui.theme.Dimen
 import com.jHerscu.clearskies.ui.theme.ON_CARD_TONAL_ELEVATION_DP
 import com.jHerscu.clearskies.utils.padding
-import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -189,7 +190,12 @@ fun PreferencesScreen(
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.lock_theme),
-                                    options = LockedThemePref.entries.toPersistentList(),
+                                    options = LockedThemePref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.lockedTheme.name },
                                     setOption = { viewModel.passIntent(Intent.LockThemePrefClick(it)) }
                                 )
@@ -198,7 +204,12 @@ fun PreferencesScreen(
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.home_screen_pref_title),
-                                    options = HomeDisplayIntervalPref.entries.toPersistentList(),
+                                    options = HomeDisplayIntervalPref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.homeDisplayInterval.name },
                                     setOption = { viewModel.passIntent(Intent.HomeDisplayIntervalPrefClick(it)) }
                                 )
@@ -208,7 +219,12 @@ fun PreferencesScreen(
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.temp_unit_pref_title),
-                                    options = TempUnitPref.entries.toPersistentList(),
+                                    options = TempUnitPref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.tempUnit.name },
                                     setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) }
                                 )

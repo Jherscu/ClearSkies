@@ -3,21 +3,20 @@ package com.jHerscu.clearskies.domain.repoInterface
 import androidx.annotation.StringRes
 import androidx.datastore.preferences.core.Preferences
 import com.jHerscu.clearskies.R
-import com.jHerscu.clearskies.ui.prefs.components.RadioComponentData
 import kotlinx.coroutines.flow.Flow
 
-enum class TempUnitPref(override val labelRes: Int) : RadioComponentData {
+enum class TempUnitPref(@StringRes val labelRes: Int) {
     FAHRENHEIT(R.string.degrees_fahrenheit),
     CELSIUS(R.string.degrees_celcius)
 }
 
-enum class LockedThemePref(override val labelRes: Int) : RadioComponentData {
+enum class LockedThemePref(@StringRes val labelRes: Int) {
     LOCK_DARK(R.string.dark_mode),
     LOCK_LIGHT(R.string.light_mode),
     UNLOCKED(R.string.unlocked)
 }
 
-enum class HomeDisplayIntervalPref(override val labelRes: Int) : RadioComponentData {
+enum class HomeDisplayIntervalPref(@StringRes val labelRes: Int) {
     HOURLY(R.string.hourly),
     DAILY(R.string.daily)
 }
@@ -50,7 +49,7 @@ enum class PreferenceOrderComparator(
     MOST_CLICKED(
         R.string.most_clicked_sort,
         { _ ->
-            emptyList() // TODO(jherscu): instument interactions by card to prefs to form sort order
+            PreferenceGroup.defaultSortOrder // TODO(jherscu): instument interactions by card to prefs to form sort order
         }
     ),
     ALPHABETICAL( // Use translated strings as alphabetical could change based on language
@@ -72,7 +71,7 @@ enum class PreferenceOrderComparator(
     CUSTOM(
         R.string.custom_sort,
         { _ ->
-            emptyList() // TODO(jherscu): launch bottom sheet to select custom order and preserve as default for bottom sheet state in memory
+            PreferenceGroup.defaultSortOrder // TODO(jherscu): launch bottom sheet to select custom order and preserve as default for bottom sheet state in memory
         }
     )
 }
