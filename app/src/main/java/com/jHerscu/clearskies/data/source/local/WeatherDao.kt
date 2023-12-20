@@ -19,7 +19,6 @@ private const val WEEK_IN_SECONDS = 604800 // TODO(jherscu): convert to millisec
 
 @Dao
 interface WeatherDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertDailyForecast(forecast: LocalDailyForecast)
 
@@ -39,11 +38,18 @@ interface WeatherDao {
      * Checks if up to date weather forecasts exist for a given city. Checks if daily weather is available 7 days out.
      */
     @Query("SELECT * FROM daily_forecast WHERE qualified_name = :qualifiedName AND time_in_millis = (:currentDate + $WEEK_IN_SECONDS)")
-    fun validateDataUpToDateByCity(qualifiedName: String, currentDate: Int): Flow<LocalDailyForecast?>
+    fun validateDataUpToDateByCity(
+        qualifiedName: String,
+        currentDate: Int,
+    ): Flow<LocalDailyForecast?>
 
-    fun upToDateCityInfoExists(qualifiedName: String, currentDate: Int): Flow<Boolean> = validateDataUpToDateByCity(qualifiedName, currentDate)
-        .distinctUntilChanged()
-        .map { it != null }
+    fun upToDateCityInfoExists(
+        qualifiedName: String,
+        currentDate: Int,
+    ): Flow<Boolean> =
+        validateDataUpToDateByCity(qualifiedName, currentDate)
+            .distinctUntilChanged()
+            .map { it != null }
 
     /**
      * Checks if weather forecasts exist for a given city.
@@ -51,9 +57,10 @@ interface WeatherDao {
     @Query("SELECT * FROM hourly_forecast WHERE qualified_name = :qualifiedName")
     fun validateDataExistsByCity(qualifiedName: String): Flow<List<LocalHourlyForecast>?>
 
-    fun cityDataExists(qualifiedName: String): Flow<Boolean> = validateDataExistsByCity(qualifiedName)
-        .distinctUntilChanged()
-        .map { !it.isNullOrEmpty() }
+    fun cityDataExists(qualifiedName: String): Flow<Boolean> =
+        validateDataExistsByCity(qualifiedName)
+            .distinctUntilChanged()
+            .map { !it.isNullOrEmpty() }
 
     /**
      * Updates list of hourly forecasts for each city whenever the data in the table changes.

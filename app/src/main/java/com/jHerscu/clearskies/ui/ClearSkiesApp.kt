@@ -50,17 +50,19 @@ import kotlinx.coroutines.launch
 
 private const val NAV_DRAWER_TOP_PADDING_DP = 36
 
-enum class Route(@StringRes val title: Int) {
+enum class Route(
+    @StringRes val title: Int,
+) {
     HOME(R.string.home_screen),
     LOCATIONS(R.string.locations_screen),
     ADD_CITY(R.string.add_city_screen),
     PREFERENCES(R.string.preferences_screen),
-    ONBOARDING(R.string.onboarding_screen)
+    ONBOARDING(R.string.onboarding_screen),
 }
 
 data class DrawerItem(
     val icon: ImageVector,
-    val screen: Route
+    val screen: Route,
 )
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -70,20 +72,21 @@ fun ClearSkiesApp(
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
-    drawerItemsList: ImmutableList<DrawerItem> = persistentListOf(
-        DrawerItem(
-            Icons.Default.Home,
-            Route.HOME
+    drawerItemsList: ImmutableList<DrawerItem> =
+        persistentListOf(
+            DrawerItem(
+                Icons.Default.Home,
+                Route.HOME,
+            ),
+            DrawerItem(
+                Icons.Default.LocationOn,
+                Route.LOCATIONS,
+            ),
+            DrawerItem(
+                Icons.Default.Edit,
+                Route.PREFERENCES,
+            ),
         ),
-        DrawerItem(
-            Icons.Default.LocationOn,
-            Route.LOCATIONS
-        ),
-        DrawerItem(
-            Icons.Default.Edit,
-            Route.PREFERENCES
-        )
-    )
 ) {
     Surface {
         val windowSizeClass = calculateWindowSizeClass(activity = LocalContext.current as Activity)
@@ -93,16 +96,16 @@ fun ClearSkiesApp(
             drawerItemsList = drawerItemsList,
             backStackState = backStackState,
             scope = scope,
-            navController = navController
+            navController = navController,
         ) {
             Surface(
                 color = MaterialTheme.colorScheme.primaryContainer,
-                tonalElevation = BASE_TONAL_ELEVATION_DP.dp
+                tonalElevation = BASE_TONAL_ELEVATION_DP.dp,
             ) {
                 NavHost(
                     modifier = modifier,
                     navController = navController,
-                    startDestination = Route.HOME.name
+                    startDestination = Route.HOME.name,
                 ) {
                     composable(Route.HOME.name) {
                         TestScreen(title = "HOME")
@@ -118,7 +121,7 @@ fun ClearSkiesApp(
                         PreferencesScreen(
                             drawerState = drawerState,
                             scope = scope,
-                            windowSizeClass = windowSizeClass
+                            windowSizeClass = windowSizeClass,
                         )
                     }
                     composable(Route.ONBOARDING.name) {
@@ -141,14 +144,15 @@ private fun AppNavDrawer(
     backStackState: State<NavBackStackEntry?>,
     scope: CoroutineScope,
     navController: NavHostController,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    ModalNavigationDrawer( // TODO(jherscu): Disable drawer while onboarding experience is on/ add onboarding logic
+    ModalNavigationDrawer(
+        // TODO(jherscu): Disable drawer while onboarding experience is on/ add onboarding logic
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                drawerTonalElevation = BASE_TONAL_ELEVATION_DP.dp
+                drawerTonalElevation = BASE_TONAL_ELEVATION_DP.dp,
             ) {
                 val selectedColor = MaterialTheme.colorScheme.secondaryContainer
                 Spacer(Modifier.height(NAV_DRAWER_TOP_PADDING_DP.dp))
@@ -161,31 +165,34 @@ private fun AppNavDrawer(
                             scope.launch { drawerState.close() }
                             navController.navigate(item.screen.name)
                         },
-                        colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = Color.Transparent,
-                            selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                            selectedIconColor = selectedColor,
-                            selectedTextColor = selectedColor
-                        ),
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        colors =
+                            NavigationDrawerItemDefaults.colors(
+                                unselectedContainerColor = Color.Transparent,
+                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                                selectedIconColor = selectedColor,
+                                selectedTextColor = selectedColor,
+                            ),
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                     )
                 }
             }
-        }
+        },
     ) {
         content()
     }
 }
 
 @Composable
-private fun TestScreen( // TODO(jherscu): Rm test layouts for real impl
+private fun TestScreen(
+    // TODO(jherscu): Rm test layouts for real impl
     title: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         Text(text = title)
     }

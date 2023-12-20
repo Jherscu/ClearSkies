@@ -13,20 +13,20 @@ import androidx.compose.ui.text.style.TextOverflow
 fun PreferenceCarouselItem(
     sortMethod: String,
     modifier: Modifier = Modifier,
-    onItemTap: () -> Unit
+    onItemTap: () -> Unit,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { onItemTap() }
+            onClick = { onItemTap() },
         ) {
             Text(
                 text = sortMethod,
                 style = MaterialTheme.typography.labelLarge,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

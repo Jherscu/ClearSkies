@@ -7,5 +7,5 @@ data class CityResponse(
     val latitude: Float,
     val longitude: Float,
     val stateCode: String,
-    val city: String
+    val city: String,
 )

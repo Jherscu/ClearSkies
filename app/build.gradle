@@ -5,7 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'org.jlleitschuh.gradle.ktlint'
-    id("io.gitlab.arturbosch.detekt").version("$detekt_version")
+    id "io.gitlab.arturbosch.detekt" version("$detekt_version")
 }
 
 secrets {
@@ -29,6 +29,14 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    ktlint {
+        version = ktlint_version
+        additionalEditorconfig = [
+            "ktlint_experimental_function-type-modifier-spacing": "enabled",
+            "ktlint_function_naming_ignore_when_annotated_with": "Composable",
+        ]
     }
 
     buildTypes {

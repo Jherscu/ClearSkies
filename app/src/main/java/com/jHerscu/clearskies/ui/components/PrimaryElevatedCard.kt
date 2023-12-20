@@ -16,24 +16,27 @@ import com.jHerscu.clearskies.utils.padding
 fun PrimaryElevatedCard(
     modifier: Modifier = Modifier,
     columnModifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ElevatedCard(
-        modifier = modifier
-            .fillMaxHeight()
-            .padding(
-                horizontal = Dimen.STANDARD.dp,
-                top = Dimen.SMALL.dp
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .padding(
+                    horizontal = Dimen.STANDARD.dp,
+                    top = Dimen.SMALL.dp,
+                ),
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
             ),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = CARD_TONAL_ELEVATION_DP.dp
-        )
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = CARD_TONAL_ELEVATION_DP.dp,
+            ),
     ) {
         Column(
-            modifier = columnModifier
+            modifier = columnModifier,
         ) {
             content()
         }

@@ -25,41 +25,45 @@ fun PreferenceSwitchComponent(
     optionIsSelected: Boolean,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    setOption: (Boolean) -> Unit
+    setOption: (Boolean) -> Unit,
 ) {
     ElevatedCard(
         modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp
-        )
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp,
+            ),
     ) {
         FlowRow(
-            modifier = Modifier
-                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
+            modifier =
+                Modifier
+                    .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Start,
         ) {
-            val spacerModifier = Modifier.then(
-                if (isInColumn) {
-                    Modifier.weight(1F)
-                } else {
-                    Modifier.width(Dimen.STANDARD.dp)
-                }
-            )
+            val spacerModifier =
+                Modifier.then(
+                    if (isInColumn) {
+                        Modifier.weight(1F)
+                    } else {
+                        Modifier.width(Dimen.STANDARD.dp)
+                    },
+                )
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
             )
             Spacer(modifier = spacerModifier)
             Switch(
                 modifier = Modifier,
                 enabled = enabled,
                 checked = optionIsSelected,
-                onCheckedChange = { setOption(it) }
+                onCheckedChange = { setOption(it) },
             )
         }
     }

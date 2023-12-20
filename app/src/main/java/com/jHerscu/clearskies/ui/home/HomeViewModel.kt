@@ -31,159 +31,164 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val getCityByNameUseCase: GetCityByNameUseCase,
-    private val weatherUseCases: WeatherUseCases,
-    @MainDispatcher private val mainDispatcher: CoroutineDispatcher
-) : ViewModel() {
+class HomeViewModel
+    @Inject
+    constructor(
+        private val getCityByNameUseCase: GetCityByNameUseCase,
+        private val weatherUseCases: WeatherUseCases,
+        @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+    ) : ViewModel() {
+        private lateinit var city: String
 
-    private lateinit var city: String
+        private val _eventFlow = MutableSharedFlow<UiEvent>()
+        val eventFlow = _eventFlow.asSharedFlow()
 
-    private val _eventFlow = MutableSharedFlow<UiEvent>()
-    val eventFlow = _eventFlow.asSharedFlow()
+        private val errorChannel = Channel<TextWrapper>() // TODO(jherscu): SHARED FLOW OR BOILERPLATE STATE IN VmState
+        val errorFlow = errorChannel.receiveAsFlow()
 
-    private val errorChannel = Channel<TextWrapper>() // TODO(jherscu): SHARED FLOW OR BOILERPLATE STATE IN VmState
-    val errorFlow = errorChannel.receiveAsFlow()
+        private val _weatherData =
+            MutableLiveData(listOf<Forecast>()) // TODO() Set Error placeholder data so views can be populated
+        val weatherData: LiveData<List<Forecast>> get() = _weatherData
 
-    private val _weatherData =
-        MutableLiveData(listOf<Forecast>()) // TODO() Set Error placeholder data so views can be populated
-    val weatherData: LiveData<List<Forecast>> get() = _weatherData
+        private val _weatherIsRecent = MutableLiveData(false)
+        val weatherIsRecent: LiveData<Boolean> get() = _weatherIsRecent // TODO(jherscu): STATEFLOW
 
-    private val _weatherIsRecent = MutableLiveData(false)
-    val weatherIsRecent: LiveData<Boolean> get() = _weatherIsRecent // TODO(jherscu): STATEFLOW
+        private val _weatherInCache = MutableLiveData(false)
+        val weatherInCache: LiveData<Boolean> get() = _weatherInCache
 
-    private val _weatherInCache = MutableLiveData(false)
-    val weatherInCache: LiveData<Boolean> get() = _weatherInCache
+        init {
+            viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
 
-    init {
-        viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
+                val loadDataJob =
+                    coroutineScope {
 
-            val loadDataJob = coroutineScope {
+                        launch {
+                            weatherUseCases.validateWeatherUpToDateUseCase(
+                                qualifiedName = city,
+                                currentDate = 1,
+                            ).collect { cityUpToDate ->
+                                _weatherIsRecent.value = cityUpToDate
+                            }
+                        }
 
-                launch {
-                    weatherUseCases.validateWeatherUpToDateUseCase(
-                        qualifiedName = city,
-                        currentDate = 1
-                    ).collect { cityUpToDate ->
-                        _weatherIsRecent.value = cityUpToDate
+                        launch {
+                            weatherUseCases.validateWeatherExistsUseCase(
+                                qualifiedName = city,
+                            ).collect { weatherExists ->
+                                _weatherInCache.value = weatherExists
+                            }
+                        }
                     }
-                }
 
-                launch {
-                    weatherUseCases.validateWeatherExistsUseCase(
-                        qualifiedName = city
-                    ).collect { weatherExists ->
-                        _weatherInCache.value = weatherExists
-                    }
-                }
+                loadDataJob.join()
+                loadWeather()
             }
-
-            loadDataJob.join()
-            loadWeather()
         }
-    }
 
-    // TODO(jherscu): Call from fragment init
-    fun setCity(qualifiedName: String) {
-        city = qualifiedName
-    }
+        // TODO(jherscu): Call from fragment init
+        fun setCity(qualifiedName: String) {
+            city = qualifiedName
+        }
 
-    fun loadWeather() {
-        viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
+        fun loadWeather() {
+            viewModelScope.launch(mainDispatcher) { // TODO(jherscu): MAIN IMMEDIATE
 
-            cachePipeline@ while (weatherInCache.value == false || weatherIsRecent.value == false) {
-                // Fetch weather from client
-                val responseResource: Resource<UnparsedResponsesHolder?> = try {
-                    weatherUseCases.fetchAllWeatherUseCase(
-                        getCityByNameUseCase(city)
-                    )
-                } catch (e: HttpException) {
-                    errorChannel.send(TextWrapper.DynamicString(e.message()))
-                    Resource.Error(text = TextWrapper.StringResource(R.string.bad_response))
-                } catch (e: IOException) {
-                    errorChannel.send(TextWrapper.DynamicString(e.stackTraceToString()))
-                    Resource.Error(text = TextWrapper.StringResource(R.string.bad_connection))
-                }
-
-                // Map successful response or report fetching error and break loop
-                val mappingResource: Resource<
-                    Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>? // TODO(jherscu): typeAlias?
-                    > = when (responseResource) {
-                    is Resource.Success -> {
-                        with(responseResource.data!!) {
-                            weatherUseCases.mapWeatherToLocalUseCase(
-                                dailyAndHourlyWeatherResponse = dailyAndHourlyWeatherResponse,
-                                yesterdaysWeatherResponse = yesterdaysWeatherResponse,
-                                qualifiedName = city
+                cachePipeline@ while (weatherInCache.value == false || weatherIsRecent.value == false) {
+                    // Fetch weather from client
+                    val responseResource: Resource<UnparsedResponsesHolder?> =
+                        try {
+                            weatherUseCases.fetchAllWeatherUseCase(
+                                getCityByNameUseCase(city),
                             )
+                        } catch (e: HttpException) {
+                            errorChannel.send(TextWrapper.DynamicString(e.message()))
+                            Resource.Error(text = TextWrapper.StringResource(R.string.bad_response))
+                        } catch (e: IOException) {
+                            errorChannel.send(TextWrapper.DynamicString(e.stackTraceToString()))
+                            Resource.Error(text = TextWrapper.StringResource(R.string.bad_connection))
                         }
-                    }
-                    is Resource.Error -> { // TODO(jherscu): Collectors can check if is TextWrapper.DynamicString or .StringResource
-                        _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.fetch_error)))
-                        errorChannel.send(
-                            responseResource.text ?: TextWrapper
-                                .StringResource(R.string.unknown_error)
-                        ) // TODO(jherscu): log result from fragment
-                        break@cachePipeline
+
+                    // Map successful response or report fetching error and break loop
+                    // TODO(jherscu): typeAlias?
+                    val mappingResource: Resource<Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>?> =
+                        when (responseResource) {
+                            is Resource.Success -> {
+                                with(responseResource.data!!) {
+                                    weatherUseCases.mapWeatherToLocalUseCase(
+                                        dailyAndHourlyWeatherResponse = dailyAndHourlyWeatherResponse,
+                                        yesterdaysWeatherResponse = yesterdaysWeatherResponse,
+                                        qualifiedName = city,
+                                    )
+                                }
+                            }
+                            is Resource.Error -> { // TODO(jherscu): Collectors can check if is TextWrapper.DynamicString or .StringResource
+                                _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.fetch_error)))
+                                errorChannel.send(
+                                    responseResource.text ?: TextWrapper
+                                        .StringResource(R.string.unknown_error),
+                                ) // TODO(jherscu): log result from fragment
+                                break@cachePipeline
+                            }
+                        }
+
+                    // Cache mapped data or report mapping error and break loop
+                    val cacheResource: SimpleResource =
+                        when (mappingResource) {
+                            is Resource.Success -> {
+                                with(mappingResource.data!!) {
+                                    weatherUseCases.cacheWeatherUseCase(first, second)
+                                }
+                            }
+                            is Resource.Error -> {
+                                _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.map_error)))
+                                errorChannel.send(
+                                    responseResource.text ?: TextWrapper
+                                        .StringResource(R.string.unknown_error),
+                                ) // TODO(jherscu): log result from fragment
+                                break@cachePipeline
+                            }
+                        }
+
+                    // End pipeline with either success or error reporting
+                    when (cacheResource) {
+                        is Resource.Success -> {
+                            Timber.i("Weather cached successfully!")
+                            _weatherIsRecent.value = true
+                            _weatherInCache.value = true
+                        }
+                        is Resource.Error -> {
+                            _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.cache_error)))
+                            errorChannel.send(
+                                responseResource.text ?: TextWrapper
+                                    .StringResource(R.string.unknown_error),
+                            ) // TODO(jherscu): log result from fragment
+                            break@cachePipeline
+                        }
                     }
                 }
 
-                // Cache mapped data or report mapping error and break loop
-                val cacheResource: SimpleResource = when (mappingResource) {
-                    is Resource.Success -> {
-                        with(mappingResource.data!!) {
-                            weatherUseCases.cacheWeatherUseCase(first, second)
+                val upToDate =
+                    weatherUseCases.getWeatherDataUseCase(
+                        daily = true,
+                        qualifiedName = city,
+                        weatherInCache = weatherInCache.value!!,
+                        weatherIsRecent = weatherIsRecent.value!!,
+                    )
+
+                upToDate.collect { forecastListRes ->
+                    when (forecastListRes) {
+                        is Resource.Success -> {
+                            forecastListRes.text?.let { // If data is old a snackbar will alert the user
+                                _eventFlow.emit(UiEvent.ShowSnackbar(it))
+                            }
+                            // TODO(jherscu): Set Data to holder variable
                         }
-                    }
-                    is Resource.Error -> {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.map_error)))
-                        errorChannel.send(
-                            responseResource.text ?: TextWrapper
-                                .StringResource(R.string.unknown_error)
-                        ) // TODO(jherscu): log result from fragment
-                        break@cachePipeline
-                    }
-                }
-
-                // End pipeline with either success or error reporting
-                when (cacheResource) {
-                    is Resource.Success -> {
-                        Timber.i("Weather cached successfully!")
-                        _weatherIsRecent.value = true
-                        _weatherInCache.value = true
-                    }
-                    is Resource.Error -> {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.cache_error)))
-                        errorChannel.send(
-                            responseResource.text ?: TextWrapper
-                                .StringResource(R.string.unknown_error)
-                        ) // TODO(jherscu): log result from fragment
-                        break@cachePipeline
-                    }
-                }
-            }
-
-            val upToDate = weatherUseCases.getWeatherDataUseCase(
-                daily = true,
-                qualifiedName = city,
-                weatherInCache = weatherInCache.value!!,
-                weatherIsRecent = weatherIsRecent.value!!
-            )
-
-            upToDate.collect { forecastListRes ->
-                when (forecastListRes) {
-                    is Resource.Success -> {
-                        forecastListRes.text?.let { // If data is old a snackbar will alert the user
-                            _eventFlow.emit(UiEvent.ShowSnackbar(it))
+                        is Resource.Error -> {
+                            _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.cache_error)))
+                            this.cancel() // Cancels viewModelScope
                         }
-                        // TODO(jherscu): Set Data to holder variable
-                    }
-                    is Resource.Error -> {
-                        _eventFlow.emit(UiEvent.ShowSnackbar(TextWrapper.StringResource(R.string.cache_error)))
-                        this.cancel() // Cancels viewModelScope
                     }
                 }
             }
         }
     }
-}

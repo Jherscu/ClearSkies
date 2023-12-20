@@ -9,7 +9,11 @@ import androidx.annotation.StringRes
  */
 sealed class TextWrapper { // TODO(jherscu): verify need
     data class DynamicString(val string: String) : TextWrapper()
-    class StringResource(@StringRes val id: Int, vararg val args: Any) : TextWrapper()
+
+    class StringResource(
+        @StringRes val id: Int,
+        vararg val args: Any,
+    ) : TextWrapper()
 
     fun asString(context: Context): String {
         return when (this) {

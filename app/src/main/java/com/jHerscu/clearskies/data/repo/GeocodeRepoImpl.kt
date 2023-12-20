@@ -17,59 +17,60 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GeocodeRepoImpl @Inject constructor(
-    private val cityDao: CityDao,
-    private val geocodeApiService: GeocodeApiService,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : GeocodeRepo {
-
-    /**
-     * Switches locally to IO thread pool and fetches the city list in a wrapper class
-     * to track the success of the query.
-     */
-    override suspend fun fetchCityList(query: String): Resource<SuggestedCitiesResponse?> {
-        return withContext(ioDispatcher) {
-            try {
-                val response = geocodeApiService.getListOfCities(query)
-                if (response.isSuccessful) {
-                    Resource.Success(response.body())
-                } else {
-                    Resource.Error(text = TextWrapper.DynamicString(response.message()))
+class GeocodeRepoImpl
+    @Inject
+    constructor(
+        private val cityDao: CityDao,
+        private val geocodeApiService: GeocodeApiService,
+        @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    ) : GeocodeRepo {
+        /**
+         * Switches locally to IO thread pool and fetches the city list in a wrapper class
+         * to track the success of the query.
+         */
+        override suspend fun fetchCityList(query: String): Resource<SuggestedCitiesResponse?> {
+            return withContext(ioDispatcher) {
+                try {
+                    val response = geocodeApiService.getListOfCities(query)
+                    if (response.isSuccessful) {
+                        Resource.Success(response.body())
+                    } else {
+                        Resource.Error(text = TextWrapper.DynamicString(response.message()))
+                    }
+                } catch (e: IOException) {
+                    Resource.Error(text = TextWrapper.StringResource(R.string.bad_connection))
+                } catch (e: HttpException) {
+                    Resource.Error(text = TextWrapper.StringResource(R.string.bad_response))
                 }
-            } catch (e: IOException) {
-                Resource.Error(text = TextWrapper.StringResource(R.string.bad_connection))
-            } catch (e: HttpException) {
-                Resource.Error(text = TextWrapper.StringResource(R.string.bad_response))
             }
         }
-    }
 
     /*
         Database calls are executed from main thread as they offload to their own custom
         thread pool using the room/coroutine interoperability. Switching to Dispatchers.IO
         would otherwise slow down any operations.
-    */
-
-    override suspend fun getGeocodedCity(qualifiedName: String): LocalGeocodedCity {
-        return cityDao.getCityByName(qualifiedName)
-    }
-
-    override suspend fun cacheGeocodedCity(city: LocalGeocodedCity) {
-        cityDao.upsertCity(city)
-    }
-
-    override suspend fun deleteCity(city: LocalGeocodedCity) {
-        cityDao.deleteCity(city)
-    }
-
-    /**
-     * Subscribes downstream collectors to get the updated list of cities every time a new city
-     * is added to the database.
-     *
-     * .distinctUntilChanged() filters out any redundant updates when
-     * another part of the db changes.
      */
-    override suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>> {
-        return cityDao.getAllCities().distinctUntilChanged()
+
+        override suspend fun getGeocodedCity(qualifiedName: String): LocalGeocodedCity {
+            return cityDao.getCityByName(qualifiedName)
+        }
+
+        override suspend fun cacheGeocodedCity(city: LocalGeocodedCity) {
+            cityDao.upsertCity(city)
+        }
+
+        override suspend fun deleteCity(city: LocalGeocodedCity) {
+            cityDao.deleteCity(city)
+        }
+
+        /**
+         * Subscribes downstream collectors to get the updated list of cities every time a new city
+         * is added to the database.
+         *
+         * .distinctUntilChanged() filters out any redundant updates when
+         * another part of the db changes.
+         */
+        override suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>> {
+            return cityDao.getAllCities().distinctUntilChanged()
+        }
     }
-}

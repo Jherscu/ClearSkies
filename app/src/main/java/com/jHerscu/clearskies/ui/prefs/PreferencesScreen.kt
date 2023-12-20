@@ -67,7 +67,7 @@ fun PreferencesScreen(
     scope: CoroutineScope,
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
-    viewModel: PreferencesViewModel = hiltViewModel()
+    viewModel: PreferencesViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
 
@@ -77,106 +77,115 @@ fun PreferencesScreen(
 
     LaunchedEffect(viewState.value.userPrefs.prefOrderComparator) {
         this.launch {
-            val sorted = with(viewState.value) {
-                viewModel.sortPrefGroups(
-                    translatedPrefGroups = prefGroups.map {
-                        TranslatedPrefGroup(
-                            translatedTitle = context.getString(it.titleRes),
-                            prefGroup = it
-                        )
-                    },
-                    comparator = userPrefs.prefOrderComparator
-                )
-            }
+            val sorted =
+                with(viewState.value) {
+                    viewModel.sortPrefGroups(
+                        translatedPrefGroups =
+                            prefGroups.map {
+                                TranslatedPrefGroup(
+                                    translatedTitle = context.getString(it.titleRes),
+                                    prefGroup = it,
+                                )
+                            },
+                        comparator = userPrefs.prefOrderComparator,
+                    )
+                }
             viewModel.updatePrefGroupOrder(sorted)
         }
     }
 
     Column(
-        modifier.fillMaxSize()
+        modifier.fillMaxSize(),
     ) {
         Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         Row(
-            modifier = Modifier.padding(
-                vertical = Dimen.MEDIUM.dp,
-                horizontal = Dimen.STANDARD.dp
-            )
+            modifier =
+                Modifier.padding(
+                    vertical = Dimen.MEDIUM.dp,
+                    horizontal = Dimen.STANDARD.dp,
+                ),
         ) {
             FloatingMenuButton(
                 drawerState = drawerState,
-                scope = scope
+                scope = scope,
             )
             Spacer(modifier = Modifier.weight(1f))
             PreferenceSwitchComponent(
                 title = stringResource(id = R.string.group_by_column),
                 optionIsSelected = isColumn,
                 setOption = { isColumn = it },
-                isInColumn = false
+                isInColumn = false,
             )
         }
         val carouselItems = remember { PreferenceOrderComparator.entries }
         CarouselComponent(
-            modifier = Modifier
-                .padding(
-                    horizontal = Dimen.STANDARD.dp,
-                    top = Dimen.MEDIUM.dp
-                ),
+            modifier =
+                Modifier
+                    .padding(
+                        horizontal = Dimen.STANDARD.dp,
+                        top = Dimen.MEDIUM.dp,
+                    ),
             count = carouselItems.size,
             title = {
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .padding(
-                            start = Dimen.MEDIUM.dp,
-                            top = Dimen.MEDIUM.dp
-                        ),
-                    text = stringResource(id = R.string.sort_prefs)
+                    modifier =
+                        Modifier
+                            .align(Alignment.Start)
+                            .padding(
+                                start = Dimen.MEDIUM.dp,
+                                top = Dimen.MEDIUM.dp,
+                            ),
+                    text = stringResource(id = R.string.sort_prefs),
                 )
-            }
+            },
         ) { item ->
             PreferenceCarouselItem(
-                sortMethod = stringResource(id = carouselItems[item].titleRes)
+                sortMethod = stringResource(id = carouselItems[item].titleRes),
             ) {
                 viewModel.passIntent(Intent.UpdateSortOrderClick(carouselItems[item].name))
             }
         }
         PrimaryElevatedCard(
-            columnModifier = Modifier.padding(Dimen.MEDIUM.dp)
+            columnModifier = Modifier.padding(Dimen.MEDIUM.dp),
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
-                columns = if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
-                    GridCells.Fixed(2)
-                } else {
-                    GridCells.Fixed(1)
-                },
+                columns =
+                    if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+                        GridCells.Fixed(2)
+                    } else {
+                        GridCells.Fixed(1)
+                    },
                 horizontalArrangement = Arrangement.Start,
-                verticalArrangement = Arrangement.Top
+                verticalArrangement = Arrangement.Top,
             ) {
                 val prefGroups = viewState.value.prefGroups
                 items(
                     items = prefGroups,
-                    key = { it.name } // TODO(jherscu): Declare localized string as key in case of language pref change?
+                    // TODO(jherscu): Declare localized string as key in case of language pref change?
+                    key = { it.name },
                 ) { prefGroup ->
                     GroupedPreferencesCard(
-                        modifier = Modifier
-                            .then(
-                                if (prefGroup != prefGroups.last()) {
-                                    Modifier.padding(bottom = Dimen.STANDARD.dp)
-                                } else {
-                                    Modifier
-                                }
-                            ),
+                        modifier =
+                            Modifier
+                                .then(
+                                    if (prefGroup != prefGroups.last()) {
+                                        Modifier.padding(bottom = Dimen.STANDARD.dp)
+                                    } else {
+                                        Modifier
+                                    },
+                                ),
                         isColumn = isColumn,
-                        title = { Text(text = stringResource(id = prefGroup.titleRes)) }
+                        title = { Text(text = stringResource(id = prefGroup.titleRes)) },
                     ) {
-                        val weightModifier = Modifier.then(
-                            if (isColumn) {
-                                Modifier.fillMaxWidth()
-                            } else {
-                                Modifier.weight(1f)
-                            }
-                        )
+                        val weightModifier =
+                            Modifier.then(
+                                if (isColumn) {
+                                    Modifier.fillMaxWidth()
+                                } else {
+                                    Modifier.weight(1f)
+                                },
+                            )
                         when (prefGroup) {
                             PreferenceGroup.THEME -> {
                                 PreferenceSwitchComponent(
@@ -184,34 +193,36 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.dynamic_theming),
                                     optionIsSelected = viewState.value.userPrefs.dynamicThemingOn,
-                                    setOption = { viewModel.passIntent(Intent.DynamicThemingModeClick(it)) }
+                                    setOption = { viewModel.passIntent(Intent.DynamicThemingModeClick(it)) },
                                 )
                                 Spacer(modifier = Modifier.size(Dimen.MEDIUM.dp))
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.lock_theme),
-                                    options = LockedThemePref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name
-                                        )
-                                    }.toImmutableList(),
+                                    options =
+                                        LockedThemePref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.lockedTheme.name },
-                                    setOption = { viewModel.passIntent(Intent.LockThemePrefClick(it)) }
+                                    setOption = { viewModel.passIntent(Intent.LockThemePrefClick(it)) },
                                 )
                             }
                             PreferenceGroup.HOME -> {
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.home_screen_pref_title),
-                                    options = HomeDisplayIntervalPref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name
-                                        )
-                                    }.toImmutableList(),
+                                    options =
+                                        HomeDisplayIntervalPref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.homeDisplayInterval.name },
-                                    setOption = { viewModel.passIntent(Intent.HomeDisplayIntervalPrefClick(it)) }
+                                    setOption = { viewModel.passIntent(Intent.HomeDisplayIntervalPrefClick(it)) },
                                 )
                                 // TODO(jherscu): Determine if spacer with same weight is needed for row config
                             }
@@ -219,14 +230,15 @@ fun PreferencesScreen(
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.temp_unit_pref_title),
-                                    options = TempUnitPref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name
-                                        )
-                                    }.toImmutableList(),
+                                    options =
+                                        TempUnitPref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.tempUnit.name },
-                                    setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) }
+                                    setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) },
                                 )
                                 Spacer(modifier = Modifier.size(Dimen.MEDIUM.dp))
                                 PreferenceSwitchComponent(
@@ -234,7 +246,7 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.twenty_four_hour_mode),
                                     optionIsSelected = viewState.value.userPrefs.twentyFourHourModeOn,
-                                    setOption = { viewModel.passIntent(Intent.TwentyFourHourModeClick(it)) }
+                                    setOption = { viewModel.passIntent(Intent.TwentyFourHourModeClick(it)) },
                                 )
                             }
                         }
@@ -251,21 +263,24 @@ private fun GroupedPreferencesCard(
     isColumn: Boolean,
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val movableContent = remember { movableContentOf(content) }
     ElevatedCard(
         modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp
-        )
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp,
+            ),
     ) {
         Column(
-            modifier = Modifier
-                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp)
+            modifier =
+                Modifier
+                    .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
         ) {
             ProvideTextStyle(value = MaterialTheme.typography.titleMedium) { // Set default style
                 title()

@@ -8,15 +8,14 @@ import com.jHerscu.clearskies.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepo {
-
     suspend fun fetchWeatherData(
         city: LocalGeocodedCity,
-        date: Long
+        date: Long,
     ): Resource<UnparsedResponsesHolder?>
 
     suspend fun cacheWeatherData(
         dailyData: List<LocalDailyForecast>,
-        hourlyData: List<LocalHourlyForecast>
+        hourlyData: List<LocalHourlyForecast>,
     )
 
     suspend fun deleteWeatherForCity(city: LocalGeocodedCity)

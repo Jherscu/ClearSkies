@@ -39,5 +39,5 @@ enum class Dimen(val dp: Dp) {
     LARGE(DIMEN_LARGE.dp),
 
     /** 24 **/
-    EXTRA_LARGE(DIMEN_EXTRA_LARGE.dp)
+    EXTRA_LARGE(DIMEN_EXTRA_LARGE.dp),
 }

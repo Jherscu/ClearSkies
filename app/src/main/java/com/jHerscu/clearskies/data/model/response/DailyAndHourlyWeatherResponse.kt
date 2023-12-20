@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 data class DailyAndHourlyWeatherResponse(
     val current: HourlyWeatherResponse,
     val hourly: List<HourlyWeatherResponse>,
-    val daily: List<DailyWeatherResponse>
+    val daily: List<DailyWeatherResponse>,
 )

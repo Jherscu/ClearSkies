@@ -9,13 +9,15 @@ import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalIcon
 import com.jHerscu.clearskies.utils.BitmapTypeConverter
 
+// TODO(jherscu): migrate and write database tests
 @Database(
     entities = [LocalGeocodedCity::class, LocalDailyForecast::class, LocalHourlyForecast::class, LocalIcon::class],
     version = 1,
-    exportSchema = false // TODO(jherscu): migrate and write database tests
+    exportSchema = false,
 )
 @TypeConverters(BitmapTypeConverter::class)
 abstract class AppDb : RoomDatabase() {
     abstract fun getWeatherDao(): WeatherDao
+
     abstract fun getCityDao(): CityDao
 }

@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class UnparsedResponsesHolder(
     val dailyAndHourlyWeatherResponse: DailyAndHourlyWeatherResponse,
-    val yesterdaysWeatherResponse: YesterdaysWeatherResponse
+    val yesterdaysWeatherResponse: YesterdaysWeatherResponse,
 )

@@ -39,17 +39,18 @@ fun CarouselComponent(
     title: @Composable (ColumnScope.() -> Unit)? = null,
     pagerState: PagerState = rememberPagerState { count },
     showMarkers: Boolean = true,
-    pageContent: @Composable (PagerScope.(Int) -> Unit)
+    pageContent: @Composable (PagerScope.(Int) -> Unit),
 ) {
     val endPadding = LocalConfiguration.current.screenWidthDp.dp * .5f
     Column(
-        modifier = modifier
-            .border(
-                width = DividerDefaults.Thickness,
-                color = MaterialTheme.colorScheme.inverseSurface,
-                shape = RoundedCornerShape(CORNER_RADIUS_DP.dp)
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .border(
+                    width = DividerDefaults.Thickness,
+                    color = MaterialTheme.colorScheme.inverseSurface,
+                    shape = RoundedCornerShape(CORNER_RADIUS_DP.dp),
+                ),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         title?.let {
             ProvideTextStyle(value = MaterialTheme.typography.titleMedium) {
@@ -59,23 +60,25 @@ fun CarouselComponent(
         }
         HorizontalPager(
             state = pagerState,
-            contentPadding = PaddingValues(
-                start = Dimen.LARGE.dp,
-                end = endPadding,
-                top = Dimen.SMALL.dp,
-                bottom = Dimen.SMALL.dp
-            ),
-            pageSpacing = Dimen.STANDARD.dp
+            contentPadding =
+                PaddingValues(
+                    start = Dimen.LARGE.dp,
+                    end = endPadding,
+                    top = Dimen.SMALL.dp,
+                    bottom = Dimen.SMALL.dp,
+                ),
+            pageSpacing = Dimen.STANDARD.dp,
         ) {
             pageContent(it)
         }
         if (showMarkers) {
             CarouselItemMarkers(
-                modifier = Modifier
-                    .padding(Dimen.SMALL.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(Dimen.SMALL.dp)
+                        .fillMaxWidth(),
                 count = count,
-                pagerState = pagerState
+                pagerState = pagerState,
             )
         }
     }
@@ -86,21 +89,26 @@ fun CarouselComponent(
 fun CarouselItemMarkers(
     count: Int,
     pagerState: PagerState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.clearAndSetSemantics {}, // Unregister from TalkBack traversal
-        horizontalArrangement = Arrangement.Center
+        modifier =
+            modifier
+                // Unregister from TalkBack traversal
+                .clearAndSetSemantics {},
+        horizontalArrangement = Arrangement.Center,
     ) {
         repeat(count) {
-            val color = with(MaterialTheme.colorScheme) {
-                if (it == pagerState.currentPage) outline else outlineVariant
-            }
+            val color =
+                with(MaterialTheme.colorScheme) {
+                    if (it == pagerState.currentPage) outline else outlineVariant
+                }
             Box(
-                modifier = Modifier
-                    .padding(horizontal = Dimen.EXTRA_SMALL.dp)
-                    .size(Dimen.SMALL.dp)
-                    .drawBehind { this.drawCircle(color) }
+                modifier =
+                    Modifier
+                        .padding(horizontal = Dimen.EXTRA_SMALL.dp)
+                        .size(Dimen.SMALL.dp)
+                        .drawBehind { this.drawCircle(color) },
             )
         }
     }

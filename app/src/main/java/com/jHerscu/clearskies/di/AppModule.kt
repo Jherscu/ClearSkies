@@ -27,14 +27,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Singleton
     @Provides
-    fun provideWeatherMapper(
-        weatherDao: WeatherDao
-    ): WeatherForecastMapper { // TODO(jherscu): rm provides
+    fun provideWeatherMapper(weatherDao: WeatherDao): WeatherForecastMapper { // TODO(jherscu): rm provides
         return WeatherForecastMapper(
-            weatherDao = weatherDao
+            weatherDao = weatherDao,
         )
     }
 
@@ -54,7 +51,7 @@ object AppModule {
         cacheIconUseCase: CacheIconUseCase,
         mapWeatherToLocalUseCase: MapWeatherToLocalUseCase,
         validateWeatherExistsUseCase: ValidateWeatherExistsUseCase,
-        validateWeatherUpToDateUseCase: ValidateWeatherUpToDateUseCase
+        validateWeatherUpToDateUseCase: ValidateWeatherUpToDateUseCase,
     ): WeatherUseCases {
         return WeatherUseCases(
             getWeatherDataUseCase = getWeatherDataUseCase,
@@ -64,7 +61,7 @@ object AppModule {
             cacheIconUseCase = cacheIconUseCase,
             mapWeatherToLocalUseCase = mapWeatherToLocalUseCase,
             validateWeatherExistsUseCase = validateWeatherExistsUseCase,
-            validateWeatherUpToDateUseCase = validateWeatherUpToDateUseCase
+            validateWeatherUpToDateUseCase = validateWeatherUpToDateUseCase,
         )
     }
 
@@ -75,14 +72,14 @@ object AppModule {
         deleteCityWithWeatherUseCase: DeleteCityWithWeatherUseCase,
         getAllCitiesUseCase: GetAllCitiesUseCase,
         getCityOptionsUseCase: GetCityOptionsUseCase,
-        getCityByNameUseCase: GetCityByNameUseCase
+        getCityByNameUseCase: GetCityByNameUseCase,
     ): CitiesUseCases {
         return CitiesUseCases(
             cacheNewCityUseCase = cacheNewCityUseCase,
             deleteCityWithWeatherUseCase = deleteCityWithWeatherUseCase,
             getAllCitiesUseCase = getAllCitiesUseCase,
             getCityOptionsUseCase = getCityOptionsUseCase,
-            getCityByNameUseCaseUseCase = getCityByNameUseCase
+            getCityByNameUseCaseUseCase = getCityByNameUseCase,
         )
     }
 }

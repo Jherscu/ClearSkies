@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CityDao {
-
     @Query("SELECT * FROM geocoded_city")
     fun getAllCities(): Flow<List<LocalGeocodedCity>>
 

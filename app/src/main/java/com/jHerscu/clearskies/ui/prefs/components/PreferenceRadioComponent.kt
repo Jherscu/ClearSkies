@@ -25,32 +25,35 @@ fun PreferenceRadioComponent(
     options: ImmutableList<RadioComponentData>,
     optionIsSelected: (String) -> Boolean,
     modifier: Modifier = Modifier,
-    setOption: (String) -> Unit
+    setOption: (String) -> Unit,
 ) {
     ElevatedCard(
         modifier = modifier,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp
-        )
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = ON_CARD_TONAL_ELEVATION_DP.dp,
+            ),
     ) {
         Column(
-            modifier = Modifier
-                .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
+            modifier =
+                Modifier
+                    .padding(vertical = Dimen.MEDIUM.dp, horizontal = Dimen.SMALL.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
             )
             for (option in options) {
                 RadioButtonWithTitle(
                     title = stringResource(id = option.labelRes),
-                    selected = optionIsSelected(option.name)
+                    selected = optionIsSelected(option.name),
                 ) {
                     setOption(option.name)
                 }
@@ -63,29 +66,31 @@ fun PreferenceRadioComponent(
 private fun RadioButtonWithTitle(
     title: String,
     selected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .padding(vertical = Dimen.MEDIUM.dp),
+        modifier =
+            Modifier
+                .padding(vertical = Dimen.MEDIUM.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         RadioButton(
-            modifier = Modifier
-                .padding(end = Dimen.SMALL.dp),
+            modifier =
+                Modifier
+                    .padding(end = Dimen.SMALL.dp),
             selected = selected,
-            onClick = { onClick() }
+            onClick = { onClick() },
         )
         Text(
             text = title,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
 
 data class RadioComponentData(
     @StringRes val labelRes: Int,
-    val name: String
+    val name: String,
 )

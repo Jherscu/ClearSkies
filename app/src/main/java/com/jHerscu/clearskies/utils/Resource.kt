@@ -9,5 +9,6 @@ typealias SimpleResource = Resource<Unit>
  */
 sealed class Resource<T>(val data: T? = null, val text: TextWrapper? = null) {
     class Success<T>(data: T?, text: TextWrapper? = null) : Resource<T>(data, text)
+
     class Error<T>(data: T? = null, text: TextWrapper) : Resource<T>(data, text)
 }

@@ -11,5 +11,5 @@ data class LocalIcon(
     @ColumnInfo(name = "icon_code")
     val iconCode: String,
     @ColumnInfo(name = "icon_bitmap")
-    val iconBitmap: Bitmap
+    val iconBitmap: Bitmap,
 )

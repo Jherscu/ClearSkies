@@ -9,5 +9,5 @@ data class PreviousDailyWeatherResponse(
     val dateInMillis: Long,
     val temp: Float,
     val humidity: Int,
-    val weather: DescriptionResponse
+    val weather: DescriptionResponse,
 )

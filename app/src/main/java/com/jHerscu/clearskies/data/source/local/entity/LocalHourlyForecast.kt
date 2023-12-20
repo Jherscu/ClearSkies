@@ -6,7 +6,7 @@ import androidx.room.Entity
 
 @Entity(
     tableName = "hourly_forecast",
-    primaryKeys = ["qualified_name", "time_in_millis"]
+    primaryKeys = ["qualified_name", "time_in_millis"],
 )
 data class LocalHourlyForecast(
     @NonNull
@@ -27,5 +27,5 @@ data class LocalHourlyForecast(
     val weatherDescription: String,
     @NonNull
     @ColumnInfo(name = "icon_code")
-    val iconCode: String
+    val iconCode: String,
 )

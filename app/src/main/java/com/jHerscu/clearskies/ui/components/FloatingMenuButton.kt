@@ -22,21 +22,21 @@ import kotlinx.coroutines.launch
 fun FloatingMenuButton(
     drawerState: DrawerState,
     scope: CoroutineScope,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ExtendedFloatingActionButton(
         modifier = modifier,
         text = {
             Text(
                 text = stringResource(id = R.string.menu),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         },
         icon = {
             Image(
                 imageVector = Icons.Default.Menu,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary)
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary),
             )
         },
         elevation = FloatingActionButtonDefaults.elevation(defaultElevation = CARD_TONAL_ELEVATION_DP.dp),
@@ -46,6 +46,6 @@ fun FloatingMenuButton(
             scope.launch {
                 drawerState.open()
             }
-        }
+        },
     )
 }

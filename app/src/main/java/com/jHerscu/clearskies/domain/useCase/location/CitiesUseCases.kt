@@ -5,5 +5,5 @@ data class CitiesUseCases(
     val deleteCityWithWeatherUseCase: DeleteCityWithWeatherUseCase,
     val getAllCitiesUseCase: GetAllCitiesUseCase,
     val getCityOptionsUseCase: GetCityOptionsUseCase,
-    val getCityByNameUseCaseUseCase: GetCityByNameUseCase
+    val getCityByNameUseCaseUseCase: GetCityByNameUseCase,
 )

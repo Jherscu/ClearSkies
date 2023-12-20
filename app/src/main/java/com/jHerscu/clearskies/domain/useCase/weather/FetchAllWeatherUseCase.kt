@@ -10,20 +10,20 @@ import java.time.Instant
 import java.time.Period
 import javax.inject.Inject
 
-class FetchAllWeatherUseCase @Inject constructor(
-    private val weatherRepo: WeatherRepoImpl
+class FetchAllWeatherUseCase
+    @Inject
+    constructor(
+        private val weatherRepo: WeatherRepoImpl,
+    ) {
+        suspend operator fun invoke(localCity: LocalGeocodedCity): Resource<UnparsedResponsesHolder?> {
+            return withContext(Dispatchers.IO) {
+                val yesterday =
+                    Instant // TODO(jherscu): Confirm Displays correct time
+                        .now()
+                        .minus(Period.ofDays(1))
+                        .toEpochMilli()
 
-) {
-    suspend operator fun invoke(
-        localCity: LocalGeocodedCity
-    ): Resource<UnparsedResponsesHolder?> {
-        return withContext(Dispatchers.IO) {
-            val yesterday = Instant // TODO(jherscu): Confirm Displays correct time
-                .now()
-                .minus(Period.ofDays(1))
-                .toEpochMilli()
-
-            weatherRepo.fetchWeatherData(localCity, yesterday)
+                weatherRepo.fetchWeatherData(localCity, yesterday)
+            }
         }
     }
-}

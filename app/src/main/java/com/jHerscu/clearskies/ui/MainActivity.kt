@@ -19,10 +19,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @Inject protected lateinit var readThemePreferences: ReadThemePreferencesUseCase
 
     private val splashViewModel: SplashScreenViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -42,12 +42,13 @@ class MainActivity : ComponentActivity() {
                 .collectAsStateWithLifecycle(initialValue = ThemePreferences())
 
             AppTheme(
-                darkTheme = when (themePreferences.lockedThemePref) {
-                    LockedThemePref.UNLOCKED -> isSystemInDarkTheme()
-                    LockedThemePref.LOCK_DARK -> true
-                    LockedThemePref.LOCK_LIGHT -> false
-                },
-                dynamicColor = themePreferences.dynamicTheming
+                darkTheme =
+                    when (themePreferences.lockedThemePref) {
+                        LockedThemePref.UNLOCKED -> isSystemInDarkTheme()
+                        LockedThemePref.LOCK_DARK -> true
+                        LockedThemePref.LOCK_LIGHT -> false
+                    },
+                dynamicColor = themePreferences.dynamicTheming,
             ) {
                 ClearSkiesApp()
             }

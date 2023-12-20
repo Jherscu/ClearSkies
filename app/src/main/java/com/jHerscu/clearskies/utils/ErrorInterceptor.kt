@@ -29,7 +29,12 @@ class ErrorInterceptor : Interceptor { // TODO(jherscu): Simplify. Way overkill?
                 Timber.e("Conflict\n${response.code}: ${response.message}")
             }
             429 -> {
-                Timber.e("Too many requests (rate limit exceeded, no state change, or selective throttling)\n${response.code}: ${response.message}")
+                Timber.e(
+                    """
+                    Too many requests (rate limit exceeded, no state change, or selective throttling)
+                    ${response.code}: ${response.message}
+                    """,
+                )
             }
             500 -> {
                 Timber.e("Internal server error\n${response.code}: ${response.message}")

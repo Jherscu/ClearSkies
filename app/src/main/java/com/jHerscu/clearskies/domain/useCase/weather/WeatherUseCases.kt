@@ -11,5 +11,5 @@ data class WeatherUseCases(
     val cacheIconUseCase: CacheIconUseCase,
     val mapWeatherToLocalUseCase: MapWeatherToLocalUseCase,
     val validateWeatherExistsUseCase: ValidateWeatherExistsUseCase,
-    val validateWeatherUpToDateUseCase: ValidateWeatherUpToDateUseCase
+    val validateWeatherUpToDateUseCase: ValidateWeatherUpToDateUseCase,
 )

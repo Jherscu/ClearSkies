@@ -12,34 +12,38 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MapWeatherToLocalUseCase @Inject constructor(
-    private val weatherMapper: WeatherForecastMapper,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
-) {
-    suspend operator fun invoke(
-        dailyAndHourlyWeatherResponse: DailyAndHourlyWeatherResponse,
-        yesterdaysWeatherResponse: YesterdaysWeatherResponse,
-        qualifiedName: String
-    ): Resource<Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>?> {
-        return withContext(defaultDispatcher) {
-            try {
-                val mapped = weatherMapper.remoteToLocal(
-                    currentWeather = dailyAndHourlyWeatherResponse,
-                    yesterdaysWeather = yesterdaysWeatherResponse,
-                    qualifiedName = qualifiedName
-                )
-                Resource.Success(data = mapped)
-            } catch (e: Exception) {
-                Resource.Error(
-                    text = e.message.let {
-                        if (it != null) {
-                            TextWrapper.DynamicString(it)
-                        } else {
-                            TextWrapper.DynamicString("Unexpected error mapping remote to local.")
-                        }
-                    }
-                )
+class MapWeatherToLocalUseCase
+    @Inject
+    constructor(
+        private val weatherMapper: WeatherForecastMapper,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    ) {
+        suspend operator fun invoke(
+            dailyAndHourlyWeatherResponse: DailyAndHourlyWeatherResponse,
+            yesterdaysWeatherResponse: YesterdaysWeatherResponse,
+            qualifiedName: String,
+        ): Resource<Pair<List<LocalDailyForecast>, List<LocalHourlyForecast>>?> {
+            return withContext(defaultDispatcher) {
+                try {
+                    val mapped =
+                        weatherMapper.remoteToLocal(
+                            currentWeather = dailyAndHourlyWeatherResponse,
+                            yesterdaysWeather = yesterdaysWeatherResponse,
+                            qualifiedName = qualifiedName,
+                        )
+                    Resource.Success(data = mapped)
+                } catch (e: Exception) {
+                    Resource.Error(
+                        text =
+                            e.message.let {
+                                if (it != null) {
+                                    TextWrapper.DynamicString(it)
+                                } else {
+                                    TextWrapper.DynamicString("Unexpected error mapping remote to local.")
+                                }
+                            },
+                    )
+                }
             }
         }
     }
-}

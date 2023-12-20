@@ -13,10 +13,11 @@ fun Modifier.padding(
     start: Dp = 0.dp,
     top: Dp = 0.dp,
     end: Dp = 0.dp,
-    bottom: Dp = 0.dp
-) = this then Modifier.padding(
-    start = horizontal ?: start,
-    top = vertical ?: top,
-    end = horizontal ?: end,
-    bottom = vertical ?: bottom
-)
+    bottom: Dp = 0.dp,
+) = this then
+    Modifier.padding(
+        start = horizontal ?: start,
+        top = vertical ?: top,
+        end = horizontal ?: end,
+        bottom = vertical ?: bottom,
+    )

@@ -8,5 +8,5 @@ data class DailyTempResponse(
     @Json(name = "min")
     val minTemp: Float,
     @Json(name = "max")
-    val maxTemp: Float
+    val maxTemp: Float,
 )

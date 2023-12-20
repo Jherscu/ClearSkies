@@ -32,25 +32,26 @@ interface WeatherApiService { // TODO(jherscu): test!
         @Query(value = "units")
         units: String = "imperial",
         @Query(value = "appid")
-        appId: String = BuildConfig.OPEN_WEATHER_KEY
+        appId: String = BuildConfig.OPEN_WEATHER_KEY,
     ): Response<DailyAndHourlyWeatherResponse>
 
     /**
      * Retrieve previous day's Daily and Hourly forecast. No min/max temp data is provided so the
      * highest and lowest values must be sorted from hourly temps to find the daily high and low.
      */
-    @GET("$CURRENT_WEATHER_URL$HISTORIC_WEATHER_URL")
-    suspend fun getYesterdaysWeather( // TODO(jherscu): add exclude param?
+    @GET("$CURRENT_WEATHER_URL$HISTORIC_WEATHER_URL") // TODO(jherscu): add exclude param?
+    suspend fun getYesterdaysWeather(
         @Query(value = "lat")
         lat: Float,
         @Query(value = "lon")
         lon: Float,
+        // Calendar Instance get previous day in mill
         @Query(value = "dt")
-        yesterdaysDate: Long, // Calendar Instance get previous day in mill
+        yesterdaysDate: Long,
         @Query(value = "units")
         units: String = "imperial",
         @Query(value = "appid")
-        appId: String = BuildConfig.OPEN_WEATHER_KEY
+        appId: String = BuildConfig.OPEN_WEATHER_KEY,
     ): Response<YesterdaysWeatherResponse>
 
     /**
@@ -58,7 +59,8 @@ interface WeatherApiService { // TODO(jherscu): test!
      */
     @GET(IMAGE_WEATHER_URL)
     suspend fun getIconFromWeatherCode(
+        // Pass input through formatter "$iconCode@2x.png"
         @QueryName
-        iconCode: String // Pass input through formatter "$iconCode@2x.png"
+        iconCode: String,
     ): Response<IconResponse>
 }
