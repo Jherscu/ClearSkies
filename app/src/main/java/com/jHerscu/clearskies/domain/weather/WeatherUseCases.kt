@@ -1,7 +1,7 @@
-package com.jHerscu.clearskies.domain.useCase.weather
+package com.jHerscu.clearskies.domain.weather
 
-import com.jHerscu.clearskies.domain.useCase.weather.icon.CacheIconUseCase
-import com.jHerscu.clearskies.domain.useCase.weather.icon.GetIconUseCase
+import com.jHerscu.clearskies.domain.weather.icon.CacheIconUseCase
+import com.jHerscu.clearskies.domain.weather.icon.GetIconUseCase
 
 data class WeatherUseCases(
     val getWeatherDataUseCase: GetWeatherDataUseCase,

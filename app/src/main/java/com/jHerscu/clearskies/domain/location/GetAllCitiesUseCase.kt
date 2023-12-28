@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.domain.useCase.location
+package com.jHerscu.clearskies.domain.location
 
 import javax.inject.Inject
 

@@ -10,9 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.jHerscu.clearskies.domain.repoInterface.LockedThemePref
-import com.jHerscu.clearskies.domain.useCase.preferences.ReadThemePreferencesUseCase
-import com.jHerscu.clearskies.domain.useCase.preferences.ThemePreferences
+import com.jHerscu.clearskies.data.model.LockedThemePref
+import com.jHerscu.clearskies.domain.preferences.ReadThemePreferencesUseCase
+import com.jHerscu.clearskies.domain.preferences.ThemePreferences
 import com.jHerscu.clearskies.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

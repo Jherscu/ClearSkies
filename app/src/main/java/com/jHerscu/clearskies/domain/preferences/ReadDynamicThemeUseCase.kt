@@ -1,15 +1,15 @@
-package com.jHerscu.clearskies.domain.useCase.preferences
+package com.jHerscu.clearskies.domain.preferences
 
 import androidx.datastore.preferences.core.Preferences
-import com.jHerscu.clearskies.data.repo.PreferencesRepoImpl
-import com.jHerscu.clearskies.domain.repoInterface.LockedThemePref
+import com.jHerscu.clearskies.data.model.LockedThemePref
+import com.jHerscu.clearskies.data.repo.PreferencesRepo
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ReadThemePreferencesUseCase
     @Inject
     constructor(
-        private val prefsRepo: PreferencesRepoImpl,
+        private val prefsRepo: PreferencesRepo,
     ) {
         operator fun invoke() =
             prefsRepo
@@ -18,10 +18,10 @@ class ReadThemePreferencesUseCase
 
         private fun mapPreferences(prefs: Preferences): ThemePreferences {
             return ThemePreferences(
-                dynamicTheming = prefs[PreferencesRepoImpl.DYNAMIC_THEMING_KEY] ?: true,
+                dynamicTheming = prefs[PreferencesRepo.DYNAMIC_THEMING_KEY] ?: true,
                 lockedThemePref =
                     LockedThemePref.valueOf(
-                        prefs[PreferencesRepoImpl.LOCKED_THEME_KEY] ?: LockedThemePref.UNLOCKED.name,
+                        prefs[PreferencesRepo.LOCKED_THEME_KEY] ?: LockedThemePref.UNLOCKED.name,
                     ),
             )
         }

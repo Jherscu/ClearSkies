@@ -1,15 +1,15 @@
-package com.jHerscu.clearskies.domain.useCase.location
+package com.jHerscu.clearskies.domain.location
 
-import com.jHerscu.clearskies.data.repo.GeocodeRepoImpl
+import com.jHerscu.clearskies.data.repo.GeocodeRepo
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 import javax.inject.Inject
 
 class GetCityByNameUseCase
     @Inject
     constructor(
-        private val geocodeRepoImpl: GeocodeRepoImpl,
+        private val geocodeRepo: GeocodeRepo,
     ) {
         suspend operator fun invoke(query: String): LocalGeocodedCity {
-            return geocodeRepoImpl.getGeocodedCity(query)
+            return geocodeRepo.getGeocodedCity(query)
         }
     }

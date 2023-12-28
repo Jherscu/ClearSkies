@@ -1,4 +1,4 @@
-package com.jHerscu.clearskies.domain.useCase.weather
+package com.jHerscu.clearskies.domain.weather
 
 import com.jHerscu.clearskies.R
 import com.jHerscu.clearskies.data.model.Forecast

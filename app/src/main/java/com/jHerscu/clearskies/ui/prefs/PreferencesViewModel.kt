@@ -2,13 +2,13 @@ package com.jHerscu.clearskies.ui.prefs
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jHerscu.clearskies.data.repo.PreferencesRepoImpl
+import com.jHerscu.clearskies.data.model.PreferenceGroup
+import com.jHerscu.clearskies.data.model.PreferenceOrderComparator
+import com.jHerscu.clearskies.data.model.TranslatedPrefGroup
+import com.jHerscu.clearskies.data.model.UserPrefs
+import com.jHerscu.clearskies.data.repo.PreferencesRepo
 import com.jHerscu.clearskies.di.DefaultDispatcher
-import com.jHerscu.clearskies.domain.repoInterface.PreferenceGroup
-import com.jHerscu.clearskies.domain.repoInterface.PreferenceOrderComparator
-import com.jHerscu.clearskies.domain.repoInterface.TranslatedPrefGroup
-import com.jHerscu.clearskies.domain.repoInterface.UserPrefs
-import com.jHerscu.clearskies.domain.useCase.preferences.ReadUserPrefsUseCase
+import com.jHerscu.clearskies.domain.preferences.ReadUserPrefsUseCase
 import com.jHerscu.clearskies.utils.FLOW_SUBSCRIPTION_STOP_TIMEOUT_MILLIS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,7 +26,7 @@ class PreferencesViewModel
     @Inject
     constructor(
         // TODO(jherscu): Decide on repo impl pattern
-        private val preferencesRepo: PreferencesRepoImpl,
+        private val preferencesRepo: PreferencesRepo,
         readUserPrefs: ReadUserPrefsUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
@@ -68,32 +68,32 @@ class PreferencesViewModel
 
         private fun setTempUnitPref(prefName: String) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.TEMP_UNIT_KEY, prefName)
+                preferencesRepo.writeToStore(PreferencesRepo.TEMP_UNIT_KEY, prefName)
             }
 
         private fun setHomeDisplayIntervalPref(prefName: String) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.HOME_DISPLAY_INTERVAL_KEY, prefName)
+                preferencesRepo.writeToStore(PreferencesRepo.HOME_DISPLAY_INTERVAL_KEY, prefName)
             }
 
         private fun set24HourMode(pref: Boolean) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.TWENTY_FOUR_HOUR_MODE_KEY, pref)
+                preferencesRepo.writeToStore(PreferencesRepo.TWENTY_FOUR_HOUR_MODE_KEY, pref)
             }
 
         private fun setDynamicThemingMode(pref: Boolean) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.DYNAMIC_THEMING_KEY, pref)
+                preferencesRepo.writeToStore(PreferencesRepo.DYNAMIC_THEMING_KEY, pref)
             }
 
         private fun setLockedThemePref(prefName: String) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.LOCKED_THEME_KEY, prefName)
+                preferencesRepo.writeToStore(PreferencesRepo.LOCKED_THEME_KEY, prefName)
             }
 
         private fun setPrefOrderComparator(prefName: String) =
             viewModelScope.launch {
-                preferencesRepo.writeToStore(PreferencesRepoImpl.PREF_ORDER_COMPARATOR_KEY, prefName)
+                preferencesRepo.writeToStore(PreferencesRepo.PREF_ORDER_COMPARATOR_KEY, prefName)
             }
 
         suspend fun sortPrefGroups(

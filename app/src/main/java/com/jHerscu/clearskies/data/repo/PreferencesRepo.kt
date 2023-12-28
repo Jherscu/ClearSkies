@@ -5,30 +5,29 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.jHerscu.clearskies.domain.repoInterface.PreferencesRepo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PreferencesRepoImpl
+class PreferencesRepo
     @Inject
     constructor(
         private val preferencesDataStore: DataStore<Preferences>,
-    ) : PreferencesRepo {
-        override suspend fun writeToStore(
+    ) {
+        suspend fun writeToStore(
             preference: Preferences.Key<Boolean>,
             option: Boolean,
         ) {
             preferencesDataStore.edit { it[preference] = option }
         }
 
-        override suspend fun writeToStore(
+        suspend fun writeToStore(
             preference: Preferences.Key<String>,
             option: String,
         ) {
             preferencesDataStore.edit { it[preference] = option }
         }
 
-        override fun readFromStore(): Flow<Preferences> = preferencesDataStore.data
+        fun readFromStore(): Flow<Preferences> = preferencesDataStore.data
 
         companion object Keys {
             val TWENTY_FOUR_HOUR_MODE_KEY = booleanPreferencesKey("24_hour_mode")

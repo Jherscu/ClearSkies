@@ -10,7 +10,6 @@ import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.data.source.remote.WeatherApiService
 import com.jHerscu.clearskies.di.IoDispatcher
-import com.jHerscu.clearskies.domain.repoInterface.WeatherRepo
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.TextWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,13 +23,13 @@ import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
-class WeatherRepoImpl
+class WeatherRepo
     @Inject
     constructor(
         private val weatherDao: WeatherDao,
         private val weatherApiService: WeatherApiService,
         @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) : WeatherRepo {
+    ) {
         private suspend fun fetchDailyAndHourlyWeather(city: LocalGeocodedCity): Response<DailyAndHourlyWeatherResponse> {
             return with(city) {
                 weatherApiService.getOneCallWeather(
@@ -53,7 +52,7 @@ class WeatherRepoImpl
             }
         }
 
-        override suspend fun fetchWeatherData(
+        suspend fun fetchWeatherData(
             city: LocalGeocodedCity,
             date: Long,
         ): Resource<UnparsedResponsesHolder?> {
@@ -113,7 +112,7 @@ class WeatherRepoImpl
             }
         }
 
-        override suspend fun cacheWeatherData(
+        suspend fun cacheWeatherData(
             dailyData: List<LocalDailyForecast>,
             hourlyData: List<LocalHourlyForecast>,
         ) {
@@ -127,7 +126,7 @@ class WeatherRepoImpl
             }
         }
 
-        override suspend fun deleteWeatherForCity(city: LocalGeocodedCity) {
+        suspend fun deleteWeatherForCity(city: LocalGeocodedCity) {
             weatherDao.run {
                 getAllHourlyWeatherData(city).collect { list ->
                     for (forecast in list) {
@@ -142,11 +141,11 @@ class WeatherRepoImpl
             }
         }
 
-        override fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>> {
+        fun getAllDailyWeatherData(city: LocalGeocodedCity): Flow<List<LocalDailyForecast>> {
             return weatherDao.getAllDailyForecastsByCity(city.qualifiedName).distinctUntilChanged()
         }
 
-        override fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>> {
+        fun getAllHourlyWeatherData(city: LocalGeocodedCity): Flow<List<LocalHourlyForecast>> {
             return weatherDao.getAllHourlyForecastsByCity(city.qualifiedName).distinctUntilChanged()
         }
     }

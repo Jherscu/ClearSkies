@@ -6,7 +6,6 @@ import com.jHerscu.clearskies.data.source.local.CityDao
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 import com.jHerscu.clearskies.data.source.remote.GeocodeApiService
 import com.jHerscu.clearskies.di.IoDispatcher
-import com.jHerscu.clearskies.domain.repoInterface.GeocodeRepo
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.TextWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,18 +16,18 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GeocodeRepoImpl
+class GeocodeRepo
     @Inject
     constructor(
         private val cityDao: CityDao,
         private val geocodeApiService: GeocodeApiService,
         @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) : GeocodeRepo {
+    ) {
         /**
          * Switches locally to IO thread pool and fetches the city list in a wrapper class
          * to track the success of the query.
          */
-        override suspend fun fetchCityList(query: String): Resource<SuggestedCitiesResponse?> {
+        suspend fun fetchCityList(query: String): Resource<SuggestedCitiesResponse?> {
             return withContext(ioDispatcher) {
                 try {
                     val response = geocodeApiService.getListOfCities(query)
@@ -51,15 +50,15 @@ class GeocodeRepoImpl
         would otherwise slow down any operations.
      */
 
-        override suspend fun getGeocodedCity(qualifiedName: String): LocalGeocodedCity {
+        suspend fun getGeocodedCity(qualifiedName: String): LocalGeocodedCity {
             return cityDao.getCityByName(qualifiedName)
         }
 
-        override suspend fun cacheGeocodedCity(city: LocalGeocodedCity) {
+        suspend fun cacheGeocodedCity(city: LocalGeocodedCity) {
             cityDao.upsertCity(city)
         }
 
-        override suspend fun deleteCity(city: LocalGeocodedCity) {
+        suspend fun deleteCity(city: LocalGeocodedCity) {
             cityDao.deleteCity(city)
         }
 
@@ -70,7 +69,7 @@ class GeocodeRepoImpl
          * .distinctUntilChanged() filters out any redundant updates when
          * another part of the db changes.
          */
-        override suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>> {
+        suspend fun getListOfGeocodedCities(): Flow<List<LocalGeocodedCity>> {
             return cityDao.getAllCities().distinctUntilChanged()
         }
     }

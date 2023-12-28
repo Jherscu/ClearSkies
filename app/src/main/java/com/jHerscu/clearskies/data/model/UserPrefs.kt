@@ -1,9 +1,16 @@
-package com.jHerscu.clearskies.domain.repoInterface
+package com.jHerscu.clearskies.data.model
 
 import androidx.annotation.StringRes
-import androidx.datastore.preferences.core.Preferences
 import com.jHerscu.clearskies.R
-import kotlinx.coroutines.flow.Flow
+
+data class UserPrefs(
+    val twentyFourHourModeOn: Boolean = false,
+    val dynamicThemingOn: Boolean = true,
+    val tempUnit: TempUnitPref = TempUnitPref.FAHRENHEIT,
+    val lockedTheme: LockedThemePref = LockedThemePref.UNLOCKED,
+    val homeDisplayInterval: HomeDisplayIntervalPref = HomeDisplayIntervalPref.DAILY,
+    val prefOrderComparator: PreferenceOrderComparator = PreferenceOrderComparator.DEFAULT,
+)
 
 enum class TempUnitPref(
     @StringRes val labelRes: Int,
@@ -26,25 +33,6 @@ enum class HomeDisplayIntervalPref(
     HOURLY(R.string.hourly),
     DAILY(R.string.daily),
 }
-
-enum class PreferenceGroup(
-    @StringRes val titleRes: Int,
-) {
-    THEME(R.string.theme_pref_group_title),
-    GENERAL(R.string.general_pref_group_title),
-    HOME(R.string.home_screen),
-    // TODO(jherscu): NOTIFICATIONS(R.string.notifications_pref_group_title)
-    ;
-
-    companion object {
-        val defaultSortOrder = listOf(GENERAL, THEME, HOME)
-    }
-}
-
-data class TranslatedPrefGroup(
-    val translatedTitle: String,
-    val prefGroup: PreferenceGroup,
-)
 
 enum class PreferenceOrderComparator(
     val titleRes: Int,
@@ -86,27 +74,4 @@ enum class PreferenceOrderComparator(
             PreferenceGroup.defaultSortOrder
         },
     ),
-}
-
-data class UserPrefs(
-    val twentyFourHourModeOn: Boolean = false,
-    val dynamicThemingOn: Boolean = true,
-    val tempUnit: TempUnitPref = TempUnitPref.FAHRENHEIT,
-    val lockedTheme: LockedThemePref = LockedThemePref.UNLOCKED,
-    val homeDisplayInterval: HomeDisplayIntervalPref = HomeDisplayIntervalPref.DAILY,
-    val prefOrderComparator: PreferenceOrderComparator = PreferenceOrderComparator.DEFAULT,
-)
-
-interface PreferencesRepo {
-    suspend fun writeToStore(
-        preference: Preferences.Key<Boolean>,
-        option: Boolean,
-    )
-
-    suspend fun writeToStore(
-        preference: Preferences.Key<String>,
-        option: String,
-    )
-
-    fun readFromStore(): Flow<Preferences>
 }

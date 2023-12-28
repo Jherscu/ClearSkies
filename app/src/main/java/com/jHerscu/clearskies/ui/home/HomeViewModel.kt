@@ -10,8 +10,8 @@ import com.jHerscu.clearskies.data.model.response.UnparsedResponsesHolder
 import com.jHerscu.clearskies.data.source.local.entity.LocalDailyForecast
 import com.jHerscu.clearskies.data.source.local.entity.LocalHourlyForecast
 import com.jHerscu.clearskies.di.MainDispatcher
-import com.jHerscu.clearskies.domain.useCase.location.GetCityByNameUseCase
-import com.jHerscu.clearskies.domain.useCase.weather.WeatherUseCases
+import com.jHerscu.clearskies.domain.location.GetCityByNameUseCase
+import com.jHerscu.clearskies.domain.weather.WeatherUseCases
 import com.jHerscu.clearskies.utils.Resource
 import com.jHerscu.clearskies.utils.SimpleResource
 import com.jHerscu.clearskies.utils.TextWrapper

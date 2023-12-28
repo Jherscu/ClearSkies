@@ -1,7 +1,7 @@
-package com.jHerscu.clearskies.domain.useCase.weather
+package com.jHerscu.clearskies.domain.weather
 
 import com.jHerscu.clearskies.data.model.response.UnparsedResponsesHolder
-import com.jHerscu.clearskies.data.repo.WeatherRepoImpl
+import com.jHerscu.clearskies.data.repo.WeatherRepo
 import com.jHerscu.clearskies.data.source.local.entity.LocalGeocodedCity
 import com.jHerscu.clearskies.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class FetchAllWeatherUseCase
     @Inject
     constructor(
-        private val weatherRepo: WeatherRepoImpl,
+        private val weatherRepo: WeatherRepo,
     ) {
         suspend operator fun invoke(localCity: LocalGeocodedCity): Resource<UnparsedResponsesHolder?> {
             return withContext(Dispatchers.IO) {
