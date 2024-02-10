@@ -8,7 +8,6 @@ import retrofit2.http.Query
 private const val GEOCODE_AUTOCOMPLETE_URL = "v1/search/autocomplete"
 
 interface GeocodeApiService {
-
     @GET(GEOCODE_AUTOCOMPLETE_URL)
     suspend fun getListOfCities(
         @Query(value = "query")
@@ -16,6 +15,6 @@ interface GeocodeApiService {
         @Query(value = "layers")
         layer: String = "locality",
         @Query(value = "country")
-        country: String = "US"
+        country: String = "US",
     ): Response<SuggestedCitiesResponse>
 }

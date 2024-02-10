@@ -9,7 +9,7 @@ data class HourlyForecastAndIcon(
     @Embedded val forecast: LocalHourlyForecast,
     @Relation(
         parentColumn = "icon_code",
-        entityColumn = "icon_code"
+        entityColumn = "icon_code",
     )
-    val icon: LocalIcon
+    val icon: LocalIcon,
 )

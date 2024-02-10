@@ -17,12 +17,13 @@ private const val PREFERENCES = "preferences"
 @Module
 @InstallIn(SingletonComponent::class)
 object PreferencesDataStoreModule {
-
     @Singleton
     @Provides
-    fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
+    fun providePreferencesDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
-            produceFile = { context.preferencesDataStoreFile(PREFERENCES) }
+            produceFile = { context.preferencesDataStoreFile(PREFERENCES) },
         )
     }
 }

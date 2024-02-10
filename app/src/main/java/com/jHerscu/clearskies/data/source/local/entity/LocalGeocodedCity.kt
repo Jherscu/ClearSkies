@@ -10,5 +10,5 @@ data class LocalGeocodedCity(
     @ColumnInfo(name = "qualified_name")
     val qualifiedName: String,
     val latitude: Float,
-    val longitude: Float
+    val longitude: Float,
 )

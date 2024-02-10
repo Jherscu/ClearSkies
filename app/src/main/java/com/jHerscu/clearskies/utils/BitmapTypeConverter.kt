@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream
  * and converts it to a BitmapDrawable when retrieved from the DB
  */
 class BitmapTypeConverter {
-
     /**
      * Converts bitmap of loaded icon to byteArray for storage in Room DB.
      */

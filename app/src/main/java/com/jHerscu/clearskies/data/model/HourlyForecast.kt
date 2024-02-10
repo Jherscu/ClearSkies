@@ -8,5 +8,5 @@ data class HourlyForecast(
     val temp: Float,
     val feelsLikeTemp: Float,
     val weatherDescription: String,
-    val icon: Bitmap
+    val icon: Bitmap,
 ) : Forecast

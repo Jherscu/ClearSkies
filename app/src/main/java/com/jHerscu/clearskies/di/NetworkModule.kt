@@ -28,7 +28,6 @@ private const val BASE_GEOCODE_URL = "https://api.radar.io/"
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Singleton
     @Provides
     fun provideGeocodeHeaderInterceptor(): Interceptor {
@@ -67,7 +66,7 @@ object NetworkModule {
     @Named("header_client")
     fun provideHttpClientWithGeocodeHeader(
         @Named("base_client") baseHttpClient: OkHttpClient,
-        headerInterceptor: Interceptor
+        headerInterceptor: Interceptor,
     ): OkHttpClient {
         return baseHttpClient
             .newBuilder()
@@ -77,7 +76,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCoil(@ApplicationContext context: Context): ImageLoader {
+    fun provideCoil(
+        @ApplicationContext context: Context,
+    ): ImageLoader {
         return ImageLoader(context)
     }
 
@@ -94,7 +95,7 @@ object NetworkModule {
     @Named("weather_retrofit")
     fun provideWeatherRetrofit(
         moshi: Moshi,
-        @Named("base_client") baseClient: OkHttpClient
+        @Named("base_client") baseClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_WEATHER_URL)
@@ -108,7 +109,7 @@ object NetworkModule {
     @Named("geocode_retrofit")
     fun provideGeocodeRetrofit(
         moshi: Moshi,
-        @Named("header_client") headerClient: OkHttpClient
+        @Named("header_client") headerClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_GEOCODE_URL)
@@ -119,13 +120,17 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideWeatherApiService(@Named("weather_retrofit") weatherRetrofit: Retrofit): WeatherApiService {
+    fun provideWeatherApiService(
+        @Named("weather_retrofit") weatherRetrofit: Retrofit,
+    ): WeatherApiService {
         return weatherRetrofit.create(WeatherApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideGeocodeApiService(@Named("geocode_retrofit") geocodeRetrofit: Retrofit): GeocodeApiService {
+    fun provideGeocodeApiService(
+        @Named("geocode_retrofit") geocodeRetrofit: Retrofit,
+    ): GeocodeApiService {
         return geocodeRetrofit.create((GeocodeApiService::class.java))
     }
 }

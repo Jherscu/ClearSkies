@@ -17,4 +17,35 @@
     <string name="add_city_screen">Add City</string>
     <string name="preferences_screen">Preferences</string>
     <string name="onboarding_screen">App Setup</string>
+
+    <!-- Navigation Menu -->
+    <string name="menu">Menu</string>
+    
+    <!-- Preferences Screen -->
+    <string name="temp_unit_pref_title">Temperature Unit</string>
+    <string name="theme_pref_group_title">Theme</string>
+    <string name="general_pref_group_title">General</string>
+    <string name="notifications_pref_group_title">Notifications</string>
+    <string name="home_screen_pref_title">Home Screen</string>
+    <string name="twenty_four_hour_mode">24 Hour Mode</string>
+    <string name="lock_theme">Lock Theme</string>
+    <string name="dynamic_theming">Dynamic Theming</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="unlocked">Unlocked</string>
+    <string name="hourly">Hourly</string>
+    <string name="daily">Daily</string>
+    <string name="degrees_celcius">ºC</string>
+    <string name="degrees_fahrenheit">ºF</string>
+    <!-- Sorting Methods -->
+    <string name="sort_prefs">Sort Preferences</string>
+    <string name="default_sort">Default</string>
+    <string name="most_clicked_sort">Most Clicked</string>
+    <string name="alphabetical_sort">Alphabetical</string>
+    <!-- Reverse Alphabetical -->
+    <string name="rev_alphabetical_sort">Rev. Alphabetical</string>
+    <string name="custom_sort">Custom</string>
+    <string name="group_by_column">Group By Column</string>
+
+
 </resources>

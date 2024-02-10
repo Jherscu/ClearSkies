@@ -9,7 +9,7 @@ data class DailyForecastAndIcon(
     @Embedded val forecast: LocalDailyForecast,
     @Relation(
         parentColumn = "icon_code",
-        entityColumn = "icon_code"
+        entityColumn = "icon_code",
     )
-    val icon: LocalIcon
+    val icon: LocalIcon,
 )

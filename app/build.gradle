@@ -5,7 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'org.jlleitschuh.gradle.ktlint'
-    id("io.gitlab.arturbosch.detekt").version("$detekt_version")
+    id "io.gitlab.arturbosch.detekt" version("$detekt_version")
 }
 
 secrets {
@@ -29,6 +29,14 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    ktlint {
+        version = ktlint_version
+        additionalEditorconfig = [
+            "ktlint_experimental_function-type-modifier-spacing": "enabled",
+            "ktlint_function_naming_ignore_when_annotated_with": "Composable",
+        ]
     }
 
     buildTypes {
@@ -69,10 +77,6 @@ android {
         jvmToolchain(17)
     }
 
-    tasks.withType(JavaCompile) {
-        options.release = 17
-    }
-
     detekt {
         toolVersion = detekt_version
         config.setFrom(file("config/detekt/detekt.yml"))
@@ -95,6 +99,10 @@ android {
 
     lint {
         abortOnError = false
+    }
+
+    hilt {
+        enableAggregatingTask = true
     }
 
     namespace 'com.jHerscu.clearskies'
@@ -155,13 +163,16 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version" // TODO(jherscu): ksp migrate
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
 
+    // Kotlin Immutable Collections
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:$immutable_collections_version"
+
     // Compose BOM
-    implementation "androidx.compose:compose-bom:$compose_bom_version"
+    implementation platform("androidx.compose:compose-bom:$compose_bom_version")
     implementation "androidx.compose.animation:animation"
     implementation "androidx.compose.foundation:foundation"
     implementation "androidx.compose.material3:material3:$compose_material3_version"
@@ -171,6 +182,7 @@ dependencies {
     implementation "androidx.compose.ui:ui"
 
     // Compose Misc.
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.activity:activity-compose:$compose_activity_version"
     implementation "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_layout_version"

@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class YesterdaysWeatherResponse(
     val current: PreviousDailyWeatherResponse,
-    val hourly: List<HourlyWeatherResponse>
+    val hourly: List<HourlyWeatherResponse>,
 )

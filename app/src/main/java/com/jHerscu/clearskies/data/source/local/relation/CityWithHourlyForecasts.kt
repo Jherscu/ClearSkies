@@ -9,8 +9,7 @@ data class CityWithHourlyForecasts(
     @Embedded val city: LocalGeocodedCity,
     @Relation(
         parentColumn = "qualified_name",
-        entityColumn = "qualified_name"
+        entityColumn = "qualified_name",
     )
-    val localHourlyForecasts: List<LocalHourlyForecast>
-
+    val localHourlyForecasts: List<LocalHourlyForecast>,
 )

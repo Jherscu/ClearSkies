@@ -9,5 +9,5 @@ data class DailyWeatherResponse(
     val dateInMillis: Long,
     val temp: DailyTempResponse,
     val humidity: Int,
-    val weather: DescriptionResponse
+    val weather: DescriptionResponse,
 )
