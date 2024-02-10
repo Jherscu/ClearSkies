@@ -126,11 +126,11 @@ fun PreferencesScreen(
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
                 columns =
-                if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
-                    GridCells.Fixed(2)
-                } else {
-                    GridCells.Fixed(1)
-                },
+                    if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+                        GridCells.Fixed(2)
+                    } else {
+                        GridCells.Fixed(1)
+                    },
                 horizontalArrangement = Arrangement.Start,
                 verticalArrangement = Arrangement.Top,
             ) {
@@ -144,25 +144,24 @@ fun PreferencesScreen(
                         }
                     },
                 ) {
-
                     val carouselItems = remember { PreferenceOrderComparator.entries }
                     CarouselComponent(
                         modifier =
-                        Modifier
-                            .padding(
-                                vertical = Dimen.MEDIUM.dp,
-                                horizontal = Dimen.EXTRA_SMALL.dp,
-                            ),
+                            Modifier
+                                .padding(
+                                    vertical = Dimen.MEDIUM.dp,
+                                    horizontal = Dimen.EXTRA_SMALL.dp,
+                                ),
                         count = carouselItems.size,
                         title = {
                             Text(
                                 modifier =
-                                Modifier
-                                    .align(Alignment.Start)
-                                    .padding(
-                                        start = Dimen.MEDIUM.dp,
-                                        top = Dimen.MEDIUM.dp,
-                                    ),
+                                    Modifier
+                                        .align(Alignment.Start)
+                                        .padding(
+                                            start = Dimen.MEDIUM.dp,
+                                            top = Dimen.MEDIUM.dp,
+                                        ),
                                 text = stringResource(id = R.string.sort_prefs),
                             )
                         },
@@ -173,7 +172,6 @@ fun PreferencesScreen(
                             viewModel.passIntent(Intent.UpdateSortOrderClick(carouselItems[item].name))
                         }
                     }
-
                 }
                 items(
                     items = prefGroups,
@@ -182,17 +180,17 @@ fun PreferencesScreen(
                 ) { prefGroup ->
                     GroupedPreferencesCard(
                         modifier =
-                        Modifier
-                            .then(
-                                if (prefGroup != prefGroups.last()) {
-                                    Modifier.padding(
-                                        bottom = Dimen.STANDARD.dp,
-                                        horizontal = Dimen.EXTRA_SMALL.dp,
-                                    )
-                                } else {
-                                    Modifier.padding(horizontal = Dimen.EXTRA_SMALL.dp,)
-                                },
-                            ),
+                            Modifier
+                                .then(
+                                    if (prefGroup != prefGroups.last()) {
+                                        Modifier.padding(
+                                            bottom = Dimen.STANDARD.dp,
+                                            horizontal = Dimen.EXTRA_SMALL.dp,
+                                        )
+                                    } else {
+                                        Modifier.padding(horizontal = Dimen.EXTRA_SMALL.dp)
+                                    },
+                                ),
                         isColumn = isColumn,
                         title = { Text(text = stringResource(id = prefGroup.titleRes)) },
                     ) {
@@ -224,12 +222,12 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.lock_theme),
                                     options =
-                                    LockedThemePref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name,
-                                        )
-                                    }.toImmutableList(),
+                                        LockedThemePref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.lockedTheme.name },
                                     setOption = { viewModel.passIntent(Intent.LockThemePrefClick(it)) },
                                 )
@@ -240,12 +238,12 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.home_screen_pref_title),
                                     options =
-                                    HomeDisplayIntervalPref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name,
-                                        )
-                                    }.toImmutableList(),
+                                        HomeDisplayIntervalPref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.homeDisplayInterval.name },
                                     setOption = {
                                         viewModel.passIntent(
@@ -263,12 +261,12 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.temp_unit_pref_title),
                                     options =
-                                    TempUnitPref.entries.map {
-                                        RadioComponentData(
-                                            labelRes = it.labelRes,
-                                            name = it.name,
-                                        )
-                                    }.toImmutableList(),
+                                        TempUnitPref.entries.map {
+                                            RadioComponentData(
+                                                labelRes = it.labelRes,
+                                                name = it.name,
+                                            )
+                                        }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.tempUnit.name },
                                     setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) },
                                 )
