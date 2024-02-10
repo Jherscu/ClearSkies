@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CardDefaults
@@ -95,7 +96,9 @@ fun PreferencesScreen(
     }
 
     Column(
-        modifier.fillMaxSize(),
+        modifier
+            .fillMaxSize()
+            .padding(bottom = Dimen.MEDIUM.dp),
     ) {
         Spacer(modifier = Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         Row(
@@ -117,49 +120,61 @@ fun PreferencesScreen(
                 isInColumn = false,
             )
         }
-        val carouselItems = remember { PreferenceOrderComparator.entries }
-        CarouselComponent(
-            modifier =
-                Modifier
-                    .padding(
-                        horizontal = Dimen.STANDARD.dp,
-                        top = Dimen.MEDIUM.dp,
-                    ),
-            count = carouselItems.size,
-            title = {
-                Text(
-                    modifier =
-                        Modifier
-                            .align(Alignment.Start)
-                            .padding(
-                                start = Dimen.MEDIUM.dp,
-                                top = Dimen.MEDIUM.dp,
-                            ),
-                    text = stringResource(id = R.string.sort_prefs),
-                )
-            },
-        ) { item ->
-            PreferenceCarouselItem(
-                sortMethod = stringResource(id = carouselItems[item].titleRes),
-            ) {
-                viewModel.passIntent(Intent.UpdateSortOrderClick(carouselItems[item].name))
-            }
-        }
         PrimaryElevatedCard(
             columnModifier = Modifier.padding(Dimen.MEDIUM.dp),
         ) {
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
                 columns =
-                    if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
-                        GridCells.Fixed(2)
-                    } else {
-                        GridCells.Fixed(1)
-                    },
+                if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+                    GridCells.Fixed(2)
+                } else {
+                    GridCells.Fixed(1)
+                },
                 horizontalArrangement = Arrangement.Start,
                 verticalArrangement = Arrangement.Top,
             ) {
                 val prefGroups = viewState.value.prefGroups
+                item(
+                    span = {
+                        if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Compact) {
+                            GridItemSpan(2)
+                        } else {
+                            GridItemSpan(1)
+                        }
+                    },
+                ) {
+
+                    val carouselItems = remember { PreferenceOrderComparator.entries }
+                    CarouselComponent(
+                        modifier =
+                        Modifier
+                            .padding(
+                                vertical = Dimen.MEDIUM.dp,
+                                horizontal = Dimen.EXTRA_SMALL.dp,
+                            ),
+                        count = carouselItems.size,
+                        title = {
+                            Text(
+                                modifier =
+                                Modifier
+                                    .align(Alignment.Start)
+                                    .padding(
+                                        start = Dimen.MEDIUM.dp,
+                                        top = Dimen.MEDIUM.dp,
+                                    ),
+                                text = stringResource(id = R.string.sort_prefs),
+                            )
+                        },
+                    ) { item ->
+                        PreferenceCarouselItem(
+                            sortMethod = stringResource(id = carouselItems[item].titleRes),
+                        ) {
+                            viewModel.passIntent(Intent.UpdateSortOrderClick(carouselItems[item].name))
+                        }
+                    }
+
+                }
                 items(
                     items = prefGroups,
                     // TODO(jherscu): Declare localized string as key in case of language pref change?
@@ -167,14 +182,17 @@ fun PreferencesScreen(
                 ) { prefGroup ->
                     GroupedPreferencesCard(
                         modifier =
-                            Modifier
-                                .then(
-                                    if (prefGroup != prefGroups.last()) {
-                                        Modifier.padding(bottom = Dimen.STANDARD.dp)
-                                    } else {
-                                        Modifier
-                                    },
-                                ),
+                        Modifier
+                            .then(
+                                if (prefGroup != prefGroups.last()) {
+                                    Modifier.padding(
+                                        bottom = Dimen.STANDARD.dp,
+                                        horizontal = Dimen.EXTRA_SMALL.dp,
+                                    )
+                                } else {
+                                    Modifier.padding(horizontal = Dimen.EXTRA_SMALL.dp,)
+                                },
+                            ),
                         isColumn = isColumn,
                         title = { Text(text = stringResource(id = prefGroup.titleRes)) },
                     ) {
@@ -193,50 +211,64 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.dynamic_theming),
                                     optionIsSelected = viewState.value.userPrefs.dynamicThemingOn,
-                                    setOption = { viewModel.passIntent(Intent.DynamicThemingModeClick(it)) },
+                                    setOption = {
+                                        viewModel.passIntent(
+                                            Intent.DynamicThemingModeClick(
+                                                it,
+                                            ),
+                                        )
+                                    },
                                 )
                                 Spacer(modifier = Modifier.size(Dimen.MEDIUM.dp))
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.lock_theme),
                                     options =
-                                        LockedThemePref.entries.map {
-                                            RadioComponentData(
-                                                labelRes = it.labelRes,
-                                                name = it.name,
-                                            )
-                                        }.toImmutableList(),
+                                    LockedThemePref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name,
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.lockedTheme.name },
                                     setOption = { viewModel.passIntent(Intent.LockThemePrefClick(it)) },
                                 )
                             }
+
                             PreferenceGroup.HOME -> {
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.home_screen_pref_title),
                                     options =
-                                        HomeDisplayIntervalPref.entries.map {
-                                            RadioComponentData(
-                                                labelRes = it.labelRes,
-                                                name = it.name,
-                                            )
-                                        }.toImmutableList(),
+                                    HomeDisplayIntervalPref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name,
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.homeDisplayInterval.name },
-                                    setOption = { viewModel.passIntent(Intent.HomeDisplayIntervalPrefClick(it)) },
+                                    setOption = {
+                                        viewModel.passIntent(
+                                            Intent.HomeDisplayIntervalPrefClick(
+                                                it,
+                                            ),
+                                        )
+                                    },
                                 )
                                 // TODO(jherscu): Determine if spacer with same weight is needed for row config
                             }
+
                             PreferenceGroup.GENERAL -> {
                                 PreferenceRadioComponent(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.temp_unit_pref_title),
                                     options =
-                                        TempUnitPref.entries.map {
-                                            RadioComponentData(
-                                                labelRes = it.labelRes,
-                                                name = it.name,
-                                            )
-                                        }.toImmutableList(),
+                                    TempUnitPref.entries.map {
+                                        RadioComponentData(
+                                            labelRes = it.labelRes,
+                                            name = it.name,
+                                        )
+                                    }.toImmutableList(),
                                     optionIsSelected = { it == viewState.value.userPrefs.tempUnit.name },
                                     setOption = { viewModel.passIntent(Intent.TempUnitPrefClick(it)) },
                                 )
@@ -246,7 +278,13 @@ fun PreferencesScreen(
                                     modifier = weightModifier,
                                     title = stringResource(id = R.string.twenty_four_hour_mode),
                                     optionIsSelected = viewState.value.userPrefs.twentyFourHourModeOn,
-                                    setOption = { viewModel.passIntent(Intent.TwentyFourHourModeClick(it)) },
+                                    setOption = {
+                                        viewModel.passIntent(
+                                            Intent.TwentyFourHourModeClick(
+                                                it,
+                                            ),
+                                        )
+                                    },
                                 )
                             }
                         }
@@ -254,8 +292,7 @@ fun PreferencesScreen(
                 }
             }
         }
-        // TODO(jherscu): Add space for bottom bar tablet/nav
-    }
+    } // TODO(jherscu): Add space for bottom bar tablet/nav
 }
 
 @Composable
