@@ -9,14 +9,12 @@ import com.jHerscu.clearskies.data.model.UserPrefs
 import com.jHerscu.clearskies.data.repo.PreferencesRepo
 import com.jHerscu.clearskies.di.DefaultDispatcher
 import com.jHerscu.clearskies.domain.preferences.ReadUserPrefsUseCase
-import com.jHerscu.clearskies.utils.FLOW_SUBSCRIPTION_STOP_TIMEOUT_MILLIS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combineTransform
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,18 +28,19 @@ class PreferencesViewModel
         readUserPrefs: ReadUserPrefsUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
-        private val prefState = readUserPrefs()
-        private val prefGroups = MutableStateFlow(PreferenceGroup.defaultSortOrder)
 
-        val viewState: StateFlow<ViewState> =
-            prefGroups
-                .combineTransform(prefState) { prefGroupOrder, userPrefs ->
-                    emit(ViewState(userPrefs = userPrefs, prefGroups = prefGroupOrder))
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(FLOW_SUBSCRIPTION_STOP_TIMEOUT_MILLIS),
-                    initialValue = ViewState(),
-                )
+        private val _viewState = MutableStateFlow(ViewState())
+        val viewState = _viewState.asStateFlow()
+
+        init {
+            viewModelScope.launch {
+                readUserPrefs().collectLatest { userPrefs ->
+                    _viewState.update {
+                        it.copy(userPrefs = userPrefs)
+                    }
+                }
+            }
+        }
 
         fun passIntent(intent: Intent) {
             when (intent) {
@@ -106,8 +105,10 @@ class PreferencesViewModel
             }
         }
 
-        fun updatePrefGroupOrder(order: List<PreferenceGroup>) {
-            prefGroups.value = order
+        fun updatePrefGroupOrder(prefGroupOrder: List<PreferenceGroup>) {
+            _viewState.update {
+                it.copy(prefGroups = prefGroupOrder)
+            }
         }
 
         data class ViewState(
