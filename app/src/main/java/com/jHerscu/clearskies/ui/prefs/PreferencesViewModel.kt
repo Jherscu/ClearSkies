@@ -28,7 +28,6 @@ class PreferencesViewModel
         readUserPrefs: ReadUserPrefsUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
-
         private val _viewState = MutableStateFlow(ViewState())
         val viewState = _viewState.asStateFlow()
 
