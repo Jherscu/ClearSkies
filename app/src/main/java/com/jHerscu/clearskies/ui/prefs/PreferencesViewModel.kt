@@ -97,12 +97,11 @@ class PreferencesViewModel
         suspend fun sortPrefGroups(
             translatedPrefGroups: List<TranslatedPrefGroup>,
             comparator: PreferenceOrderComparator,
-        ): List<PreferenceGroup> {
+        ): List<PreferenceGroup> =
             // Process on default disp. in case size of list grows as app expands
-            return withContext(defaultDispatcher) {
-                comparator.sortingFun(translatedPrefGroups)
+            withContext(defaultDispatcher) {
+                return@withContext comparator.sortPreferences(translatedPrefGroups)
             }
-        }
 
         fun updatePrefGroupOrder(prefGroupOrder: List<PreferenceGroup>) {
             _viewState.update {
