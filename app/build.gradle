@@ -35,6 +35,9 @@ android {
         version = ktlint_version
         additionalEditorconfig = [
             "ktlint_experimental_function-type-modifier-spacing": "enabled",
+            "ktlint_standard_value-argument-comment": "disabled",
+            "ktlint_standard_parameter-argument-comment": "disabled",
+            "ktlint_standard_no-consecutive-comments": "disabled",
             "ktlint_function_naming_ignore_when_annotated_with": "Composable",
         ]
     }
