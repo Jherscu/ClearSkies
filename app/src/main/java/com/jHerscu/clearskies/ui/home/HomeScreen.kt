@@ -105,11 +105,11 @@ fun HomeScreen(
                                 scaleY = 1f
                             }
                             .drawBehind {
-                            drawCircle(
-                                color = Color.Black,
-                                radius = 150.dp.toPx(),
-                            )
-                        },
+                                drawCircle(
+                                    color = Color.Black,
+                                    radius = 150.dp.toPx(),
+                                )
+                            },
                 )
             }
         }
