@@ -36,42 +36,39 @@ enum class HomeDisplayIntervalPref(
 
 enum class PreferenceOrderComparator(
     val titleRes: Int,
-    val sortingFun: (List<TranslatedPrefGroup>) -> List<PreferenceGroup>,
 ) {
-    // TODO(jherscu): add sorting usage
-    DEFAULT(
-        R.string.default_sort,
-        { _ -> PreferenceGroup.defaultSortOrder },
-    ),
-    MOST_CLICKED(
-        R.string.most_clicked_sort,
-        { _ ->
-            PreferenceGroup.defaultSortOrder // TODO(jherscu): instument interactions by card to prefs to form sort order
-        },
-    ),
+    DEFAULT(R.string.default_sort),
+    MOST_CLICKED(R.string.most_clicked_sort),
+    ALPHABETICAL(R.string.alphabetical_sort),
+    REVERSE_ALPHABETICAL(R.string.rev_alphabetical_sort),
+    CUSTOM(R.string.custom_sort),
+    ;
 
-    // Use translated strings as alphabetical could change based on language
-    ALPHABETICAL(
-        R.string.alphabetical_sort,
-        { translatedPrefGroup ->
-            translatedPrefGroup
-                .sortedBy { it.translatedTitle }
-                .map { it.prefGroup }
-        },
-    ),
-    REVERSE_ALPHABETICAL(
-        R.string.rev_alphabetical_sort,
-        { translatedPrefGroup ->
-            translatedPrefGroup
-                .sortedByDescending { it.translatedTitle }
-                .map { it.prefGroup }
-        },
-    ),
-    CUSTOM(
-        R.string.custom_sort,
-        { _ ->
-            // TODO(jherscu): launch bottom sheet to select custom order and preserve as default for bottom sheet state in memory
-            PreferenceGroup.defaultSortOrder
-        },
-    ),
+    fun sortPreferences(translatedPrefGroups: List<TranslatedPrefGroup>): List<PreferenceGroup> {
+        return when (this) {
+            DEFAULT -> PreferenceGroup.defaultSortOrder
+            MOST_CLICKED -> {
+                // TODO(jherscu): instument interactions by card to prefs to form sort order
+                PreferenceGroup.defaultSortOrder
+            }
+
+            ALPHABETICAL -> {
+                // Use translated strings as alphabetical could change based on language
+                translatedPrefGroups
+                    .sortedBy { it.translatedTitle }
+                    .map { it.prefGroup }
+            }
+
+            REVERSE_ALPHABETICAL -> {
+                translatedPrefGroups
+                    .sortedByDescending { it.translatedTitle }
+                    .map { it.prefGroup }
+            }
+
+            CUSTOM -> {
+                // TODO(jherscu): launch bottom sheet to select custom order and preserve as default for bottom sheet state in memory
+                PreferenceGroup.defaultSortOrder
+            }
+        }
+    }
 }
